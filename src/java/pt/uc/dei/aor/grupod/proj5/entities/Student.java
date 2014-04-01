@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -30,7 +31,8 @@ public class Student extends User implements Serializable {
     private Edition edition;
     
     @Basic(optional = false)
-    @ManyToOne
+    
+    @OneToMany(mappedBy = "student")
     private List<Log> logEntries;
 
     public int getYearOfRegistration() {

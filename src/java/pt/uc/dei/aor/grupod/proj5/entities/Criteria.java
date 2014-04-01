@@ -1,4 +1,3 @@
-
 package pt.uc.dei.aor.grupod.proj5.entities;
 
 import java.io.Serializable;
@@ -8,11 +7,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
-
 
 @Entity
 public class Criteria implements Serializable {
+
+    @OneToOne(mappedBy = "criteria")
+    private ProjEvaluation projEvaluation;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -61,8 +63,7 @@ public class Criteria implements Serializable {
     public void setEdition(Edition edition) {
         this.edition = edition;
     }
-    
-    
+
     @Override
     public int hashCode() {
         int hash = 0;

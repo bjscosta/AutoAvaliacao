@@ -4,6 +4,7 @@ package pt.uc.dei.aor.grupod.proj5.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,14 +17,17 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Log implements Serializable {
     private static final long serialVersionUID = 1L;
+    @Basic(optional = false)
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    @Basic(optional = false)
     @NotNull
     @Column(name = "USER_OPERATION")
     private String operation;
     
+    @Basic(optional = false)
     @NotNull
     @Column(name = "TIME_STAMP")
     @Temporal(javax.persistence.TemporalType.DATE)

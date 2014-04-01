@@ -1,6 +1,7 @@
 package pt.uc.dei.aor.grupod.proj5.entities;
 
 import java.io.Serializable;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,19 +14,24 @@ import javax.persistence.OneToOne;
 public class ProjEvaluation implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @Basic(optional = false)
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    
+    @Basic(optional = false)
     @Column(name = "CRITERIA_VALUE")
     private double criteriaValue;
-
+    
+    @Basic(optional = false)
     @ManyToOne
     private Student student;
-
+    
+    @Basic(optional = false)
     @ManyToOne
     private Project project;
-
+    
+    @Basic(optional = false)
     @OneToOne
     private Criteria criteria;
 

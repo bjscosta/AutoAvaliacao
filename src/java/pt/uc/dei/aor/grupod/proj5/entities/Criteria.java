@@ -1,6 +1,7 @@
 package pt.uc.dei.aor.grupod.proj5.entities;
 
 import java.io.Serializable;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,23 +13,29 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 public class Criteria implements Serializable {
-
+    
+    @Basic(optional = false)
     @OneToOne(mappedBy = "criteria")
     private ProjEvaluation projEvaluation;
 
     private static final long serialVersionUID = 1L;
+    
+    @Basic(optional = false)
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long criteriaId;
 
+    @Basic(optional = false)
     @NotNull
     @Column(name = "CRITERIA_NAME", nullable = false)
     private String criteriaName;
-
+    
+    @Basic(optional = false)
     @NotNull
     @Column(name = "CRITERIA_DISCRIPTION", nullable = false)
     private String criteriaDiscription;
-
+    
+    @Basic(optional = false)
     @ManyToOne
     private Edition edition;
 

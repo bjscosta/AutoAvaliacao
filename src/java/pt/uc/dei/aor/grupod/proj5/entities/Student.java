@@ -3,6 +3,7 @@ package pt.uc.dei.aor.grupod.proj5.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
@@ -16,16 +17,19 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Student extends User implements Serializable {
-
+    
+    @Basic(optional = false)
     @Min(value = 2014, message = "Year not valid")
     @Digits(integer = 4, fraction = 0, message = "Year not valid")
     @NotNull(message = "Year not valid")
     @Column(name = "YEAR_OF_REGISTRATION", nullable = false)
     private int yearOfRegistration;
-
+    
+    @Basic(optional = false)
     @ManyToOne
     private Edition edition;
     
+    @Basic(optional = false)
     @ManyToOne
     private List<Log> logEntries;
 

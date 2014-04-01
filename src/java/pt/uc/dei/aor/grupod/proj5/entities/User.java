@@ -2,6 +2,7 @@
 package pt.uc.dei.aor.grupod.proj5.entities;
 
 import java.io.Serializable;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,14 +14,17 @@ import javax.validation.constraints.*;
 @MappedSuperclass
 public abstract class User implements Serializable {
     
+    @Basic(optional = false)
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     
+    @Basic(optional = false)
     @NotNull
     @Column(name = "USER_NAME")
     private String name;
     
+    @Basic(optional = false)
     @NotNull
     @Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
             + "[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
@@ -30,6 +34,7 @@ public abstract class User implements Serializable {
     @Column(name = "USER_EMAIL")
     private String email;
     
+    @Basic(optional = false)
     @NotNull
     @Column(name = "PASSWORD")
     private String password;
@@ -82,7 +87,8 @@ public abstract class User implements Serializable {
             return false;
         }
         User other = (User) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && 
+                !this.id.equals(other.id))) {
             return false;
         }
         return true;

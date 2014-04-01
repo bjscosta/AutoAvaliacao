@@ -2,6 +2,7 @@ package pt.uc.dei.aor.grupod.proj5.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -16,32 +17,38 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Edition implements Serializable {
     
+    @Basic(optional = false)
     @OneToMany(mappedBy = "edition")
     private List<Student> students;
 
     private static final long serialVersionUID = 1L;
+    @Basic(optional = false)
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long editionId;
-
+    
+    @Basic(optional = false)
     @NotNull
     @Column(name = "Name_Edition", nullable = false)
     private String nameEdition;
-
+    
+    @Basic(optional = false)
     @Min(value = 2014, message = "Year not valid")
     @Digits(integer = 4, fraction = 0, message = "Year not valid")
     @NotNull(message = "Year not valid")
     @Column(name = "YEAR_OF_REGISTRATION", nullable = false)
     private int yearEdition;
-
+    
+    @Basic(optional = false)
     @Embedded
     @NotNull
     private RatingScale ratingScale;
     
-    
+    @Basic(optional = false)
     @OneToMany(mappedBy = "edition")
     private List<Project> projectList;
-
+    
+    @Basic(optional = false)
     @OneToMany(mappedBy = "edition")
     private List<Criteria> criteriaList;
 

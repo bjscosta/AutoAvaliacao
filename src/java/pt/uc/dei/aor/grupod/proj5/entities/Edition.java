@@ -32,7 +32,6 @@ public class Edition implements Serializable {
     private String editionName;
 
     @Basic(optional = false)
-    @Min(value = 2014, message = "Year not valid")
     @Digits(integer = 4, fraction = 0, message = "Year not valid")
     @NotNull(message = "Year not valid")
     @Column(name = "YEAR_OF_REGISTRATION", nullable = false)

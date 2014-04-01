@@ -10,12 +10,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 
 
 @Entity
 public class Log implements Serializable {
+    @ManyToOne
+    private Student student;
     private static final long serialVersionUID = 1L;
     @Basic(optional = false)
     @Id
@@ -24,7 +27,7 @@ public class Log implements Serializable {
     
     @Basic(optional = false)
     @NotNull
-    @Column(name = "USER_OPERATION")
+    @Column(name = "STUDENT_OPERATION")
     private String operation;
     
     @Basic(optional = false)
@@ -32,7 +35,7 @@ public class Log implements Serializable {
     @Column(name = "TIME_STAMP")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date timeStamp;
-
+    
     public String getOperation() {
         return operation;
     }

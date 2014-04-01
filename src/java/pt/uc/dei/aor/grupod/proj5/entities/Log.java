@@ -1,40 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 package pt.uc.dei.aor.grupod.proj5.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 
-/**
- *
- * @author brunocosta
- */
+
 @Entity
 public class Log implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    
-    @OneToMany(mappedBy = "log")
-    private List<Student> students;
-    
-    @OneToMany(mappedBy = "log")
-    private List<Administrator> administrators;
     
     @NotNull
     @Column(name = "USER_OPERATION")
@@ -44,22 +28,6 @@ public class Log implements Serializable {
     @Column(name = "TIME_STAMP")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date timeStamp;
-
-    public List<Student> getStudents() {
-        return students;
-    }
-
-    public void setStudents(List<Student> students) {
-        this.students = students;
-    }
-
-    public List<Administrator> getAdministrators() {
-        return administrators;
-    }
-
-    public void setAdministrators(List<Administrator> administrators) {
-        this.administrators = administrators;
-    }
 
     public String getOperation() {
         return operation;
@@ -77,6 +45,16 @@ public class Log implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public Date getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Date timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+    
+    
     
     @Override
     public int hashCode() {

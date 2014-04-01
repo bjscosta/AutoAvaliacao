@@ -2,6 +2,7 @@
 package pt.uc.dei.aor.grupod.proj5.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
@@ -22,10 +23,11 @@ public class Student extends User implements Serializable {
     @Column(name = "YEAR_OF_REGISTRATION", nullable = false)
     private int yearOfRegistration;
 
+    @ManyToOne
     private Edition edition;
     
     @ManyToOne
-    private Log log;
+    private List<Log> logEntries;
 
     public int getYearOfRegistration() {
         return yearOfRegistration;
@@ -42,6 +44,16 @@ public class Student extends User implements Serializable {
     public void setEdition(Edition edition) {
         this.edition = edition;
     }
+
+    public List<Log> getLogEntries() {
+        return logEntries;
+    }
+
+    public void setLogEntries(List<Log> logEntries) {
+        this.logEntries = logEntries;
+    }
+    
+    
     
     @Override
     public String toString() {

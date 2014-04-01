@@ -1,23 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package pt.uc.dei.aor.grupod.proj5.entities;
 
-/**
- *
- * @author User
- */
-public class RatingScale {
+import java.io.Serializable;
+import javax.persistence.Embeddable;
+
+@Embeddable
+public class RatingScale implements Serializable {
 
     private int inferiorLimit;
 
     private int superiorLimit;
 
-    public RatingScale(int inferiorLimit, int superiorLimit) {
-        this.inferiorLimit = inferiorLimit;
-        this.superiorLimit = superiorLimit;
+    public RatingScale() {
     }
 
     public int getInferiorLimit() {
@@ -35,5 +29,7 @@ public class RatingScale {
     public void setSuperiorLimit(int superiorLimit) {
         this.superiorLimit = superiorLimit;
     }
+    
+    
 
 }

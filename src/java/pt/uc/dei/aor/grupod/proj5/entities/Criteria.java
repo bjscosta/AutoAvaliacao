@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package pt.uc.dei.aor.grupod.proj5.entities;
 
 import java.io.Serializable;
@@ -14,10 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
-/**
- *
- * @author User
- */
+
 @Entity
 public class Criteria implements Serializable {
 
@@ -68,7 +61,8 @@ public class Criteria implements Serializable {
     public void setEdition(Edition edition) {
         this.edition = edition;
     }
-
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

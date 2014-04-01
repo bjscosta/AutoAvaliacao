@@ -69,7 +69,9 @@ public class ProjEvaluation implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
+    
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

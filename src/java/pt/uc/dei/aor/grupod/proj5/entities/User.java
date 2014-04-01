@@ -61,6 +61,8 @@ public abstract class User implements Serializable {
         this.password = password;
     }
     
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

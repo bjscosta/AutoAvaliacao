@@ -15,6 +15,9 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 public class Edition implements Serializable {
+    
+    @OneToMany(mappedBy = "edition")
+    private List<Student> students;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -34,7 +37,9 @@ public class Edition implements Serializable {
     @Embedded
     @NotNull
     private RatingScale ratingScale;
-
+    
+    
+    @OneToMany(mappedBy = "edition")
     private List<Project> projectList;
 
     @OneToMany(mappedBy = "edition")
@@ -87,6 +92,16 @@ public class Edition implements Serializable {
     public void setEditionId(Long editionId) {
         this.editionId = editionId;
     }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+    
+    
 
     @Override
     public int hashCode() {

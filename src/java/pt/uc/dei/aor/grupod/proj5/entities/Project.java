@@ -26,6 +26,7 @@ public class Project implements Serializable {
     
     @NotNull
     @Column(name = "PROJECT_EDITION")
+    @ManyToOne
     private Edition edition;
     
     @OneToMany
@@ -63,7 +64,9 @@ public class Project implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
+    
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +15,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 public class Edition implements Serializable {
-    
+
     @Basic(optional = false)
     @OneToMany(mappedBy = "edition")
     private List<Student> students;
@@ -26,38 +25,42 @@ public class Edition implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long editionId;
-    
+
     @Basic(optional = false)
     @NotNull
-    @Column(name = "Name_Edition", nullable = false)
-    private String nameEdition;
-    
+    @Column(name = "EDITION_NAME", nullable = false)
+    private String editionName;
+
     @Basic(optional = false)
     @Min(value = 2014, message = "Year not valid")
     @Digits(integer = 4, fraction = 0, message = "Year not valid")
     @NotNull(message = "Year not valid")
     @Column(name = "YEAR_OF_REGISTRATION", nullable = false)
     private int yearEdition;
-    
+
     @Basic(optional = false)
-    @Embedded
     @NotNull
-    private RatingScale ratingScale;
-    
+    @Column(name = "MIN_VALUE_SCALE", nullable = false)
+    private int minValueScale;
+
+    @Basic(optional = false)
+    @Column(name = "MAX_VALUE_SCALE", nullable = false)
+    private int maxValueScale;
+
     @Basic(optional = false)
     @OneToMany(mappedBy = "edition")
     private List<Project> projectList;
-    
+
     @Basic(optional = false)
     @OneToMany(mappedBy = "edition")
     private List<Criteria> criteriaList;
 
-    public String getNameEdition() {
-        return nameEdition;
+    public String getEditionName() {
+        return editionName;
     }
 
-    public void setNameEdition(String nameEdition) {
-        this.nameEdition = nameEdition;
+    public void setEditionName(String editionName) {
+        this.editionName = editionName;
     }
 
     public int getYearEdition() {
@@ -84,12 +87,20 @@ public class Edition implements Serializable {
         this.criteriaList = criteriaList;
     }
 
-    public RatingScale getRatingScale() {
-        return ratingScale;
+    public int getMinValueScale() {
+        return minValueScale;
     }
 
-    public void setRatingScale(RatingScale ratingScale) {
-        this.ratingScale = ratingScale;
+    public void setMinValueScale(int minValueScale) {
+        this.minValueScale = minValueScale;
+    }
+
+    public int getMaxValueScale() {
+        return maxValueScale;
+    }
+
+    public void setMaxValueScale(int maxValueScale) {
+        this.maxValueScale = maxValueScale;
     }
 
     public Long getEditionId() {
@@ -107,8 +118,6 @@ public class Edition implements Serializable {
     public void setStudents(List<Student> students) {
         this.students = students;
     }
-    
-    
 
     @Override
     public int hashCode() {

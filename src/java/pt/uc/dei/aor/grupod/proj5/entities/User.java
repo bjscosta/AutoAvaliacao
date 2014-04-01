@@ -22,6 +22,11 @@ public abstract class User implements Serializable {
     private String name;
     
     @NotNull
+    @Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
+            + "[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
+            + "(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+"
+            + "[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
+            message = "Invalid e-mail")
     @Column(name = "USER_EMAIL")
     private String email;
     

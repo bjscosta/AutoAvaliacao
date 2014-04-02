@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Table(name = "ADMINISTRATOR")
 @NamedQueries({
     @NamedQuery(name = "Administrator.findAllAdministrators", query = "SELECT a FROM Administrator a"),
-    @NamedQuery(name = "Administrator.findAdministratorById", query = "SELECT a FROM Administrator a WHERE a.id = :id"),
+    @NamedQuery(name = "Administrator.findAdministratorById", query = "SELECT a FROM Administrator a WHERE a.administratorID = :administratorID"),
     @NamedQuery(name = "Administrator.findAdministratorByEmail", query = "SELECT a FROM Administrator a WHERE a.email = :email")})
 public class Administrator extends User implements Serializable {
 

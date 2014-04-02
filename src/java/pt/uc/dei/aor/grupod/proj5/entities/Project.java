@@ -48,8 +48,8 @@ public class Project implements Serializable {
     @Column(name = "PROJECT_AVALIATIONS")
     private List<ProjEvaluation> projAvaliations;
 
-    @ManyToMany
     @JoinTable(name = "STUDENT_CANT_EVALUATE")
+    @ManyToMany
     private List<Student> studentsthatCantEvaluate;
 
     public String getName() {

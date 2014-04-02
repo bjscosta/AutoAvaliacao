@@ -22,7 +22,7 @@ public class Student extends User implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long studentID;
 
-    @ManyToMany(mappedBy = "studentsThatCantEvaluat")
+    @ManyToMany(mappedBy = "studentsthatCantEvaluate")
     private List<Project> projects;
 
     @Basic(optional = false)

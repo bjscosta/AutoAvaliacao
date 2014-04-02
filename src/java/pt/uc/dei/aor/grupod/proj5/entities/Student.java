@@ -10,11 +10,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "STUDENT")
+@NamedQueries({
+    @NamedQuery(name = "Student.findAllAdministrators", query = "SELECT s FROM Student s"),
+    @NamedQuery(name = "Student.findStudentIDById", query = "SELECT s FROM Student s WHERE s.studentID = :studentID"),
+    @NamedQuery(name = "Student.findStudentByEmail", query = "SELECT s FROM Student s WHERE s.email = :email"),
+    @NamedQuery(name = "Student.findStudentByYearOfRegistration", query = "SELECT s FROM Student s WHERE s.yearOfRegistration = :yearOfRegistration"),
+    @NamedQuery(name = "Student.findStudentByEdition", query = "SELECT s FROM Student s WHERE s.edition = :edition")})
 public class Student extends User implements Serializable {
 
     @Basic(optional = false)

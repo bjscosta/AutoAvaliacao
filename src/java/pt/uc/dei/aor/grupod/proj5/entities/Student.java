@@ -11,7 +11,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 
@@ -20,7 +19,6 @@ import javax.validation.constraints.NotNull;
 public class Student extends User implements Serializable {
     
     @Basic(optional = false)
-    @Min(value = 2014, message = "Year not valid")
     @Digits(integer = 4, fraction = 0, message = "Year not valid")
     @NotNull(message = "Year not valid")
     @Column(name = "YEAR_OF_REGISTRATION", nullable = false)

@@ -8,10 +8,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "CRITERIA")
+@NamedQueries({
+    @NamedQuery(name = "Criteria.findAll", query = "SELECT c FROM Criteria c"),
+    @NamedQuery(name = "Criteria.findByCriteria_Id", query = "SELECT c FROM Criteria c WHERE c.criteriaId = :criteriaId"),
+    @NamedQuery(name = "Criteria.findByName", query = "SELECT c FROM Criteria c WHERE c.criteriaName = :criteriaName"),
+    @NamedQuery(name = "Criteria.findByEdition", query = "SELECT c FROM Criteria c WHERE c.edition = :edition"),
+    })
 public class Criteria implements Serializable {
     
     @Basic(optional = false)

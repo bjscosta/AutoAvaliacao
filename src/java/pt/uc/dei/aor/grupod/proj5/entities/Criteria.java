@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -20,16 +19,15 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "Criteria.findAll", query = "SELECT c FROM Criteria c"),
     @NamedQuery(name = "Criteria.findByCriteria_Id", query = "SELECT c FROM Criteria c WHERE c.criteriaId = :criteriaId"),
     @NamedQuery(name = "Criteria.findByName", query = "SELECT c FROM Criteria c WHERE c.criteriaName = :criteriaName"),
-    @NamedQuery(name = "Criteria.findByEdition", query = "SELECT c FROM Criteria c WHERE c.edition = :edition"),
-    })
+    @NamedQuery(name = "Criteria.findByEdition", query = "SELECT c FROM Criteria c WHERE c.edition = :edition"),})
 public class Criteria implements Serializable {
-    
+
     @Basic(optional = false)
-    @OneToOne(mappedBy = "criteria")
+    @ManyToOne
     private ProjEvaluation projEvaluation;
 
     private static final long serialVersionUID = 1L;
-    
+
     @Basic(optional = false)
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -39,12 +37,12 @@ public class Criteria implements Serializable {
     @NotNull
     @Column(name = "CRITERIA_NAME", nullable = false)
     private String criteriaName;
-    
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "CRITERIA_DISCRIPTION", nullable = false)
     private String criteriaDiscription;
-    
+
     @Basic(optional = false)
     @ManyToOne
     private Edition edition;

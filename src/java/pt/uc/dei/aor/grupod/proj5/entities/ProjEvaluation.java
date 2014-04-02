@@ -1,6 +1,7 @@
 package pt.uc.dei.aor.grupod.proj5.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -21,7 +22,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "ProjEvaluation.findByStudent", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.student = :student"),
     @NamedQuery(name = "ProjEvaluation.findByProject", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.project = :project"),
     @NamedQuery(name = "ProjEvaluation.findByProject_Student", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.project = :project AND pe.student = :student")
-    })
+})
 public class ProjEvaluation implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,22 +30,23 @@ public class ProjEvaluation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @Basic(optional = false)
     @Column(name = "CRITERIA_VALUE")
     private double criteriaValue;
-    
+
     @Basic(optional = false)
     @ManyToOne
     private Student student;
-    
+
     @Basic(optional = false)
     @ManyToOne
     private Project project;
-    
+
     @Basic(optional = false)
-    @OneToOne
-    private Criteria criteria;
+
+    @OneToMany(mappedBy = "projEvaluation")
+    private List<Criteria> criteriaList;
 
     public double getCriteriaValue() {
         return criteriaValue;
@@ -70,12 +72,12 @@ public class ProjEvaluation implements Serializable {
         this.project = project;
     }
 
-    public Criteria getCriteria() {
-        return criteria;
+    public List<Criteria> getCriteriaList() {
+        return criteriaList;
     }
 
-    public void setCriteria(Criteria criteria) {
-        this.criteria = criteria;
+    public void setCriteriaList(List<Criteria> criteriaList) {
+        this.criteriaList = criteriaList;
     }
 
     public Long getId() {

@@ -1,14 +1,90 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Auto-Avaliação</title>
+        <title>Login Auto-Avaliação</title>
+
+
     </h:head>
     <h:body>
-        Hello from Facelets
         
-        ggggggggg
+        <h:form binding="#{userController.login}" rendered="true">
+            <div align="right">
+                <h:commandButton value ="Novo Utilizador" action="#{userController.goToNewRegistration()}"/>
+                <h:commandButton value ="Administrador" action="#{userController.goToAdminLogin()}"/>
+            </div>
+
+            <div align="center">
+                <h3>Login Estudante</h3>
+                <br />
+                <h4>E-Mail</h4><h:inputText value="#{userController.studentEmail}"/>
+                <br />
+                <h4>Password</h4><h:inputText value="#{userController.studentPassword}"/>
+                <br />
+                <br />
+                <h:commandButton value="Entrar" action="#{userController.verifyStudent}"/>
+
+            </div>
+        </h:form>
+
+        <h:form binding="#{userController.adminLogin}" rendered="false">
+            <div align="right">
+                <h:commandButton value ="Novo Utilizador" action="#{userController.goToNewRegistration()}"/>
+                <h:commandButton value ="Login" action="#{userController.goToLogin()}"/>
+            </div>
+
+            <div align="center">
+                <h3>Login Administrador</h3>
+                <br />
+                <h4>E-Mail</h4><h:inputText value="#{userController.adminEmail}"/>
+                <br />
+                <h4>Password</h4><h:inputText value="#{userController.adminPassword}"/>
+                <br />
+                <br />
+                <h:commandButton value="Entrar" action="#{userController.verifyAdmin}"/>
+
+            </div>
+        </h:form>
+
+        <h:form binding="#{userController.newRegistration}" rendered="false">
+            <div align="right">
+                <h:commandButton immediate="true" value ="Login" action="#{userController.goToLogin()}"/>
+                <h:commandButton immediate="true" value ="Administrador" action="#{userController.goToAdminLogin()}"/>
+
+            </div>
+
+            <div align="center">
+                <h3>Novo Registo Estudante</h3>
+                <br />
+                <h4>Nome</h4><h:inputText value="#{userController.student.name}"/>
+                
+                <h4>E-Mail</h4><h:inputText value="#{userController.student.email}"/>
+                
+                <h4>Password</h4><h:inputText value="#{userController.student.password}"/>
+                
+                <h4>Confirmar Password</h4><h:inputText value="#{userController.confirmPassword}"/>
+                <br />
+                <br />
+                
+                <h:commandButton id="editionsButton" value="Escolha a Edição" onclick="PF('e').show();" type="button" />
+                
+                <p:dialog header="Editions" widgetVar="e" modal="true" height="100">  
+                    <h:outputText value="This dialog has nice effects." /> 
+                </p:dialog>
+                
+                <br />
+                <br />
+                <h:commandButton value="Entrar" action="#{userController.newStudent()}"/>
+
+            </div>
+        </h:form>
+
+        
+
+        <br />
+        
     </h:body>
 </html>
 

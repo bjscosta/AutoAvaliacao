@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "STUDENT")
 @NamedQueries({
-    @NamedQuery(name = "Student.findAllAdministrators", query = "SELECT s FROM Student s"),
+    @NamedQuery(name = "Student.findAllStudents", query = "SELECT s FROM Student s"),
     @NamedQuery(name = "Student.findStudentIDById", query = "SELECT s FROM Student s WHERE s.studentID = :studentID"),
     @NamedQuery(name = "Student.findStudentByEmail", query = "SELECT s FROM Student s WHERE s.email = :email"),
     @NamedQuery(name = "Student.findStudentByYearOfRegistration", query = "SELECT s FROM Student s WHERE s.yearOfRegistration = :yearOfRegistration"),

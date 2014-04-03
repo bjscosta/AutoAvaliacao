@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 @MappedSuperclass
 public abstract class User implements Serializable {
 
-    @Size(min = 1, message = "Nome demasiado pequeno, tem de ter mais de um "
+    @Size(min = 1, message = "Tem de inserir um nome"
             + "caracter")
     @NotNull
     @Column(name = "USER_NAME", nullable = false)
@@ -22,12 +22,13 @@ public abstract class User implements Serializable {
             + "[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
             + "(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+"
             + "[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
-            message = "Invalid e-mail")
+            message = "E-mail inválido")
     @Column(name = "USER_EMAIL", nullable = false, unique = true)
     private String email;
 
-    @Basic(optional = false)
+    
     @NotNull
+    @Size(min = 4, message = "Password demasiado pequena")
     @Column(name = "PASSWORD", nullable = false)
     private String password;
 

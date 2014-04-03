@@ -8,10 +8,14 @@ import javax.faces.component.UIForm;
 import javax.inject.Inject;
 import javax.inject.Named;
 import pt.uc.dei.aor.grupod.proj5.entities.Administrator;
+import pt.uc.dei.aor.grupod.proj5.entities.Edition;
 import pt.uc.dei.aor.grupod.proj5.entities.Student;
 import pt.uc.dei.aor.grupod.proj5.entities.User;
 import pt.uc.dei.aor.grupod.proj5.exceptions.DuplicateEmailException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.PassDontMatchException;
+import pt.uc.dei.aor.grupod.proj5.exceptions.PasswordNotCorrectException;
+import pt.uc.dei.aor.grupod.proj5.exceptions.UserNotFoundException;
+import pt.uc.dei.aor.grupod.proj5.facades.AdministratorFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.StudentFacade;
 
 @Named
@@ -20,6 +24,9 @@ public class UserController {
     
     @Inject
     private StudentFacade studentFacade;
+    
+    @Inject
+    private AdministratorFacade administratorFacade;
     
     private User user;
     private Student student;
@@ -34,6 +41,8 @@ public class UserController {
     private UIForm adminLogin;
     private String duplicateEmail;
     private String passDontMatch;
+    private String passNotCorrect;
+    private String userNotFound;
     
     @PostConstruct
     public void init(){
@@ -151,17 +160,44 @@ public class UserController {
     public void setPassDontMatch(String passDontMatch) {
         this.passDontMatch = passDontMatch;
     }
+
+    public AdministratorFacade getAdministratorFacade() {
+        return administratorFacade;
+    }
+
+    public void setAdministratorFacade(AdministratorFacade administratorFacade) {
+        this.administratorFacade = administratorFacade;
+    }
+
+    public String getPassNotCorrect() {
+        return passNotCorrect;
+    }
+
+    public void setPassNotCorrect(String passNotCorrect) {
+        this.passNotCorrect = passNotCorrect;
+    }
+
+    public String getUserNotFound() {
+        return userNotFound;
+    }
+
+    public void setUserNotFound(String userNotFound) {
+        this.userNotFound = userNotFound;
+    }
+    
+    
     
     
     /**
      * Creates a new student
+     * @param edition
      * @return The string that leads to the xhtml page
      */
-    public String newStudent(){
+    public String newStudent(Edition edition){
         
         try{
             studentFacade.newStudent(student, confirmPassword);
-            return "openProject";
+            return "openProjectStudent";
         }
         catch(DuplicateEmailException e){
             duplicateEmail = e.getMessage();
@@ -179,8 +215,18 @@ public class UserController {
      * @return The string that leads to the xhtml page 
      */
     public String verifyStudent(){
-        
-        return "";
+        try{
+            studentFacade.login(studentEmail, studentPassword);
+            return "openProjectStudent";
+        }
+        catch(PasswordNotCorrectException e){
+            passNotCorrect = e.getMessage();
+            return null;
+        }
+        catch(UserNotFoundException ex){
+            userNotFound = ex.getMessage();
+            return null;
+        }
     }
     
     /**
@@ -188,8 +234,19 @@ public class UserController {
      * @return The string that leads to the xhtml page 
      */
     public String verifyAdmin(){
+        try{
+            administratorFacade.login(adminEmail, adminPassword);
+            return "openProjectAdmin";
+        }
+        catch(PasswordNotCorrectException e){
+            passNotCorrect = e.getMessage();
+            return null;
+        }
+        catch(UserNotFoundException ex){
+            userNotFound = ex.getMessage();
+            return null;
+        }
         
-        return "";
     }
     
     

@@ -15,18 +15,20 @@
                 <h:commandButton value ="Novo Utilizador" action="#{userController.goToNewRegistration()}"/>
                 <h:commandButton value ="Administrador" action="#{userController.goToAdminLogin()}"/>
             </div>
-
-            <table align="center">
-                <th>
+            
+            <div align="center">
                     <h3>Login Estudante</h3>
-                </th>
+            </div>
+            
+            <table align="center">
+                
                 <tbody>
                     <tr>
                         <td>
                             <h4>E-Mail</h4>
                         </td>
                         <td>
-                            <h:inputText value="#{userController.studentEmail}"/>
+                            <p:inputText value="#{userController.studentEmail}"/>
                         </td>
                         <td>
                             
@@ -37,7 +39,7 @@
                             <h4>Password</h4>
                         </td>
                         <td>
-                            <h:inputText value="#{userController.studentPassword}"/>
+                            <p:password value="#{userController.studentPassword}"/>
                         </td>
                         <td>
                             
@@ -56,18 +58,44 @@
                 <h:commandButton value ="Novo Utilizador" action="#{userController.goToNewRegistration()}"/>
                 <h:commandButton value ="Login" action="#{userController.goToLogin()}"/>
             </div>
+            
+            <div align="center">
+                    <h3>Login Administrador</h3>
+            </div>
+            
+            <table align="center">
+                
+                <tbody>
+                    <tr>
+                        <td>
+                            <h4>E-Mail</h4>
+                        </td>
+                        <td>
+                            <p:inputText value="#{userController.adminEmail}"/>
+                        </td>
+                        <td>
+                            <h:outputLabel value="#{userController.userNotFound}" style="color: red"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4>Password</h4>
+                        </td>
+                        <td>
+                            <p:password value="#{userController.adminPassword}"/>
+                        </td>
+                        <td>
+                            <h:outputLabel value="#{userController.passNotCorrect}" style="color: red"/>
+                        </td>
+                    </tr>
+                </tbody>
+                
+            </table>
 
             <div align="center">
-                <h3>Login Administrador</h3>
-                <br />
-                <h4>E-Mail</h4><h:inputText value="#{userController.adminEmail}"/>
-                <br />
-                <h4>Password</h4><h:inputText value="#{userController.adminPassword}"/>
-                <br />
-                <br />
                 <h:commandButton value="Entrar" action="#{userController.verifyAdmin}"/>
-
             </div>
+            
         </h:form>
 
         <h:form binding="#{userController.newRegistration}" rendered="false">
@@ -79,42 +107,83 @@
 
             <div align="center">
                 <h3>Novo Registo Estudante</h3>
-                <br />
-                <h4>Nome</h4><h:inputText value="#{userController.student.name}"/>
+            </div>
+            
+            <table align="center">
+                <tbody>
+                    <tr>
+                        <td>
+                            <h4>Nome</h4>
+                        </td>
+                        <td>
+                            <p:inputText id="nome" value="#{userController.student.name}"/>
+                        </td>
+                        <td>
+                            <h:message for="nome" style="color: red"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4>E-Mail</h4>
+                        </td>
+                        <td>
+                            <p:inputText id="email" value="#{userController.student.email}"/>
+                        </td>
+                        <td>
+                            <h:message for="email" style="color: red"/>
+                            <h:outputLabel value="#{userController.duplicateEmail}"/>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>
+                            <h4>Password</h4>
+                        </td>
+                        <td>
+                            <p:password id="pass" feedback="true" value="#{userController.student.password}"/>
+                        </td>
+                        <td>
+                            <h:message for="pass" style="color: red"/>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>
+                            <h4>Confirmar Password</h4>
+                        </td>
+                        <td>
+                            <p:password value="#{userController.confirmPassword}"/>
+                        </td>
+                        <td>
+                            <h:outputLabel value="#{userController.passDontMatch}"/>
+                        </td>
+                    </tr>
+                    
+                </tbody>
+            </table>
                 
-                <h4>E-Mail</h4><h:inputText value="#{userController.student.email}"/>
-                
-                <h4>Password</h4><p:password feedback="true" value="#{userController.student.password}"/>
-                
-                <h4>Confirmar Password</h4><p:password value="#{userController.confirmPassword}"/>
-                <br />
-                <br />
-                
-                <h:commandButton id="editionsButton" value="Escolha a Edição" onclick="PF('e').show();" type="button" />
-                
-                <p:dialog header="Editions" widgetVar="e" modal="true" height="100">  
+                <p:dialog header="Edições" widgetVar="e" modal="true" height="300"> 
                     <p:dataTable value="#{editionController.availableEditions}" var="edition">
                         <tr>
                             <td>
+                                
                                 #{edition.name}
                             </td>
                             <td>
                                 #{edition.yearEdition}
                             </td>
+                            <td>
+                                <h:commandButton value="Selecionar" action="#{userController.newStudent(edition)}" onclick="PF('e').close();" />
+                            </td>
                         </tr>
+                    </p:dataTable>
                 </p:dialog>
                 
-                <br />
-                <br />
-                <h:commandButton value="Entrar" action="#{userController.newStudent()}"/>
+            <div align="center">
+                <h:commandButton id="editionsButton" value="Escolha a Edição" onclick="PF('e').show();" type="button" />
+                
 
             </div>
         </h:form>
 
-        
-
-        <br />
-        
     </h:body>
 </html>
 

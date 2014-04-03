@@ -17,6 +17,7 @@ import javax.persistence.Query;
 import javax.persistence.RollbackException;
 import javax.servlet.http.HttpSession;
 import pt.uc.dei.aor.grupod.proj5.entities.Edition;
+import pt.uc.dei.aor.grupod.proj5.entities.ProjEvaluation;
 import pt.uc.dei.aor.grupod.proj5.entities.Project;
 import pt.uc.dei.aor.grupod.proj5.entities.Student;
 import pt.uc.dei.aor.grupod.proj5.exceptions.DuplicateEmailException;
@@ -38,6 +39,10 @@ public class StudentFacade extends AbstractFacade<Student> {
     private String emailExists;
 
     private String passMissmatch;
+
+    private String transactionError;
+
+    private static final String errorTransaction = "Erro a remover o estudante";
 
     /**
      *
@@ -77,6 +82,14 @@ public class StudentFacade extends AbstractFacade<Student> {
 
     public void setPassMissmatch(String passMissmatch) {
         this.passMissmatch = passMissmatch;
+    }
+
+    public String getTransactionError() {
+        return transactionError;
+    }
+
+    public void setTransactionError(String transactionError) {
+        this.transactionError = transactionError;
     }
 
     /**
@@ -307,18 +320,29 @@ public class StudentFacade extends AbstractFacade<Student> {
         }
     }
 
+    /**
+     * removes the student from the aplication
+     *
+     * @param s
+     */
     public void removeStudent(Student s) {
         try {
             Edition e = s.getEdition();
             e.getStudents().remove(s);
             em.merge(e);
-
+            List<ProjEvaluation> listProjEvaluation = s.getProjEvaluations();
+            s.getProjEvaluations().removeAll(listProjEvaluation);
+            em.merge(s);
             for (Project p : s.getProjects()) {
                 p.getStudentsthatCantEvaluate().remove(s);
-                em.merge(e);
+                em.merge(p);
             }
+            remove(s);
 
         } catch (RollbackException e) {
+
+            Logger.getLogger(StudentFacade.class.getName()).log(Level.SEVERE, null, e);
+            transactionError = errorTransaction;
 
         }
 

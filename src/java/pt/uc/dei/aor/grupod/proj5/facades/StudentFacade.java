@@ -24,7 +24,7 @@ import pt.uc.dei.aor.grupod.proj5.exceptions.DuplicateEmailException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.PassDontMatchException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.PasswordNotCorrectException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.UserNotFoundException;
-import pt.uc.dei.aor.projeto3.grupod.utilities.EncriptMD5;
+import pt.uc.dei.aor.grupod.proj5.utilities.EncriptMD5;
 
 /**
  *

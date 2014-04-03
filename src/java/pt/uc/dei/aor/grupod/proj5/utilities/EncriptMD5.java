@@ -1,6 +1,6 @@
 
 
-package pt.uc.dei.aor.projeto3.grupod.utilities;
+package pt.uc.dei.aor.grupod.proj5.utilities;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

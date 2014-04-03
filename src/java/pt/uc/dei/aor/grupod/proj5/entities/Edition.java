@@ -2,7 +2,6 @@ package pt.uc.dei.aor.grupod.proj5.entities;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,45 +20,38 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "Edition.findAll", query = "SELECT e FROM Edition e"),
     @NamedQuery(name = "Edition.findByEdition_Id", query = "SELECT e FROM Edition e WHERE e.editionId = :editionId"),
     @NamedQuery(name = "Edition.findByName", query = "SELECT e FROM Edition e WHERE e.editionName = :editionName"),
-    @NamedQuery(name = "Edition.findByYearReg", query = "SELECT e FROM Edition e WHERE e.yearEdition = :yearEdition"),
-    })
+    @NamedQuery(name = "Edition.findByYearReg", query = "SELECT e FROM Edition e WHERE e.yearEdition = :yearEdition"),})
 public class Edition implements Serializable {
 
-    @Basic(optional = false)
     @OneToMany(mappedBy = "edition")
     private List<Student> students;
 
     private static final long serialVersionUID = 1L;
-    @Basic(optional = false)
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long editionId;
 
-    @Basic(optional = false)
     @NotNull
     @Column(name = "EDITION_NAME", nullable = false)
     private String editionName;
 
-    @Basic(optional = false)
     @Digits(integer = 4, fraction = 0, message = "Year not valid")
     @NotNull(message = "Year not valid")
     @Column(name = "YEAR_OF_REGISTRATION", nullable = false)
     private int yearEdition;
 
-    @Basic(optional = false)
     @NotNull
     @Column(name = "MIN_VALUE_SCALE", nullable = false)
     private int minValueScale;
 
-    @Basic(optional = false)
+    @NotNull
     @Column(name = "MAX_VALUE_SCALE", nullable = false)
     private int maxValueScale;
 
-    @Basic(optional = false)
     @OneToMany(mappedBy = "edition")
     private List<Project> projectList;
 
-    @Basic(optional = false)
     @OneToMany(mappedBy = "edition")
     private List<Criteria> criteriaList;
 

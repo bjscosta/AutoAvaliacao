@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package pt.uc.dei.aor.grupod.proj5.facades;
 
 import javax.ejb.Stateless;
@@ -17,6 +16,7 @@ import pt.uc.dei.aor.grupod.proj5.entities.Edition;
  */
 @Stateless
 public class EditionFacade extends AbstractFacade<Edition> {
+
     @PersistenceContext(unitName = "AutoAvaliacaoPU")
     private EntityManager em;
 
@@ -28,5 +28,9 @@ public class EditionFacade extends AbstractFacade<Edition> {
     public EditionFacade() {
         super(Edition.class);
     }
-    
+// 
+//    public List<Edition> findAllEditions(){
+//
+//    }
+
 }

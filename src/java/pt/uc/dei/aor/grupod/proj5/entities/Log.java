@@ -1,10 +1,7 @@
-
-
 package pt.uc.dei.aor.grupod.proj5.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,28 +11,26 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 
-
 @Entity
 public class Log implements Serializable {
+
     @ManyToOne
     private Student student;
     private static final long serialVersionUID = 1L;
-    @Basic(optional = false)
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    @Basic(optional = false)
+
     @NotNull
-    @Column(name = "STUDENT_OPERATION")
+    @Column(name = "STUDENT_OPERATION", nullable = false)
     private String operation;
-    
-    @Basic(optional = false)
+
     @NotNull
-    @Column(name = "TIME_STAMP")
+    @Column(name = "TIME_STAMP", nullable = false)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date timeStamp;
-    
+
     public String getOperation() {
         return operation;
     }
@@ -43,8 +38,7 @@ public class Log implements Serializable {
     public void setOperation(String operation) {
         this.operation = operation;
     }
-    
-    
+
     public Long getId() {
         return id;
     }
@@ -60,9 +54,7 @@ public class Log implements Serializable {
     public void setTimeStamp(Date timeStamp) {
         this.timeStamp = new Date(timeStamp.getTime());
     }
-    
-    
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -87,5 +79,5 @@ public class Log implements Serializable {
     public String toString() {
         return "pt.uc.dei.aor.grupod.proj5.entities.Log[ id=" + id + " ]";
     }
-    
+
 }

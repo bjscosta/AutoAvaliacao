@@ -2,7 +2,6 @@ package pt.uc.dei.aor.grupod.proj5.entities;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,25 +26,20 @@ import javax.validation.constraints.NotNull;
 public class Project implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Basic(optional = false)
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Basic(optional = false)
     @NotNull
-    @Column(name = "PROJECT_NAME")
+    @Column(name = "PROJECT_NAME", nullable = false)
     private String name;
 
-    @Basic(optional = false)
     @NotNull
-    @Column(name = "PROJECT_EDITION")
     @ManyToOne
     private Edition edition;
 
-    @Basic(optional = false)
     @OneToMany
-    @Column(name = "PROJECT_AVALIATIONS")
     private List<ProjEvaluation> projAvaliations;
 
     @JoinTable(name = "STUDENT_CANT_EVALUATE")

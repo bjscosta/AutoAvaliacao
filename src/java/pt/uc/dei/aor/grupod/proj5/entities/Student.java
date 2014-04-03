@@ -2,7 +2,6 @@ package pt.uc.dei.aor.grupod.proj5.entities;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,7 +30,6 @@ public class Student extends User implements Serializable {
     @OneToMany(mappedBy = "student")
     private List<ProjEvaluation> projEvaluations;
 
-    @Basic(optional = false)
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long studentID;
@@ -39,17 +37,14 @@ public class Student extends User implements Serializable {
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "studentsthatCantEvaluate")
     private List<Project> projects;
 
-    @Basic(optional = false)
     @Digits(integer = 4, fraction = 0, message = "Year not valid")
     @NotNull(message = "Year not valid")
     @Column(name = "YEAR_OF_REGISTRATION", nullable = false)
     private int yearOfRegistration;
 
-    @Basic(optional = false)
     @ManyToOne(cascade = CascadeType.ALL)
     private Edition edition;
 
-    @Basic(optional = false)
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
     private List<Log> logEntries;
 

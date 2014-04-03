@@ -6,28 +6,29 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @MappedSuperclass
 public abstract class User implements Serializable {
 
-    @Basic(optional = false)
+    @Size(min = 1, message = "Nome demasiado pequeno, tem de ter mais de um "
+            + "caracter")
     @NotNull
-    @Column(name = "USER_NAME")
+    @Column(name = "USER_NAME", nullable = false)
     private String name;
 
-    @Basic(optional = false)
     @NotNull
     @Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
             + "[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
             + "(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+"
             + "[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
             message = "Invalid e-mail")
-    @Column(name = "USER_EMAIL")
+    @Column(name = "USER_EMAIL", nullable = false, unique = true)
     private String email;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "PASSWORD")
+    @Column(name = "PASSWORD", nullable = false)
     private String password;
 
     public String getName() {

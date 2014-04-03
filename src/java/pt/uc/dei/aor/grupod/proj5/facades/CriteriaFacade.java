@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package pt.uc.dei.aor.grupod.proj5.facades;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import pt.uc.dei.aor.grupod.proj5.entities.Criteria;
+import pt.uc.dei.aor.grupod.proj5.entities.Edition;
 
 /**
  *
@@ -17,6 +17,7 @@ import pt.uc.dei.aor.grupod.proj5.entities.Criteria;
  */
 @Stateless
 public class CriteriaFacade extends AbstractFacade<Criteria> {
+
     @PersistenceContext(unitName = "AutoAvaliacaoPU")
     private EntityManager em;
 
@@ -28,5 +29,9 @@ public class CriteriaFacade extends AbstractFacade<Criteria> {
     public CriteriaFacade() {
         super(Criteria.class);
     }
-    
+
+    public void createsCriteria(Criteria c, Edition e) {
+
+    }
+
 }

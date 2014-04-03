@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "Edition.findAll", query = "SELECT e FROM Edition e"),
     @NamedQuery(name = "Edition.findByEdition_Id", query = "SELECT e FROM Edition e WHERE e.editionId = :editionId"),
     @NamedQuery(name = "Edition.findByName", query = "SELECT e FROM Edition e WHERE e.editionName = :editionName"),
-    @NamedQuery(name = "Edition.findByYearReg", query = "SELECT e FROM Edition e WHERE e.yearEdition = :yearEdition"),})
+    @NamedQuery(name = "Edition.findByYearEdition", query = "SELECT e FROM Edition e WHERE e.yearEdition >= :yearEdition"),})
 public class Edition implements Serializable {
 
     @OneToMany(mappedBy = "edition")
@@ -33,12 +33,12 @@ public class Edition implements Serializable {
     private Long editionId;
 
     @NotNull
-    @Column(name = "EDITION_NAME", nullable = false)
+    @Column(name = "EDITION_NAME", nullable = false, unique = true)
     private String editionName;
 
     @Digits(integer = 4, fraction = 0, message = "Year not valid")
     @NotNull(message = "Year not valid")
-    @Column(name = "YEAR_OF_REGISTRATION", nullable = false)
+    @Column(name = "YEAR_OF_EDITION", nullable = false)
     private int yearEdition;
 
     @NotNull

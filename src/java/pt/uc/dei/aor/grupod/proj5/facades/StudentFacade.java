@@ -12,6 +12,7 @@ import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.RollbackException;
@@ -121,8 +122,9 @@ public class StudentFacade extends AbstractFacade<Student> {
         try {
             Query q = em.createNamedQuery("Student.findStudentIDById");
             q.setParameter("studentID", studentId);
+
             return (Student) q.getSingleResult();
-        } catch (NoResultException e) {
+        } catch (NoResultException | NonUniqueResultException e) {
             return null;
         }
     }
@@ -146,7 +148,7 @@ public class StudentFacade extends AbstractFacade<Student> {
 
             return (Student) q.getSingleResult();
 
-        } catch (NoResultException e) {
+        } catch (NoResultException | NonUniqueResultException e) {
 
             return null;
 

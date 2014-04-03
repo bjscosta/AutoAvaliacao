@@ -20,28 +20,26 @@ import javax.persistence.Table;
     @NamedQuery(name = "ProjEvaluation.findById", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.id = :id"),
     @NamedQuery(name = "ProjEvaluation.findByStudent", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.student = :student"),
     @NamedQuery(name = "ProjEvaluation.findByProject", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.project = :project"),
+    @NamedQuery(name = "ProjEvaluation.findByEdition", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.project.edition = :edition"),
     @NamedQuery(name = "ProjEvaluation.findByProject_Student", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.project = :project AND pe.student = :student")
 })
 public class ProjEvaluation implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    
     @Column(name = "CRITERIA_VALUE")
     private double criteriaValue;
 
     @ManyToOne
     private Student student;
 
-    
     @ManyToOne
     private Project project;
 
-    
     @OneToMany(mappedBy = "projEvaluation")
     private List<Criteria> criteriaList;
 

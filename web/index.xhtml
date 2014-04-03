@@ -16,16 +16,38 @@
                 <h:commandButton value ="Administrador" action="#{userController.goToAdminLogin()}"/>
             </div>
 
+            <table align="center">
+                <th>
+                    <h3>Login Estudante</h3>
+                </th>
+                <tbody>
+                    <tr>
+                        <td>
+                            <h4>E-Mail</h4>
+                        </td>
+                        <td>
+                            <h:inputText value="#{userController.studentEmail}"/>
+                        </td>
+                        <td>
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4>Password</h4>
+                        </td>
+                        <td>
+                            <h:inputText value="#{userController.studentPassword}"/>
+                        </td>
+                        <td>
+                            
+                        </td>
+                    </tr>
+                </tbody>
+                
+            </table>
             <div align="center">
-                <h3>Login Estudante</h3>
-                <br />
-                <h4>E-Mail</h4><h:inputText value="#{userController.studentEmail}"/>
-                <br />
-                <h4>Password</h4><h:inputText value="#{userController.studentPassword}"/>
-                <br />
-                <br />
-                <h:commandButton value="Entrar" action="#{userController.verifyStudent}"/>
-
+                    <h:commandButton value="Entrar" action="#{userController.verifyStudent}"/>
             </div>
         </h:form>
 
@@ -62,16 +84,24 @@
                 
                 <h4>E-Mail</h4><h:inputText value="#{userController.student.email}"/>
                 
-                <h4>Password</h4><h:inputText value="#{userController.student.password}"/>
+                <h4>Password</h4><p:password feedback="true" value="#{userController.student.password}"/>
                 
-                <h4>Confirmar Password</h4><h:inputText value="#{userController.confirmPassword}"/>
+                <h4>Confirmar Password</h4><p:password value="#{userController.confirmPassword}"/>
                 <br />
                 <br />
                 
                 <h:commandButton id="editionsButton" value="Escolha a Edição" onclick="PF('e').show();" type="button" />
                 
                 <p:dialog header="Editions" widgetVar="e" modal="true" height="100">  
-                    <h:outputText value="This dialog has nice effects." /> 
+                    <p:dataTable value="#{editionController.availableEditions}" var="edition">
+                        <tr>
+                            <td>
+                                #{edition.name}
+                            </td>
+                            <td>
+                                #{edition.yearEdition}
+                            </td>
+                        </tr>
                 </p:dialog>
                 
                 <br />

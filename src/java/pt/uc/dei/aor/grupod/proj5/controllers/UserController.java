@@ -5,14 +5,21 @@ package pt.uc.dei.aor.grupod.proj5.controllers;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIForm;
+import javax.inject.Inject;
 import javax.inject.Named;
 import pt.uc.dei.aor.grupod.proj5.entities.Administrator;
 import pt.uc.dei.aor.grupod.proj5.entities.Student;
 import pt.uc.dei.aor.grupod.proj5.entities.User;
+import pt.uc.dei.aor.grupod.proj5.exceptions.DuplicateEmailException;
+import pt.uc.dei.aor.grupod.proj5.exceptions.PassDontMatchException;
+import pt.uc.dei.aor.grupod.proj5.facades.StudentFacade;
 
 @Named
 @RequestScoped
 public class UserController {
+    
+    @Inject
+    private StudentFacade studentFacade;
     
     private User user;
     private Student student;
@@ -25,6 +32,8 @@ public class UserController {
     private UIForm login;
     private UIForm newRegistration;
     private UIForm adminLogin;
+    private String duplicateEmail;
+    private String passDontMatch;
     
     @PostConstruct
     public void init(){
@@ -118,6 +127,30 @@ public class UserController {
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
     }
+
+    public StudentFacade getStudentFacade() {
+        return studentFacade;
+    }
+
+    public void setStudentFacade(StudentFacade studentFacade) {
+        this.studentFacade = studentFacade;
+    }
+
+    public String getDuplicateEmail() {
+        return duplicateEmail;
+    }
+
+    public void setDuplicateEmail(String duplicateEmail) {
+        this.duplicateEmail = duplicateEmail;
+    }
+
+    public String getPassDontMatch() {
+        return passDontMatch;
+    }
+
+    public void setPassDontMatch(String passDontMatch) {
+        this.passDontMatch = passDontMatch;
+    }
     
     
     /**
@@ -126,7 +159,19 @@ public class UserController {
      */
     public String newStudent(){
         
-        return "";
+        try{
+            studentFacade.newStudent(student, confirmPassword);
+            return "openProject";
+        }
+        catch(DuplicateEmailException e){
+            duplicateEmail = e.getMessage();
+            return null;
+        }
+        catch(PassDontMatchException ex){
+            passDontMatch = ex.getMessage();
+            return null;
+        }
+        
     }
     
     /**

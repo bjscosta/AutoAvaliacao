@@ -3,6 +3,7 @@ package pt.uc.dei.aor.grupod.proj5.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,19 +21,22 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "STUDENT")
 @NamedQueries({
-    @NamedQuery(name = "Student.findAllAdministrators", query = "SELECT s FROM Student s"),
+    @NamedQuery(name = "Student.findAllStudents", query = "SELECT s FROM Student s"),
     @NamedQuery(name = "Student.findStudentIDById", query = "SELECT s FROM Student s WHERE s.studentID = :studentID"),
     @NamedQuery(name = "Student.findStudentByEmail", query = "SELECT s FROM Student s WHERE s.email = :email"),
     @NamedQuery(name = "Student.findStudentByYearOfRegistration", query = "SELECT s FROM Student s WHERE s.yearOfRegistration = :yearOfRegistration"),
     @NamedQuery(name = "Student.findStudentByEdition", query = "SELECT s FROM Student s WHERE s.edition = :edition")})
 public class Student extends User implements Serializable {
 
+    @OneToMany(mappedBy = "student")
+    private List<ProjEvaluation> projEvaluations;
+
     @Basic(optional = false)
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long studentID;
 
-    @ManyToMany(mappedBy = "studentsthatCantEvaluate")
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "studentsthatCantEvaluate")
     private List<Project> projects;
 
     @Basic(optional = false)
@@ -42,12 +46,11 @@ public class Student extends User implements Serializable {
     private int yearOfRegistration;
 
     @Basic(optional = false)
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Edition edition;
 
     @Basic(optional = false)
-
-    @OneToMany(mappedBy = "student")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
     private List<Log> logEntries;
 
     public int getYearOfRegistration() {
@@ -88,6 +91,14 @@ public class Student extends User implements Serializable {
 
     public void setLogEntries(List<Log> logEntries) {
         this.logEntries = logEntries;
+    }
+
+    public List<ProjEvaluation> getProjEvaluations() {
+        return projEvaluations;
+    }
+
+    public void setProjEvaluations(List<ProjEvaluation> projEvaluations) {
+        this.projEvaluations = projEvaluations;
     }
 
     @Override

@@ -44,7 +44,6 @@ public class ProjEvaluation implements Serializable {
     private Project project;
 
     @Basic(optional = false)
-
     @OneToMany(mappedBy = "projEvaluation")
     private List<Criteria> criteriaList;
 

@@ -7,6 +7,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIForm;
 import javax.inject.Inject;
 import javax.inject.Named;
+import pt.uc.dei.aor.grupod.proj5.EJB.LoggedUserEJB;
 import pt.uc.dei.aor.grupod.proj5.entities.Administrator;
 import pt.uc.dei.aor.grupod.proj5.entities.Edition;
 import pt.uc.dei.aor.grupod.proj5.entities.Student;
@@ -27,6 +28,9 @@ public class UserController {
     
     @Inject
     private AdministratorFacade administratorFacade;
+    
+    @Inject
+    private LoggedUserEJB loggedUserEJB;
     
     private User user;
     private Student student;
@@ -196,7 +200,7 @@ public class UserController {
     public String newStudent(Edition edition){
         
         try{
-            studentFacade.newStudent(student, confirmPassword);
+            loggedUserEJB.setLoggedUser(studentFacade.newStudent(student, confirmPassword));
             return "openProjectStudent";
         }
         catch(DuplicateEmailException e){
@@ -216,7 +220,7 @@ public class UserController {
      */
     public String verifyStudent(){
         try{
-            studentFacade.login(studentEmail, studentPassword);
+            loggedUserEJB.setLoggedUser(studentFacade.login(studentEmail, studentPassword));
             return "openProjectStudent";
         }
         catch(PasswordNotCorrectException e){
@@ -235,7 +239,7 @@ public class UserController {
      */
     public String verifyAdmin(){
         try{
-            administratorFacade.login(adminEmail, adminPassword);
+            loggedUserEJB.setLoggedUser(administratorFacade.login(adminEmail, adminPassword));
             return "openProjectAdmin";
         }
         catch(PasswordNotCorrectException e){
@@ -277,5 +281,9 @@ public class UserController {
         adminLogin.setRendered(false);
     }
     
+    public String makeLogout(){
+        studentFacade.logout();
+        return "index";
+    }
     
 }

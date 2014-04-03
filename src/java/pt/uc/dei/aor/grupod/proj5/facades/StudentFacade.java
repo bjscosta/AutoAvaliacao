@@ -240,12 +240,11 @@ public class StudentFacade extends AbstractFacade<Student> {
      *
      * @return The String that leads to a XHTML window
      */
-    public String logout() {
+    public void logout() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
         session.invalidate();
 
-        return "index";
     }
 
     /**

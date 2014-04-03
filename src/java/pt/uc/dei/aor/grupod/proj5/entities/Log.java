@@ -54,11 +54,11 @@ public class Log implements Serializable {
     }
 
     public Date getTimeStamp() {
-        return timeStamp;
+        return new Date(timeStamp.getTime());
     }
 
     public void setTimeStamp(Date timeStamp) {
-        this.timeStamp = timeStamp;
+        this.timeStamp = new Date(timeStamp.getTime());
     }
     
     

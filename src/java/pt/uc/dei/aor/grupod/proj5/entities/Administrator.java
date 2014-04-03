@@ -1,7 +1,6 @@
 package pt.uc.dei.aor.grupod.proj5.entities;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,7 +17,6 @@ import javax.persistence.Table;
     @NamedQuery(name = "Administrator.findAdministratorByEmail", query = "SELECT a FROM Administrator a WHERE a.email = :email")})
 public class Administrator extends User implements Serializable {
 
-    @Basic(optional = false)
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long administratorID;

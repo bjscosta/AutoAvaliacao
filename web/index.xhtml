@@ -167,7 +167,7 @@
                     
                 </tbody>
             </table>
-                
+                <h:form id="popupEd">
                 <p:dialog header="Edições" widgetVar="e" modal="true" height="300"> 
                     <p:dataTable rowKey="#{edition.editionId}" selectionMode="single" selection="#{userController.edition}" value="#{editionController.availableEditions}" var="edition">
                         
@@ -185,13 +185,14 @@
                     <h:commandButton id="selectEdition" value="Confirmar" action="#{userController.newStudent()}" onclick="PF('e').close();" />
                     </div>
                 </p:dialog>
+                </h:form>
                 
             <div align="center">
                 
                 <h:outputLabel id="errorEditionMissing" value="#{userController.insertEdition}" style="color: red"/>
                 <br />  
                 <br />
-                <h:commandButton id="editionsButton" value="Escolha a Edição" onclick="PF('e').show();" type="button" />
+                <p:commandButton id="editionsButton" value="Escolha a Edição" oncomplete="PF('e').show()" update="popupEd" />
                 
 
             </div>

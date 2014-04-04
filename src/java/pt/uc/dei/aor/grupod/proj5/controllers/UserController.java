@@ -58,16 +58,14 @@ public class UserController {
 
     @PostConstruct
     public void init() {
-        if(loggedUserEJB.getLoggedUser() == null){
+        if (loggedUserEJB.getLoggedUser() == null) {
             student = new Student();
-        }
-        else if (loggedUserEJB.getLoggedUser() instanceof Student){
+        } else if (loggedUserEJB.getLoggedUser() instanceof Student) {
             student = (Student) loggedUserEJB.getLoggedUser();
-        }
-        else if (loggedUserEJB.getLoggedUser() instanceof Administrator){
+        } else if (loggedUserEJB.getLoggedUser() instanceof Administrator) {
             admin = (Administrator) loggedUserEJB.getLoggedUser();
         }
-        
+
     }
 
     public User getUser() {
@@ -353,12 +351,11 @@ public class UserController {
      */
     public String makeUpdateStudent() {
 
-        
         try {
             loggedUserEJB.setLoggedUser(studentFacade.updateUser((Student) loggedUserEJB.getLoggedUser(),
                     student, password1, password2));
             return "openProjectStudent";
-            
+
         } catch (PassDontMatchException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             passDontMatch = ex.getMessage();
@@ -369,6 +366,20 @@ public class UserController {
             return null;
         }
 
+    }
+
+    /**
+     * redirect for students pages
+     */
+    public void veryfyStudent() {
+        loggedUserEJB.verifyStudents();
+    }
+
+    /**
+     * redirect for administrator pages
+     */
+    public void veryfyAdministrator() {
+        loggedUserEJB.verifyAdministrators();
     }
 
 }

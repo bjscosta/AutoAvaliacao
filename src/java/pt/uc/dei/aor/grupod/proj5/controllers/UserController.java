@@ -387,4 +387,6 @@ public class UserController {
         loggedUserEJB.verifyAdministrators();
     }
 
+    
+
 }

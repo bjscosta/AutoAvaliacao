@@ -18,13 +18,13 @@ import pt.uc.dei.aor.grupod.proj5.facades.EditionFacade;
 @Named
 @RequestScoped
 public class EditionController {
-    
+
     @Inject
     private EditionFacade editionFacade;
-    
+
     @Inject
     private CriteriaFacade criteriaFacade;
-    
+
     private List<Edition> availableEditions;
     private Edition edition;
     private String errorCreate;
@@ -33,8 +33,6 @@ public class EditionController {
     private UIForm editions;
     private UIForm newEdition;
     private UIForm createCriteria;
-
-    
 
     /**
      * method that initializes atributes of EditionController
@@ -118,9 +116,6 @@ public class EditionController {
     public void setCreateCriteria(UIForm createCriteria) {
         this.createCriteria = createCriteria;
     }
-    
-
-    
 
     /**
      * this method creates an edition to the database, uses the method
@@ -156,15 +151,15 @@ public class EditionController {
         editionId = e.getEditionId();
 
     }
-    
+
     /**
      * Changes to the new Edition view
      */
-    public void goToNewEdition(){
+    public void goToNewEdition() {
         editions.setRendered(false);
         newEdition.setRendered(true);
     }
-    
+
     /**
      * Opens the create criteria area
      */
@@ -180,14 +175,8 @@ public class EditionController {
 
     public void createsaCriteriaForEdition() {
 
-        //Edition e = editionFacade.findEditionById(editionId);
-//        if(e!=null){
-//
-//        }
         criteriaFacade.createsCriteria(criteria, edition);
 
     }
-    
-     
 
 }

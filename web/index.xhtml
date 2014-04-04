@@ -38,7 +38,7 @@
                             <p:inputText value="#{userController.studentEmail}"/>
                         </td>
                         <td>
-                            
+                            <h:outputLabel value="#{userController.userNotFound}" style="color: red"/>
                         </td>
                     </tr>
                     <tr>
@@ -49,7 +49,7 @@
                             <p:password value="#{userController.studentPassword}"/>
                         </td>
                         <td>
-                            
+                            <h:outputLabel value="#{userController.passNotCorrect}" style="color: red"/>
                         </td>
                     </tr>
                 </tbody>

@@ -83,7 +83,7 @@ public class EditionFacade extends AbstractFacade<Edition> {
      * @return the single result of the query, if the query has no results or
      * has more than, this method return null
      */
-    public Edition findEditionById(Long editionId) {
+    public Edition findEditionById(Long editionId) throws NoResultException {
 
         try {
 
@@ -94,7 +94,7 @@ public class EditionFacade extends AbstractFacade<Edition> {
         } catch (NoResultException | NonUniqueResultException e) {
             error = errorFindingEditions;
             Logger.getLogger(EditionFacade.class.getName()).log(Level.SEVERE, null, e);
-            return null;
+            throw new NoResultException();
 
         }
     }

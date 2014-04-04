@@ -200,10 +200,24 @@ public class StudentFacade extends AbstractFacade<Student> {
     public void checksEmail(Student student) throws DuplicateEmailException {
 
         Student s = findStudentsByEmail(student.getEmail());
-        if (s != null && s.getEmail().equals(student.getEmail())) {
+        if (s != null) {
             throw new DuplicateEmailException();
         }
+    }
+    
+    /**
+     * checks if there is already an email registered by a student in a database
+     *
+     * @param student
+     * @throws DuplicateEmailException if there is already an email in a
+     * database
+     */
+    public void checksEmailEdit(Student student) throws DuplicateEmailException {
 
+        Student s = findStudentsByEmail(student.getEmail());
+        if (s != null && !s.getEmail().equals(student.getEmail())) {
+            throw new DuplicateEmailException();
+        }
     }
 
     /**
@@ -369,7 +383,7 @@ public class StudentFacade extends AbstractFacade<Student> {
             student.setPassword(pass);
 
             try {
-                checksEmail(student);
+                checksEmailEdit(student);
                 edit(student);
 
                 return student;
@@ -381,7 +395,7 @@ public class StudentFacade extends AbstractFacade<Student> {
         } else if (password1.isEmpty() && password2.isEmpty()) {
 
             try {
-                checksEmail(student);
+                checksEmailEdit(student);
                 edit(student);
                 return student;
             } catch (DuplicateEmailException e) {

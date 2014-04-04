@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="./mainTemplateStudent.xhtml">
+
+            <ui:define name ="content">
+                <h:form>
+                    <table align="center">
+                    <tbody>
+                        <tr>
+                        <td>
+                            <h4>Nome</h4>
+                        </td>
+                        <td>
+                            <p:inputText id="nome" value="#{userController.student.name}"/>
+                        </td>
+                        <td>
+                            <h:message for="nome" style="color: red"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4>E-Mail</h4>
+                        </td>
+                        <td>
+                            <p:inputText id="email" value="#{userController.student.email}"/>
+                        </td>
+                        <td>
+                            <h:message for="email" style="color: red"/>
+                            <h:outputLabel value="#{userController.duplicateEmail}" style="color: red"/>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>
+                            <h4>Password</h4>
+                        </td>
+                        <td>
+                            <p:password id="pass" feedback="true" value="#{userController.password1}"/>
+                        </td>
+                        <td>
+                            <h:message for="pass" style="color: red"/>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>
+                            <h4>Confirmar Password</h4>
+                        </td>
+                        <td>
+                            <p:password value="#{userController.password2}"/>
+                        </td>
+                        <td>
+                            <h:outputLabel value="#{userController.passDontMatch}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <h:commandButton value="Cancelar" action="openProjectStudent"/>
+                        </td>
+                        <td align="center">
+                            <h:commandButton value="Editar" action="#{userController.makeUpdateStudent()}"/>
+                        </td>
+                        <td>
+                            
+                        </td>
+                    </tr>    
+                    </tbody>
+                </table>
+                
+                    
+                </h:form>
+                
+            </ui:define>
+        
+        </ui:composition>
+    </h:body>
+</html>
+

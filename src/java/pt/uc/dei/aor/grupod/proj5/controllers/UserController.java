@@ -58,7 +58,13 @@ public class UserController {
 
     @PostConstruct
     public void init() {
-        student = new Student();
+        if(loggedUserEJB.getLoggedUser() == null){
+            student = new Student();
+        }
+        else{
+            student = (Student) loggedUserEJB.getLoggedUser();
+        }
+        
     }
 
     public User getUser() {
@@ -342,25 +348,23 @@ public class UserController {
      *
      * @return The String that leads to a XHTML window
      */
-    public String makeUpdateUser() {
+    public String makeUpdateStudent() {
 
-        Student updatedUser = null;
+        
         try {
-            updatedUser = studentFacade.updateUser((Student) loggedUserEJB.getLoggedUser(),
-                    (Student) user, password1, password2);
+            loggedUserEJB.setLoggedUser(studentFacade.updateUser((Student) loggedUserEJB.getLoggedUser(),
+                    student, password1, password2));
+            return "openProjectStudent";
+            
         } catch (PassDontMatchException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             passDontMatch = ex.getMessage();
+            return null;
         } catch (DuplicateEmailException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             duplicateEmail = ex.getMessage();
+            return null;
         }
-
-        if (updatedUser != null) {
-            loggedUserEJB.setLoggedUser(updatedUser);
-            return "myPlaylists";
-        }
-        return "profile";
 
     }
 

@@ -219,6 +219,7 @@ public class EditionFacade extends AbstractFacade<Edition> {
             checksEvaluationsOnEdition(e);
             e.getCriteriaList().add(c);
             edit(e);
+            em.persist(c);
         } catch (OperationEditionAborted ex) {
             Logger.getLogger(EditionFacade.class.getName()).log(Level.SEVERE, null, ex);
             throw new OperationEditionAborted();

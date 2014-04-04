@@ -1,6 +1,5 @@
 package pt.uc.dei.aor.grupod.proj5.controllers;
 
-import static java.lang.System.out;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,6 +11,7 @@ import javax.inject.Named;
 import pt.uc.dei.aor.grupod.proj5.entities.Criteria;
 import pt.uc.dei.aor.grupod.proj5.entities.Edition;
 import pt.uc.dei.aor.grupod.proj5.exceptions.CreateEditionAbortedException;
+import pt.uc.dei.aor.grupod.proj5.exceptions.OperationEditionAborted;
 import pt.uc.dei.aor.grupod.proj5.facades.CriteriaFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.EditionFacade;
 
@@ -33,6 +33,7 @@ public class EditionController {
     private UIForm editions;
     private UIForm newEdition;
     private UIForm createCriteria;
+    private String operationEditionError;
 
     /**
      * method that initializes atributes of EditionController
@@ -117,13 +118,22 @@ public class EditionController {
         this.createCriteria = createCriteria;
     }
 
+    public String getOperationEditionError() {
+        return operationEditionError;
+    }
+
+    public void setOperationEditionError(String operationEditionError) {
+        this.operationEditionError = operationEditionError;
+    }
+
     /**
      * this method creates an edition to the database, uses the method
      * createsEdition of the editionFacade, if it can't create catches the
      * CreateEditionAbortedException
      *
      * @param e
-     * @throws pt.uc.dei.aor.grupod.proj5.exceptions.CreateEditionAbortedException
+     * @throws
+     * pt.uc.dei.aor.grupod.proj5.exceptions.CreateEditionAbortedException
      */
     public void createEdition(Edition e) throws CreateEditionAbortedException {
 
@@ -132,10 +142,9 @@ public class EditionController {
             edition = editionFacade.createsEdition(e);
 
         } catch (CreateEditionAbortedException ex) {
-        Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
             errorCreate = ex.getMessage();
             throw new CreateEditionAbortedException();
-            
 
         }
 
@@ -161,21 +170,33 @@ public class EditionController {
     }
 
     /**
-     * Opens the create criteria area
+     * Opens the create criteria area when the edition is being created
      */
-    public void goToCreateCriteria(){
+    public void opensCreateCriteriaWhenCreateEdition() {
         try {
-            createCriteria.setRendered(true);
+            opensCreateCriteria();
             createEdition(edition);
         } catch (CreateEditionAbortedException ex) {
+            errorCreate = ex.getMessage();
             Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
-            out.println(ex.getMessage());
+
         }
     }
 
-    public void createsaCriteriaForEdition() {
+    /**
+     * Opens the create criteria menu
+     */
+    public void opensCreateCriteria() {
+        createCriteria.setRendered(true);
+    }
 
-        criteriaFacade.createsCriteria(criteria, edition);
+    public void createsaCriteriaForEdition() {
+        try {
+            editionFacade.createsCriteria(criteria, edition);
+        } catch (OperationEditionAborted ex) {
+            Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
+            operationEditionError = ex.getMessage();
+        }
 
     }
 

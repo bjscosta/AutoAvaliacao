@@ -25,7 +25,7 @@ public class EditionController {
 
     @Inject
     private CriteriaFacade criteriaFacade;
-    
+
     @Inject
     private LoggedUserEJB loggedUserEJB;
 
@@ -46,11 +46,11 @@ public class EditionController {
     @PostConstruct
     public void init() {
         availableEditions = editionFacade.findEditionsByTheCurrentYear();
-        if(loggedUserEJB.getActiveEdition()==null){
+        if (loggedUserEJB.getActiveEdition() == null) {
             edition = new Edition();
+        } else {
+            edition = loggedUserEJB.getActiveEdition();
         }
-        else{
-        edition = loggedUserEJB.getActiveEdition();}
         criteria = new Criteria();
     }
 
@@ -143,8 +143,6 @@ public class EditionController {
     public void setCriteriaList(List<Criteria> criteriaList) {
         this.criteriaList = criteriaList;
     }
-    
-    
 
     /**
      * this method creates an edition to the database, uses the method
@@ -209,7 +207,7 @@ public class EditionController {
     public void opensCreateCriteria() {
         createCriteria.setRendered(true);
     }
-    
+
     /**
      * Creates a criteria for a edition
      */
@@ -223,23 +221,22 @@ public class EditionController {
         }
 
     }
-    
-    public String saveEdition(){
-        if(loggedUserEJB.getActiveEdition() == null){
-            try{
+
+    public String saveEdition() {
+        if (loggedUserEJB.getActiveEdition() == null) {
+            try {
                 createEdition(edition);
-                
-            }
-            catch (CreateEditionAbortedException ex) {
-            errorCreate = ex.getMessage();
-            Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+
+            } catch (CreateEditionAbortedException ex) {
+                errorCreate = ex.getMessage();
+                Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
             }
         }
         editionFacade.edit(loggedUserEJB.getActiveEdition());
         loggedUserEJB.setActiveEdition(null);
         return "edition";
-        
+
     }
 
 }

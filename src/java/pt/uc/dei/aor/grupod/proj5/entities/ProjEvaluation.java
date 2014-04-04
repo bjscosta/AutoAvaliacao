@@ -1,7 +1,6 @@
 package pt.uc.dei.aor.grupod.proj5.entities;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -40,8 +38,9 @@ public class ProjEvaluation implements Serializable {
     @ManyToOne
     private Project project;
 
-    @OneToMany(mappedBy = "projEvaluation")
-    private List<Criteria> criteriaList;
+    
+    @ManyToOne
+    private Criteria criteria;
 
     public double getCriteriaValue() {
         return criteriaValue;
@@ -67,13 +66,14 @@ public class ProjEvaluation implements Serializable {
         this.project = project;
     }
 
-    public List<Criteria> getCriteriaList() {
-        return criteriaList;
+    public Criteria getCriteria() {
+        return criteria;
     }
 
-    public void setCriteriaList(List<Criteria> criteriaList) {
-        this.criteriaList = criteriaList;
+    public void setCriteria(Criteria criteria) {
+        this.criteria = criteria;
     }
+    
 
     public Long getId() {
         return id;

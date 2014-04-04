@@ -370,5 +370,10 @@ public class UserController {
         }
 
     }
+    
+    public void deleteStudent(){
+        studentFacade.removeStudent((Student)loggedUserEJB.getLoggedUser());
+        makeLogout();
+    }
 
 }

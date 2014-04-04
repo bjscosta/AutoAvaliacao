@@ -18,6 +18,7 @@ import javax.persistence.Query;
 import javax.persistence.RollbackException;
 import javax.servlet.http.HttpSession;
 import pt.uc.dei.aor.grupod.proj5.entities.Edition;
+import pt.uc.dei.aor.grupod.proj5.entities.Log;
 import pt.uc.dei.aor.grupod.proj5.entities.ProjEvaluation;
 import pt.uc.dei.aor.grupod.proj5.entities.Project;
 import pt.uc.dei.aor.grupod.proj5.entities.Student;
@@ -348,16 +349,29 @@ public class StudentFacade extends AbstractFacade<Student> {
      */
     public void removeStudent(Student s) {
         try {
-            Edition e = s.getEdition();
-            e.getStudents().remove(s);
-            em.merge(e);
-            List<ProjEvaluation> listProjEvaluation = s.getProjEvaluations();
-            s.getProjEvaluations().removeAll(listProjEvaluation);
-            em.merge(s);
+            
+            for(ProjEvaluation pe : s.getProjEvaluations()){
+                s.getProjEvaluations().remove(pe);
+                
+                
+                em.remove(pe);
+                edit(s);
+            }
+            
             for (Project p : s.getProjects()) {
                 p.getStudentsthatCantEvaluate().remove(s);
                 em.merge(p);
             }
+            Edition e = s.getEdition();
+            e.getStudents().remove(s);
+            em.merge(e);
+            
+            for(Log l : s.getLogEntries()){
+                s.getLogEntries().remove(l);
+                em.remove(l);
+                edit(s);
+            }
+            
             remove(s);
 
         } catch (RollbackException e) {

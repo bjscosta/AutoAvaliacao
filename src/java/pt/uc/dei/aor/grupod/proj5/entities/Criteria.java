@@ -1,6 +1,7 @@
 package pt.uc.dei.aor.grupod.proj5.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -20,9 +22,9 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "Criteria.findByName", query = "SELECT c FROM Criteria c WHERE c.criteriaName = :criteriaName"),
     @NamedQuery(name = "Criteria.findByEdition", query = "SELECT c FROM Criteria c WHERE c.edition = :edition"),})
 public class Criteria implements Serializable {
-
-    @ManyToOne
-    private ProjEvaluation projEvaluation;
+    
+    @OneToMany(mappedBy = "criteria")
+    private List<ProjEvaluation> projEvaluations;
 
     private static final long serialVersionUID = 1L;
 
@@ -72,6 +74,16 @@ public class Criteria implements Serializable {
     public void setEdition(Edition edition) {
         this.edition = edition;
     }
+
+    public List<ProjEvaluation> getProjEvaluations() {
+        return projEvaluations;
+    }
+
+    public void setProjEvaluations(List<ProjEvaluation> projEvaluations) {
+        this.projEvaluations = projEvaluations;
+    }
+
+    
 
     @Override
     public int hashCode() {

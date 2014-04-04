@@ -34,6 +34,7 @@ public class EditionController {
     private UIForm newEdition;
     private UIForm createCriteria;
     private String operationEditionError;
+    private List<Criteria> criteriaList;
 
     /**
      * method that initializes atributes of EditionController
@@ -126,6 +127,16 @@ public class EditionController {
     public void setOperationEditionError(String operationEditionError) {
         this.operationEditionError = operationEditionError;
     }
+
+    public List<Criteria> getCriteriaList() {
+        return criteriaList;
+    }
+
+    public void setCriteriaList(List<Criteria> criteriaList) {
+        this.criteriaList = criteriaList;
+    }
+    
+    
 
     /**
      * this method creates an edition to the database, uses the method

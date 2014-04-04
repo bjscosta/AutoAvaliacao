@@ -120,7 +120,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <p:dataTable var="criteria" value="#{editionController.edition.criteriaList}" rowKey="#{criteria.criteriaId}" selectionMode="multiple" selection="#{editionController.criteria}">
+                                        <p:dataTable var="criteria" value="#{editionController.edition.criteriaList}" rowKey="#{criteria.criteriaId}" selectionMode="multiple" selection="#{editionController.criteriaList}">
                                             <p:column headerText="Nome" sortBy="#{criteria.criteriaName}">
                                                 #{criteria.criteriaName}
                                             </p:column>

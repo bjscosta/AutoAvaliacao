@@ -33,7 +33,7 @@ public class Edition implements Serializable {
     private Long editionId;
 
     @NotNull
-    @Column(name = "EDITION_NAME", nullable = false, unique = true)
+    @Column(name = "EDITION_NAME", nullable = false)
     private String editionName;
 
     @Digits(integer = 4, fraction = 0, message = "Year not valid")

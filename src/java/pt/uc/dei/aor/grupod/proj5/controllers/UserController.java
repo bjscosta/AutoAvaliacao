@@ -1,5 +1,3 @@
-
-
 package pt.uc.dei.aor.grupod.proj5.controllers;
 
 import javax.annotation.PostConstruct;
@@ -17,21 +15,25 @@ import pt.uc.dei.aor.grupod.proj5.exceptions.PassDontMatchException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.PasswordNotCorrectException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.UserNotFoundException;
 import pt.uc.dei.aor.grupod.proj5.facades.AdministratorFacade;
+import pt.uc.dei.aor.grupod.proj5.facades.EditionFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.StudentFacade;
 
 @Named
 @RequestScoped
 public class UserController {
-    
+
     @Inject
     private StudentFacade studentFacade;
-    
+
     @Inject
     private AdministratorFacade administratorFacade;
-    
+
     @Inject
     private LoggedUserEJB loggedUserEJB;
-    
+
+    @Inject
+    private EditionFacade editionFacade;
+
     private User user;
     private Student student;
     private Administrator admin;
@@ -47,9 +49,11 @@ public class UserController {
     private String passDontMatch;
     private String passNotCorrect;
     private String userNotFound;
-    
+    private Edition edition;
+    private String insertEdition;
+
     @PostConstruct
-    public void init(){
+    public void init() {
         student = new Student();
     }
 
@@ -108,7 +112,7 @@ public class UserController {
     public void setAdminPassword(String adminPassword) {
         this.adminPassword = adminPassword;
     }
-    
+
     public UIForm getLogin() {
         return login;
     }
@@ -188,102 +192,121 @@ public class UserController {
     public void setUserNotFound(String userNotFound) {
         this.userNotFound = userNotFound;
     }
-    
-    
-    
-    
+
+    public Edition getEdition() {
+        return edition;
+    }
+
+    public void setEdition(Edition edition) {
+        this.edition = edition;
+    }
+
+    public String getInsertEdition() {
+        return insertEdition;
+    }
+
+    public void setInsertEdition(String insertEdition) {
+        this.insertEdition = insertEdition;
+    }
+
     /**
      * Creates a new student
-     * @param edition
+     *
      * @return The string that leads to the xhtml page
      */
-    public String newStudent(Edition edition){
-        
-        try{
-            loggedUserEJB.setLoggedUser(studentFacade.newStudent(student, confirmPassword));
-            return "openProjectStudent";
-        }
-        catch(DuplicateEmailException e){
-            duplicateEmail = e.getMessage();
+    public String newStudent() {
+
+        if (edition != null) {
+
+            try {
+                student = studentFacade.newStudent(student, confirmPassword);
+                loggedUserEJB.setLoggedUser(student);
+                edition.getStudents().add(student);
+                student.setEdition(edition);
+                studentFacade.edit(student);
+                editionFacade.edit(edition);
+                return "openProjectStudent";
+            } catch (DuplicateEmailException e) {
+                duplicateEmail = e.getMessage();
+                return null;
+            } catch (PassDontMatchException ex) {
+                passDontMatch = ex.getMessage();
+                return null;
+            }
+        } else {
+            insertEdition = "Necessita de selecionar uma Edição";
             return null;
         }
-        catch(PassDontMatchException ex){
-            passDontMatch = ex.getMessage();
-            return null;
-        }
-        
+
     }
-    
+
     /**
      * Verify the Student credentials
-     * @return The string that leads to the xhtml page 
+     *
+     * @return The string that leads to the xhtml page
      */
-    public String verifyStudent(){
-        try{
+    public String verifyStudent() {
+        try {
             loggedUserEJB.setLoggedUser(studentFacade.login(studentEmail, studentPassword));
             return "openProjectStudent";
-        }
-        catch(PasswordNotCorrectException e){
+        } catch (PasswordNotCorrectException e) {
             passNotCorrect = e.getMessage();
             return null;
-        }
-        catch(UserNotFoundException ex){
+        } catch (UserNotFoundException ex) {
             userNotFound = ex.getMessage();
             return null;
         }
     }
-    
+
     /**
      * Verify the Administrator credentials
-     * @return The string that leads to the xhtml page 
+     *
+     * @return The string that leads to the xhtml page
      */
-    public String verifyAdmin(){
-        try{
+    public String verifyAdmin() {
+        try {
             loggedUserEJB.setLoggedUser(administratorFacade.login(adminEmail, adminPassword));
             return "openProjectAdmin";
-        }
-        catch(PasswordNotCorrectException e){
+        } catch (PasswordNotCorrectException e) {
             passNotCorrect = e.getMessage();
             return null;
-        }
-        catch(UserNotFoundException ex){
+        } catch (UserNotFoundException ex) {
             userNotFound = ex.getMessage();
             return null;
         }
-        
+
     }
-    
-    
+
     /**
      * Changes to the new Registration form
      */
-    public void goToNewRegistration(){
+    public void goToNewRegistration() {
         newRegistration.setRendered(true);
         login.setRendered(false);
         adminLogin.setRendered(false);
     }
-    
+
     /**
      * Changes to the admin login form
      */
-    public void goToAdminLogin(){
+    public void goToAdminLogin() {
         newRegistration.setRendered(false);
         login.setRendered(false);
         adminLogin.setRendered(true);
     }
-    
+
     /**
      * Changes to the login form
      */
-    public void goToLogin(){
+    public void goToLogin() {
         newRegistration.setRendered(false);
         login.setRendered(true);
         adminLogin.setRendered(false);
     }
-    
-    public String makeLogout(){
+
+    public String makeLogout() {
         studentFacade.logout();
         return "index";
     }
-    
+
 }

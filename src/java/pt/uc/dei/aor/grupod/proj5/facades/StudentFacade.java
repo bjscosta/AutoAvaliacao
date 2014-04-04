@@ -140,7 +140,7 @@ public class StudentFacade extends AbstractFacade<Student> {
      */
     public Student findStudentsByEmail(String email) {
 
-        Query q = em.createNamedQuery("Student.findStudentIDById");
+        Query q = em.createNamedQuery("Student.findStudentByEmail");
 
         q.setParameter("email", email);
 

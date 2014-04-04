@@ -1,5 +1,6 @@
 package pt.uc.dei.aor.grupod.proj5.controllers;
 
+import static java.lang.System.out;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,13 +41,13 @@ public class EditionController {
      */
     @PostConstruct
     public void init() {
-        availableEditions = editionFacade.findAllEditions();
+        availableEditions = editionFacade.findEditionsByTheCurrentYear();
         edition = new Edition();
         criteria = new Criteria();
     }
 
     public List<Edition> getAvailableEditions() {
-        availableEditions = editionFacade.findAllEditions();
+        availableEditions = editionFacade.findEditionsByTheCurrentYear();
         return availableEditions;
     }
 
@@ -127,18 +128,19 @@ public class EditionController {
      * CreateEditionAbortedException
      *
      * @param e
+     * @throws pt.uc.dei.aor.grupod.proj5.exceptions.CreateEditionAbortedException
      */
-    public void createEdition(Edition e) {
+    public void createEdition(Edition e) throws CreateEditionAbortedException {
 
         try {
 
             edition = editionFacade.createsEdition(e);
 
         } catch (CreateEditionAbortedException ex) {
-
+        Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
             errorCreate = ex.getMessage();
-
-            Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
+            throw new CreateEditionAbortedException();
+            
 
         }
 
@@ -167,8 +169,13 @@ public class EditionController {
      * Opens the create criteria area
      */
     public void goToCreateCriteria(){
-        createCriteria.setRendered(true);
-        createEdition(edition);
+        try {
+            createCriteria.setRendered(true);
+            createEdition(edition);
+        } catch (CreateEditionAbortedException ex) {
+            Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
+            out.println(ex.getMessage());
+        }
     }
 
     public void createsaCriteriaForEdition() {

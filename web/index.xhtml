@@ -6,9 +6,16 @@
     <h:head>
         <title>Login Auto-Avaliação</title>
 
+        <script>
+            function loadDialogIfError() {    
+                //var lbl = document.getElementById("j_idt31:errorEditionMissing");
+                //if (lbl !== null &amp;&amp; lbl.innerHTML.length &gt; 0)
+                //    document.getElementById("j_idt31:editionsButton").onclick();
+            }
+        </script>
 
     </h:head>
-    <h:body>
+    <h:body onload="loadDialogIfError()">
         
         <h:form binding="#{userController.login}" rendered="true">
             <div align="right">
@@ -108,6 +115,7 @@
             <div align="center">
                 <h3>Novo Registo Estudante</h3>
             </div>
+           
             
             <table align="center">
                 <tbody>
@@ -131,7 +139,7 @@
                         </td>
                         <td>
                             <h:message for="email" style="color: red"/>
-                            <h:outputLabel value="#{userController.duplicateEmail}"/>
+                            <h:outputLabel value="#{userController.duplicateEmail}" style="color: red"/>
                         </td>
                     </tr>
                      <tr>
@@ -161,22 +169,25 @@
             </table>
                 
                 <p:dialog header="Edições" widgetVar="e" modal="true" height="300"> 
-                    <p:dataTable value="#{editionController.availableEditions}" var="edition">
-                        <tr>
-                            <td>
-                                #{edition.name}
-                            </td>
-                            <td>
+                    <p:dataTable rowKey="#{edition.editionId}" selectionMode="single" selection="#{userController.edition}" value="#{editionController.availableEditions}" var="edition">
+                        
+                        <p:column headerText="Nome" sortBy="#{edition.editionName}">
+                                #{edition.editionName}
+                        </p:column>
+                        <p:column headerText="Ano" sortBy="#{edition.yearEdition}">
                                 #{edition.yearEdition}
-                            </td>
-                            <td>
-                                <h:commandButton value="Selecionar" action="#{userController.newStudent(edition)}" onclick="PF('e').close();" />
-                            </td>
-                        </tr>
+                        </p:column>
+                        
                     </p:dataTable>
+                    
+                    <h:commandButton id="selectEdition" value="Confirmar" action="#{userController.newStudent()}" onclick="PF('e').close();" />
                 </p:dialog>
                 
             <div align="center">
+                
+                <h:outputLabel id="errorEditionMissing" value="#{userController.insertEdition}" style="color: red"/>
+                <br />  
+                <br />
                 <h:commandButton id="editionsButton" value="Escolha a Edição" onclick="PF('e').show();" type="button" />
                 
 

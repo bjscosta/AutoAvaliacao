@@ -13,19 +13,16 @@
             <ui:define name ="content">
                 <h:form binding="#{editionController.editions}" rendered="true">
                  <div align="center"><h2>Edições</h2></div>
-                 <p:dataTable value="#{editionController.availableEditions}" var="edition">
-                        <tr>
-                            <td>
-                                #{edition.name}
-                            </td>
-                            <td>
+                    <p:dataTable rowKey="#{edition.editionId}" selectionMode="single" selection="#{userController.student.edition}" value="#{editionController.availableEditions}" var="edition">
+                        
+                        <p:column headerText="Nome" sortBy="#{edition.editionName}">
+                                #{edition.editionName}
+                        </p:column>
+                        <p:column headerText="Ano" sortBy="#{edition.yearEdition}">
                                 #{edition.yearEdition}
-                            </td>
-                            <td>
-                                <h:commandButton value="Selecionar" action="#{userController.newStudent(edition)}" onclick="PF('e').close();" />
-                            </td>
-                        </tr>
-                 </p:dataTable>
+                        </p:column>
+                          
+                    </p:dataTable>
                  <div align="center">
                      <h:commandButton value="Criar Edição" action="#{editionController.goToNewEdition}"/>
                  </div>
@@ -86,7 +83,7 @@
                     <div align="center">
                     <h:commandButton value="Criar critérios" action="#{editionController.goToCreateCriteria}"/>
                     </div>
-                    <h:form binding="#{createCriteria}" rendered="false">
+                    <h:form binding="#{editionController.createCriteria}" rendered="false">
                         <table align="center" width="100%">
                             <tbody>
                                 <tr>

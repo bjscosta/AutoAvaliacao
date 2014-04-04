@@ -88,7 +88,7 @@ public class EditionFacade extends AbstractFacade<Edition> {
         try {
 
             Query q = em.createNamedQuery("Edition.findByEdition_Id");
-
+            q.setParameter("editionId", editionId);
             return (Edition) q.getSingleResult();
 
         } catch (NoResultException | NonUniqueResultException e) {

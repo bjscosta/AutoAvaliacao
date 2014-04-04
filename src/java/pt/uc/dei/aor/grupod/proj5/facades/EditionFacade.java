@@ -17,6 +17,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import pt.uc.dei.aor.grupod.proj5.entities.Criteria;
 import pt.uc.dei.aor.grupod.proj5.entities.Edition;
 import pt.uc.dei.aor.grupod.proj5.entities.ProjEvaluation;
 import pt.uc.dei.aor.grupod.proj5.exceptions.CreateEditionAbortedException;
@@ -88,7 +89,7 @@ public class EditionFacade extends AbstractFacade<Edition> {
         try {
 
             Query q = em.createNamedQuery("Edition.findByEdition_Id");
-
+            q.setParameter("editionId", editionId);
             return (Edition) q.getSingleResult();
 
         } catch (NoResultException | NonUniqueResultException e) {
@@ -169,6 +170,23 @@ public class EditionFacade extends AbstractFacade<Edition> {
     }
 
     /**
+     * this method uses the named query ProjEvaluation.findByEdition to check if
+     * there are already self-evaluations of students for the edition's projects
+     * if there are the method throws the exception
+     *
+     * @param e
+     * @throws RemoveEditionAborted
+     */
+    public void checksEvaluationsOnEdition(Edition e) throws RemoveEditionAborted {
+        Query q = em.createNamedQuery("ProjEvaluation.findByEdition");
+        q.setParameter("edition", e);
+        List<ProjEvaluation> listProjEvaluation = q.getResultList();
+        if (listProjEvaluation != null) {
+            throw new RemoveEditionAborted();
+        }
+    }
+
+    /**
      * this method checks if the edition to remove doesn't have ProjEvaluations,
      * and removes it
      *
@@ -178,14 +196,53 @@ public class EditionFacade extends AbstractFacade<Edition> {
     public void removesEdition(Edition e) throws RemoveEditionAborted {
 
         try {
-            Query q = em.createNamedQuery("ProjEvaluation.findByEdition");
-            q.setParameter("edition", e);
-            List<ProjEvaluation> listProjEvaluation = q.getResultList();
-            if (listProjEvaluation != null) {
-                throw new RemoveEditionAborted();
-            }
+            checksEvaluationsOnEdition(e);
             remove(e);
         } catch (Exception ex) {
+            throw new RemoveEditionAborted();
+        }
+
+    }
+
+    /**
+     * this methods inserts a criteria into the edition, checks first if the
+     * edition has already any evaluations, using the method
+     * checksEvaluationsOnEdition
+     *
+     * @param c
+     * @param e
+     * @throws RemoveEditionAborted
+     */
+    public void createsCriteria(Criteria c, Edition e) throws RemoveEditionAborted {
+        try {
+            checksEvaluationsOnEdition(e);
+            e.getCriteriaList().add(c);
+            edit(e);
+        } catch (RemoveEditionAborted ex) {
+            Logger.getLogger(EditionFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RemoveEditionAborted();
+        }
+
+    }
+
+    /**
+     * this method removes a criteria from an edition an removes it from the
+     * database. Uses the method checksEvaluation to see if the edition has
+     * evaluations, if the edition has evaluations the method throws
+     * RemoveEditionAborted
+     *
+     * @param c
+     * @throws RemoveEditionAborted
+     */
+    public void removeCriteria(Criteria c) throws RemoveEditionAborted {
+        try {
+            Edition e = c.getEdition();
+            checksEvaluationsOnEdition(e);
+            e.getCriteriaList().remove(c);
+            edit(e);
+            em.remove(c);
+        } catch (RemoveEditionAborted ex) {
+            Logger.getLogger(EditionFacade.class.getName()).log(Level.SEVERE, null, ex);
             throw new RemoveEditionAborted();
         }
 

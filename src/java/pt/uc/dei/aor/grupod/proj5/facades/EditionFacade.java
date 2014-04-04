@@ -21,6 +21,7 @@ import pt.uc.dei.aor.grupod.proj5.entities.Criteria;
 import pt.uc.dei.aor.grupod.proj5.entities.Edition;
 import pt.uc.dei.aor.grupod.proj5.entities.ProjEvaluation;
 import pt.uc.dei.aor.grupod.proj5.exceptions.CreateEditionAbortedException;
+import pt.uc.dei.aor.grupod.proj5.exceptions.CriteriaNotFoundException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.OperationEditionAborted;
 
 /**
@@ -228,8 +229,8 @@ public class EditionFacade extends AbstractFacade<Edition> {
     /**
      * this method removes a criteria from an edition an removes it from the
      * database. Uses the method checksEvaluation to see if the edition has
- evaluations, if the edition has evaluations the method throws
- OperationEditionAborted
+     * evaluations, if the edition has evaluations the method throws
+     * OperationEditionAborted
      *
      * @param c
      * @throws OperationEditionAborted
@@ -246,6 +247,36 @@ public class EditionFacade extends AbstractFacade<Edition> {
             throw new OperationEditionAborted();
         }
 
+    }
+
+    public List<Criteria> findAllCriteriasByEdition(Edition edition) {
+
+        try {
+
+            Query q = em.createNamedQuery("Criteria.findByEdition");
+            q.setParameter("edition", edition);
+            return q.getResultList();
+
+        } catch (Exception ex) {
+
+            Logger.getLogger(EditionFacade.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+
+        }
+
+    }
+
+    public Criteria findCriteria(Long criteriaId) throws CriteriaNotFoundException {
+        try {
+            Query q = em.createNamedQuery("Criteria.findByCriteria_Id");
+            q.setParameter("criteriaId", criteriaId);
+
+            return (Criteria) q.getSingleResult();
+        } catch (NoResultException | NonUniqueResultException ex) {
+            Logger.getLogger(EditionFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new CriteriaNotFoundException();
+
+        }
     }
 
 }

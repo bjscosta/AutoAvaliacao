@@ -13,7 +13,7 @@
             <ui:define name ="content">
                 <h:form binding="#{editionController.editions}" rendered="true">
                     <div align="center"><h2>Edições</h2></div>
-                    <p:dataTable rowKey="#{edition.editionId}" selectionMode="single" selection="#{userController.student.edition}" value="#{editionController.availableEditions}" var="edition">
+                    <p:dataTable rowKey="#{edition.editionId}" selectionMode="single" selection="#{userController.edition}" value="#{editionController.availableEditions}" var="edition">
 
                         <p:column headerText="Nome" sortBy="#{edition.editionName}">
                             #{edition.editionName}

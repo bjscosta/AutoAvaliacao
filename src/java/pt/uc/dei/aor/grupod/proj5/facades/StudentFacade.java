@@ -168,7 +168,8 @@ public class StudentFacade extends AbstractFacade<Student> {
             Query q = em.createNamedQuery("Student.findStudentByYearOfRegistration");
             q.setParameter("yearOfRegistration", yearOfRegistration);
             return q.getResultList();
-        } catch (Exception e) {
+        } catch (Exception ex) {
+            Logger.getLogger(StudentFacade.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -185,7 +186,8 @@ public class StudentFacade extends AbstractFacade<Student> {
             Query q = em.createNamedQuery("Student.findStudentByEdition");
             q.setParameter("edition", edition);
             return q.getResultList();
-        } catch (Exception e) {
+        } catch (Exception ex) {
+            Logger.getLogger(StudentFacade.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -204,7 +206,7 @@ public class StudentFacade extends AbstractFacade<Student> {
             throw new DuplicateEmailException();
         }
     }
-    
+
     /**
      * checks if there is already an email registered by a student in a database
      *
@@ -292,7 +294,7 @@ public class StudentFacade extends AbstractFacade<Student> {
     }
 
     /**
-     * Make the changes to the user
+     * Make the changes to the user calling the method editStudent
      *
      * @param logedStudent
      * @param student
@@ -308,29 +310,33 @@ public class StudentFacade extends AbstractFacade<Student> {
             String pass = EncriptMD5.cryptWithMD5(password1);
             student.setPassword(pass);
 
-            try {
-                checksEmail(student);
-                edit(student);
+            return editStudent(student);
 
-                return student;
-            } catch (DuplicateEmailException e) {
-
-                emailExists = e.getMessage();
-                return null;
-            }
         } else if (password1.isEmpty() && password2.isEmpty()) {
 
-            try {
-                checksEmail(student);
-                edit(student);
-                return student;
-            } catch (DuplicateEmailException e) {
+            return editStudent(student);
 
-                emailExists = e.getMessage();
-                return null;
-            }
         } else {
             passMissmatch = "The passwords doesn't match";
+            return null;
+        }
+    }
+
+    /**
+     * edits the student
+     *
+     * @param student
+     * @return
+     */
+    public Student editStudent(Student student) {
+        try {
+            checksEmail(student);
+            edit(student);
+
+            return student;
+        } catch (DuplicateEmailException e) {
+
+            emailExists = e.getMessage();
             return null;
         }
     }

@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Edições</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="./mainTemplateAdmin.xhtml">
+
+            <ui:define name ="content">
+                <h:form binding="#{editionController.editions}" rendered="true">
+                 <div align="center"><h2>Edições</h2></div>
+                 <p:dataTable value="#{editionController.availableEditions}" var="edition">
+                        <tr>
+                            <td>
+                                #{edition.name}
+                            </td>
+                            <td>
+                                #{edition.yearEdition}
+                            </td>
+                            <td>
+                                <h:commandButton value="Selecionar" action="#{userController.newStudent(edition)}" onclick="PF('e').close();" />
+                            </td>
+                        </tr>
+                 </p:dataTable>
+                 <div align="center">
+                     <h:commandButton value="Criar Edição" action="#{editionController.goToNewEdition}"/>
+                 </div>
+                 </h:form>
+                
+                <h:form binding="#{editionController.newEdition}" rendered="false">
+                    <div align="center"><h2>Nova Edição</h2></div>
+                    
+                    <table align="center">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <h:outputLabel value="Nome"/>
+                                </td>
+                                <td>
+                                    <p:inputText value="#{editionController.edition.editionName}"/>
+                                </td>
+                                <td>
+                                    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:outputLabel value="Ano"/>
+                                </td>
+                                <td>
+                                    <p:inputText value="#{editionController.edition.yearEdition}"/>
+                                </td>
+                                <td>
+                                    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:outputLabel value="Valor mínimo"/>
+                                </td>
+                                <td>
+                                    <p:inputText value="#{editionController.edition.minValueScale}"/>
+                                </td>
+                                <td>
+                                    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:outputLabel value="Valor máximo"/>
+                                </td>
+                                <td>
+                                    <p:inputText value="#{editionController.edition.maxValueScale}"/>
+                                </td>
+                                <td>
+                                    
+                                </td>
+                            </tr>
+                        </tbody>
+                        
+                    </table>
+                    <div align="center">
+                    <h:commandButton value="Criar critérios" action="#{editionController.goToCreateCriteria}"/>
+                    </div>
+                    <h:form binding="#{createCriteria}" rendered="false">
+                        <table align="center" width="100%">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <h:outputLabel value="Nome"/>
+                                                    </td>
+                                                    <td>
+                                                        <p:inputText value="#{editionController.criteria.criteriaName}"/>
+                                                    </td>
+                                                    <td>
+                                                        
+                                                    </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td>
+                                                        <h:outputLabel value="Descrição"/>
+                                                    </td>
+                                                    <td>
+                                                        <p:inputTextarea value="#{editionController.criteria.criteriaDiscription}"/>
+                                                    </td>
+                                                    <td>
+                                                        
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div align="center"><h:commandButton value="Inserir" action="#{editionController.createsaCriteriaForEdition()}"/></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        
+                                    </td>
+                                </tr>
+                            </tbody>
+                            
+                        </table>
+                        
+                    </h:form>
+                        
+                
+                </h:form>
+            </ui:define>
+        
+        </ui:composition>
+    </h:body>
+</html>
+

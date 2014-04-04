@@ -31,7 +31,7 @@ public class CriteriaFacade extends AbstractFacade<Criteria> {
     }
 
     public void createsCriteria(Criteria c, Edition e) {
-
+        
     }
 
 }

@@ -8,6 +8,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIForm;
 import javax.inject.Inject;
 import javax.inject.Named;
+import pt.uc.dei.aor.grupod.proj5.EJB.LoggedUserEJB;
 import pt.uc.dei.aor.grupod.proj5.entities.Criteria;
 import pt.uc.dei.aor.grupod.proj5.entities.Edition;
 import pt.uc.dei.aor.grupod.proj5.exceptions.CreateEditionAbortedException;
@@ -24,6 +25,9 @@ public class EditionController {
 
     @Inject
     private CriteriaFacade criteriaFacade;
+    
+    @Inject
+    private LoggedUserEJB loggedUserEJB;
 
     private List<Edition> availableEditions;
     private Edition edition;
@@ -42,7 +46,11 @@ public class EditionController {
     @PostConstruct
     public void init() {
         availableEditions = editionFacade.findEditionsByTheCurrentYear();
-        edition = new Edition();
+        if(loggedUserEJB.getActiveEdition()==null){
+            edition = new Edition();
+        }
+        else{
+        edition = loggedUserEJB.getActiveEdition();}
         criteria = new Criteria();
     }
 
@@ -151,7 +159,7 @@ public class EditionController {
 
         try {
 
-            edition = editionFacade.createsEdition(e);
+            loggedUserEJB.setActiveEdition(editionFacade.createsEdition(e));
 
         } catch (CreateEditionAbortedException ex) {
             Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
@@ -202,9 +210,10 @@ public class EditionController {
         createCriteria.setRendered(true);
     }
 
-    public void createsaCriteriaForEdition() {
+    public void createsCriteriaForEdition() {
         try {
-            editionFacade.createsCriteria(criteria, edition);
+            editionFacade.createsCriteria(criteria, loggedUserEJB.getActiveEdition());
+            criteria = null;
         } catch (OperationEditionAborted ex) {
             Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
             operationEditionError = ex.getMessage();

@@ -3,9 +3,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Edições</title>
+        <script>
+
+            var ajaxRequest;
+            function ajaxRequestChanged() {
+                if (ajaxRequest.readyState === 4) {
+                    var texto = ajaxRequest.responseText;
+                    document.getElementById("criteriaTableCreate").innerHTML = texto;
+                    setTimeout(makeAjaxRequest, 1000);
+                }
+            }
+
+        </script>
+
     </h:head>
     <h:body>
         <ui:composition template="./mainTemplateAdmin.xhtml">
@@ -88,7 +102,7 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <table align="left">
+                                        <table align="center">
                                             <tbody>
                                                 <tr>
                                                     <td>
@@ -113,14 +127,26 @@
 
                                                     </td>
                                                 </tr>
+                                                <tr>
+                                                    <td>
+
+                                                    </td>
+                                                    <td align="center">
+                                                        <h:commandButton value="Inserir" action="#{editionController.createsCriteriaForEdition()}"/>
+                                                    </td>
+                                                    <td>
+
+                                                    </td>
+                                                </tr>
+
                                             </tbody>
                                         </table>
-                                        <div align="center"><h:commandButton value="Inserir" action="#{editionController.createsaCriteriaForEdition()}"/></div>
+
                                     </td>
-                                </tr>
-                                <tr>
+
                                     <td>
-                                        <p:dataTable var="criteria" value="#{editionController.edition.criteriaList}" rowKey="#{criteria.criteriaId}" selectionMode="multiple" selection="#{editionController.criteriaList}">
+                                        <p:dataTable id="criteriaTableCreate" var="criteria" value="#{editionController.edition.criteriaList}" rowKey="#{criteria.criteriaId}" selectionMode="multiple" selection="#{editionController.criteriaList}">
+
                                             <p:column headerText="Nome" sortBy="#{criteria.criteriaName}">
                                                 #{criteria.criteriaName}
                                             </p:column>

@@ -9,7 +9,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import pt.uc.dei.aor.grupod.proj5.entities.Criteria;
-import pt.uc.dei.aor.grupod.proj5.entities.Edition;
 
 /**
  *
@@ -28,10 +27,6 @@ public class CriteriaFacade extends AbstractFacade<Criteria> {
 
     public CriteriaFacade() {
         super(Criteria.class);
-    }
-
-    public void createsCriteria(Criteria c, Edition e) {
-        
     }
 
 }

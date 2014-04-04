@@ -209,7 +209,10 @@ public class EditionController {
     public void opensCreateCriteria() {
         createCriteria.setRendered(true);
     }
-
+    
+    /**
+     * Creates a criteria for a edition
+     */
     public void createsCriteriaForEdition() {
         try {
             editionFacade.createsCriteria(criteria, loggedUserEJB.getActiveEdition());
@@ -219,6 +222,24 @@ public class EditionController {
             operationEditionError = ex.getMessage();
         }
 
+    }
+    
+    public String saveEdition(){
+        if(loggedUserEJB.getActiveEdition() == null){
+            try{
+                createEdition(edition);
+                
+            }
+            catch (CreateEditionAbortedException ex) {
+            errorCreate = ex.getMessage();
+            Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+            }
+        }
+        editionFacade.edit(loggedUserEJB.getActiveEdition());
+        loggedUserEJB.setActiveEdition(null);
+        return "edition";
+        
     }
 
 }

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8' ?> 
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -16,19 +16,20 @@
         <div id="top" class="top">
             <ui:insert name="top">
                 <h:form>
-                <table width="100%">
-                    <tr>
-                        <td>
-                            <h:form>
-                                <a href="edition.xhtml">Edições</a>
-                            </h:form>
-                        </td>
-                        <td align="right">
-                            <h:outputLabel value="#{loggedUserEJB.loggedUser.name}"/>
-                            &nbsp;&nbsp;<h:commandButton value="Sair" action="#{userController.makeLogout()}"/>
-                        </td>
-                    </tr>
-                </table>
+                    <table width="100%">
+                        <tr>
+                            <td>
+                                <h:form>
+
+                                    <a href="edition.xhtml">Edições</a>
+                                </h:form>
+                            </td>
+                            <td align="right">
+                                <h:outputLabel value="#{loggedUserEJB.loggedUser.name}"/>
+                                &nbsp;&nbsp;<h:commandButton value="Sair" action="#{userController.makeLogout()}"/>
+                            </td>
+                        </tr>
+                    </table>
                 </h:form>
             </ui:insert>
         </div>

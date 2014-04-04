@@ -357,9 +357,11 @@ public class StudentFacade extends AbstractFacade<Student> {
      * @param password1
      * @param password2
      * @return The new user
+     * @throws pt.uc.dei.aor.grupod.proj5.exceptions.PassDontMatchException
+     * @throws pt.uc.dei.aor.grupod.proj5.exceptions.DuplicateEmailException
      */
     public Student updateUser(Student logedStudent, Student student,
-            String password1, String password2) {
+            String password1, String password2) throws PassDontMatchException, DuplicateEmailException {
 
         if (!password1.isEmpty() && password1.equals(password2)) {
 
@@ -374,7 +376,7 @@ public class StudentFacade extends AbstractFacade<Student> {
             } catch (DuplicateEmailException e) {
 
                 emailExists = e.getMessage();
-                return null;
+                throw new DuplicateEmailException();
             }
         } else if (password1.isEmpty() && password2.isEmpty()) {
 
@@ -385,11 +387,11 @@ public class StudentFacade extends AbstractFacade<Student> {
             } catch (DuplicateEmailException e) {
 
                 emailExists = e.getMessage();
-                return null;
+                throw new DuplicateEmailException();
             }
         } else {
             passMissmatch = "The passwords doesn't match";
-            return null;
+            throw new PassDontMatchException();
         }
     }
 

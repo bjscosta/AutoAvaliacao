@@ -338,8 +338,8 @@ public class UserController {
      * @return
      */
     public String makeLogout() {
-        studentFacade.logout();
-        return "index";
+        return studentFacade.logout();
+
     }
 
     /**
@@ -367,10 +367,10 @@ public class UserController {
         }
 
     }
-    
-    public void deleteStudent(){
-        studentFacade.removeStudent((Student)loggedUserEJB.getLoggedUser());
-        makeLogout();
+
+    public String deleteStudent() {
+        studentFacade.removeStudent((Student) loggedUserEJB.getLoggedUser());
+        return makeLogout();
     }
 
     /**
@@ -386,7 +386,5 @@ public class UserController {
     public void veryfyAdministrator() {
         loggedUserEJB.verifyAdministrators();
     }
-
-    
 
 }

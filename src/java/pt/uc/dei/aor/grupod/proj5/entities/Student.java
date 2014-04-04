@@ -27,14 +27,14 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "Student.findStudentByEdition", query = "SELECT s FROM Student s WHERE s.edition = :edition")})
 public class Student extends User implements Serializable {
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "student", orphanRemoval = true)
     private List<ProjEvaluation> projEvaluations;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long studentID;
 
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "studentsthatCantEvaluate")
+    @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "studentsthatCantEvaluate")
     private List<Project> projects;
 
     @Digits(integer = 4, fraction = 0, message = "Year not valid")
@@ -42,10 +42,10 @@ public class Student extends User implements Serializable {
     @Column(name = "YEAR_OF_REGISTRATION", nullable = false)
     private int yearOfRegistration;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Edition edition;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "student", orphanRemoval = true)
     private List<Log> logEntries;
 
     public int getYearOfRegistration() {

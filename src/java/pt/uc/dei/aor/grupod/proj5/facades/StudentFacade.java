@@ -254,10 +254,11 @@ public class StudentFacade extends AbstractFacade<Student> {
      *
      * @return The String that leads to a XHTML window
      */
-    public void logout() {
+    public String logout() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
         session.invalidate();
+        return "index";
 
     }
 
@@ -346,10 +347,8 @@ public class StudentFacade extends AbstractFacade<Student> {
      */
     public void removeStudent(Student s) {
         try {
-            
-            
-            
-            remove(s);
+
+            remove(em.merge(s));
 
         } catch (RollbackException e) {
 

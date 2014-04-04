@@ -7,18 +7,11 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Edições</title>
-        <script>
 
-            var ajaxRequest;
-            function ajaxRequestChanged() {
-                if (ajaxRequest.readyState === 4) {
-                    var texto = ajaxRequest.responseText;
-                    document.getElementById("criteriaTableCreate").innerHTML = texto;
-                    setTimeout(makeAjaxRequest, 1000);
-                }
-            }
 
-        </script>
+        <ui:insert name="metadata"/>
+        <f:event type="preRenderView" listener="#{userController.verifyAdministrators()}" />
+        <link href="resources/css/table-style.css" rel="stylesheet" type="text/css" />
 
     </h:head>
     <h:body>

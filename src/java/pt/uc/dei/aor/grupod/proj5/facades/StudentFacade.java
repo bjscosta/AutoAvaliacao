@@ -200,7 +200,7 @@ public class StudentFacade extends AbstractFacade<Student> {
     public void checksEmail(Student student) throws DuplicateEmailException {
 
         Student s = findStudentsByEmail(student.getEmail());
-        if (s != null && !s.getEmail().equals(student.getEmail())) {
+        if (s != null && s.getEmail().equals(student.getEmail())) {
             throw new DuplicateEmailException();
         }
 
@@ -262,8 +262,8 @@ public class StudentFacade extends AbstractFacade<Student> {
         if (student.getPassword().equals(password2)) {
             try {
                 String pass = EncriptMD5.cryptWithMD5(password2);
-                student.setPassword(pass);
                 checksEmail(student);
+                student.setPassword(pass);
                 create(student);
                 return student;
             } catch (DuplicateEmailException ex) {

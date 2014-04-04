@@ -1,7 +1,6 @@
 package pt.uc.dei.aor.grupod.proj5.entities;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
@@ -11,8 +10,7 @@ import javax.validation.constraints.Size;
 @MappedSuperclass
 public abstract class User implements Serializable {
 
-    @Size(min = 1, message = "Tem de inserir um nome"
-            + "caracter")
+    @Size(min = 1, message = "Tem de inserir um nome")
     @NotNull
     @Column(name = "USER_NAME", nullable = false)
     private String name;

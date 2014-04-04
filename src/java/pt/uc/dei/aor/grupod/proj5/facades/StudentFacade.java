@@ -349,4 +349,48 @@ public class StudentFacade extends AbstractFacade<Student> {
 
     }
 
+    /**
+     * Make the changes to the user
+     *
+     * @param logedStudent
+     * @param student
+     * @param password1
+     * @param password2
+     * @return The new user
+     */
+    public Student updateUser(Student logedStudent, Student student,
+            String password1, String password2) {
+
+        if (!password1.isEmpty() && password1.equals(password2)) {
+
+            String pass = EncriptMD5.cryptWithMD5(password1);
+            student.setPassword(pass);
+
+            try {
+                checksEmail(student);
+                edit(student);
+
+                return student;
+            } catch (DuplicateEmailException e) {
+
+                emailExists = e.getMessage();
+                return null;
+            }
+        } else if (password1.isEmpty() && password2.isEmpty()) {
+
+            try {
+                checksEmail(student);
+                edit(student);
+                return student;
+            } catch (DuplicateEmailException e) {
+
+                emailExists = e.getMessage();
+                return null;
+            }
+        } else {
+            passMissmatch = "The passwords doesn't match";
+            return null;
+        }
+    }
+
 }

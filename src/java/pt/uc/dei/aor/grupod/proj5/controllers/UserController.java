@@ -51,6 +51,8 @@ public class UserController {
     private String userNotFound;
     private Edition edition;
     private String insertEdition;
+    private String password1;
+    private String password2;
 
     @PostConstruct
     public void init() {
@@ -209,6 +211,22 @@ public class UserController {
         this.insertEdition = insertEdition;
     }
 
+    public String getPassword1() {
+        return password1;
+    }
+
+    public void setPassword1(String password1) {
+        this.password1 = password1;
+    }
+
+    public String getPassword2() {
+        return password2;
+    }
+
+    public void setPassword2(String password2) {
+        this.password2 = password2;
+    }
+
     /**
      * Creates a new student
      *
@@ -304,9 +322,37 @@ public class UserController {
         adminLogin.setRendered(false);
     }
 
+    /**
+     * calls the method for logout of the administrator and student on the
+     * studentFacade
+     *
+     * @return
+     */
     public String makeLogout() {
         studentFacade.logout();
         return "index";
+    }
+
+    /**
+     * Calls the updateUser method and sets the logedUser
+     *
+     * @return The String that leads to a XHTML window
+     */
+    public String makeUpdateUser() {
+
+        Student updatedUser = studentFacade.updateUser((Student) loggedUserEJB.getLoggedUser(),
+                (Student) user, password1, password2);
+
+        if (updatedUser != null) {
+            loggedUserEJB.setLoggedUser(updatedUser);
+            return "myPlaylists";
+        } else {
+//            passDontMatch = s
+//            duplicateEmail = userPlayFacade.getEmailExists();
+            return "profile";
+
+        }
+
     }
 
 }

@@ -12,25 +12,25 @@
 
             <ui:define name ="content">
                 <h:form binding="#{editionController.editions}" rendered="true">
-                 <div align="center"><h2>Edições</h2></div>
+                    <div align="center"><h2>Edições</h2></div>
                     <p:dataTable rowKey="#{edition.editionId}" selectionMode="single" selection="#{userController.student.edition}" value="#{editionController.availableEditions}" var="edition">
-                        
+
                         <p:column headerText="Nome" sortBy="#{edition.editionName}">
-                                #{edition.editionName}
+                            #{edition.editionName}
                         </p:column>
                         <p:column headerText="Ano" sortBy="#{edition.yearEdition}">
-                                #{edition.yearEdition}
+                            #{edition.yearEdition}
                         </p:column>
-                          
+
                     </p:dataTable>
-                 <div align="center">
-                     <h:commandButton value="Criar Edição" action="#{editionController.goToNewEdition}"/>
-                 </div>
-                 </h:form>
-                
+                    <div align="center">
+                        <h:commandButton value="Criar Edição" action="#{editionController.goToNewEdition}"/>
+                    </div>
+                </h:form>
+
                 <h:form binding="#{editionController.newEdition}" rendered="false">
                     <div align="center"><h2>Nova Edição</h2></div>
-                    
+
                     <table align="center">
                         <tbody>
                             <tr>
@@ -41,7 +41,7 @@
                                     <p:inputText value="#{editionController.edition.editionName}"/>
                                 </td>
                                 <td>
-                                    
+
                                 </td>
                             </tr>
                             <tr>
@@ -52,7 +52,7 @@
                                     <p:inputText value="#{editionController.edition.yearEdition}"/>
                                 </td>
                                 <td>
-                                    
+
                                 </td>
                             </tr>
                             <tr>
@@ -63,7 +63,7 @@
                                     <p:inputText value="#{editionController.edition.minValueScale}"/>
                                 </td>
                                 <td>
-                                    
+
                                 </td>
                             </tr>
                             <tr>
@@ -74,21 +74,21 @@
                                     <p:inputText value="#{editionController.edition.maxValueScale}"/>
                                 </td>
                                 <td>
-                                    
+
                                 </td>
                             </tr>
                         </tbody>
-                        
+
                     </table>
                     <div align="center">
-                    <h:commandButton value="Criar critérios" action="#{editionController.opensCreateCriteriaWhenCreateEdition()}"/>
+                        <h:commandButton value="Criar critérios" action="#{editionController.opensCreateCriteriaWhenCreateEdition()}"/>
                     </div>
                     <h:form binding="#{editionController.createCriteria}" rendered="false">
                         <table align="center" width="100%">
                             <tbody>
                                 <tr>
                                     <td>
-                                        <table>
+                                        <table align="left">
                                             <tbody>
                                                 <tr>
                                                     <td>
@@ -98,10 +98,10 @@
                                                         <p:inputText value="#{editionController.criteria.criteriaName}"/>
                                                     </td>
                                                     <td>
-                                                        
+
                                                     </td>
                                                 </tr>
-                                                
+
                                                 <tr>
                                                     <td>
                                                         <h:outputLabel value="Descrição"/>
@@ -110,7 +110,7 @@
                                                         <p:inputTextarea value="#{editionController.criteria.criteriaDiscription}"/>
                                                     </td>
                                                     <td>
-                                                        
+
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -120,19 +120,26 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        
+                                        <p:dataTable var="criteria" value="#{editionController.edition.criteriaList}" rowKey="#{criteria.criteriaId}" selectionMode="multiple" selection="#{editionController.criteria}">
+                                            <p:column headerText="Nome" sortBy="#{criteria.criteriaName}">
+                                                #{criteria.criteriaName}
+                                            </p:column>
+                                            <p:column headerText="Descrição" sortBy="#{criteria.criteriaDiscription}">
+                                                #{criteria.criteriaDiscription}
+                                            </p:column>
+                                        </p:dataTable>
                                     </td>
                                 </tr>
                             </tbody>
-                            
+
                         </table>
-                        
+
                     </h:form>
-                        
-                
+
+
                 </h:form>
             </ui:define>
-        
+
         </ui:composition>
     </h:body>
 </html>

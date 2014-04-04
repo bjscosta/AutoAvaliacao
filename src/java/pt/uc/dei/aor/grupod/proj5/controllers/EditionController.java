@@ -125,6 +125,8 @@ public class EditionController {
     public void setOperationEditionError(String operationEditionError) {
         this.operationEditionError = operationEditionError;
     }
+    
+    
 
     /**
      * this method creates an edition to the database, uses the method

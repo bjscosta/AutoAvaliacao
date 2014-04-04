@@ -61,8 +61,11 @@ public class UserController {
         if(loggedUserEJB.getLoggedUser() == null){
             student = new Student();
         }
-        else{
+        else if (loggedUserEJB.getLoggedUser() instanceof Student){
             student = (Student) loggedUserEJB.getLoggedUser();
+        }
+        else if (loggedUserEJB.getLoggedUser() instanceof Administrator){
+            admin = (Administrator) loggedUserEJB.getLoggedUser();
         }
         
     }

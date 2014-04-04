@@ -1,5 +1,7 @@
 package pt.uc.dei.aor.grupod.proj5.controllers;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIForm;
@@ -334,24 +336,31 @@ public class UserController {
     }
 
     /**
-     * Calls the updateUser method and sets the logedUser
+     * Calls the updateUser method and sets the logedUser, using the method
+     * updatedUser of the studentFacade. catches PassDontMachException and
+     * DuplicateEmailException
      *
      * @return The String that leads to a XHTML window
      */
     public String makeUpdateUser() {
 
-        Student updatedUser = studentFacade.updateUser((Student) loggedUserEJB.getLoggedUser(),
-                (Student) user, password1, password2);
+        Student updatedUser = null;
+        try {
+            updatedUser = studentFacade.updateUser((Student) loggedUserEJB.getLoggedUser(),
+                    (Student) user, password1, password2);
+        } catch (PassDontMatchException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            passDontMatch = ex.getMessage();
+        } catch (DuplicateEmailException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            duplicateEmail = ex.getMessage();
+        }
 
         if (updatedUser != null) {
             loggedUserEJB.setLoggedUser(updatedUser);
             return "myPlaylists";
-        } else {
-//            passDontMatch = s
-//            duplicateEmail = userPlayFacade.getEmailExists();
-            return "profile";
-
         }
+        return "profile";
 
     }
 

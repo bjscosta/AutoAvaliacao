@@ -7,7 +7,7 @@
         <title>Login Auto-Avaliação</title>
 
         <script>
-            function loadDialogIfError() {    
+            function loadDialogIfError() {
                 //var lbl = document.getElementById("j_idt31:errorEditionMissing");
                 //if (lbl !== null &amp;&amp; lbl.innerHTML.length &gt; 0)
                 //    document.getElementById("j_idt31:editionsButton").onclick();
@@ -16,19 +16,19 @@
 
     </h:head>
     <h:body onload="loadDialogIfError()">
-        
+
         <h:form binding="#{userController.login}" rendered="true">
             <div align="right">
                 <h:commandButton value ="Novo Utilizador" action="#{userController.goToNewRegistration()}"/>
                 <h:commandButton value ="Administrador" action="#{userController.goToAdminLogin()}"/>
             </div>
-            
+
             <div align="center">
-                    <h3>Login Estudante</h3>
+                <h3>Login Estudante</h3>
             </div>
-            
+
             <table align="center">
-                
+
                 <tbody>
                     <tr>
                         <td>
@@ -53,10 +53,10 @@
                         </td>
                     </tr>
                 </tbody>
-                
+
             </table>
             <div align="center">
-                    <h:commandButton value="Entrar" action="#{userController.verifyStudent}"/>
+                <h:commandButton value="Entrar" action="#{userController.verifyStudent}"/>
             </div>
         </h:form>
 
@@ -65,13 +65,13 @@
                 <h:commandButton value ="Novo Utilizador" action="#{userController.goToNewRegistration()}"/>
                 <h:commandButton value ="Login" action="#{userController.goToLogin()}"/>
             </div>
-            
+
             <div align="center">
-                    <h3>Login Administrador</h3>
+                <h3>Login Administrador</h3>
             </div>
-            
+
             <table align="center">
-                
+
                 <tbody>
                     <tr>
                         <td>
@@ -96,13 +96,13 @@
                         </td>
                     </tr>
                 </tbody>
-                
+
             </table>
 
             <div align="center">
                 <h:commandButton value="Entrar" action="#{userController.verifyAdmin}"/>
             </div>
-            
+
         </h:form>
 
         <h:form binding="#{userController.newRegistration}" rendered="false">
@@ -115,8 +115,8 @@
             <div align="center">
                 <h3>Novo Registo Estudante</h3>
             </div>
-           
-            
+
+
             <table align="center">
                 <tbody>
                     <tr>
@@ -142,7 +142,7 @@
                             <h:outputLabel value="#{userController.duplicateEmail}" style="color: red"/>
                         </td>
                     </tr>
-                     <tr>
+                    <tr>
                         <td>
                             <h4>Password</h4>
                         </td>
@@ -153,7 +153,7 @@
                             <h:message for="pass" style="color: red"/>
                         </td>
                     </tr>
-                     <tr>
+                    <tr>
                         <td>
                             <h4>Confirmar Password</h4>
                         </td>
@@ -164,36 +164,41 @@
                             <h:outputLabel value="#{userController.passDontMatch}"/>
                         </td>
                     </tr>
-                    
+
                 </tbody>
             </table>
-                <h:form id="popupEd">
-                <p:dialog header="Edições" widgetVar="e" modal="true" height="300"> 
-                    <p:dataTable rowKey="#{edition.editionId}" selectionMode="single" selection="#{userController.edition}" value="#{editionController.availableEditions}" var="edition">
-                        
-                        <p:column headerText="Nome" sortBy="#{edition.editionName}">
-                                #{edition.editionName}
+            <h:form id="popupEd">
+                <p:dialog header="Edições" widgetVar="e" modal="true" height="300">
+                    <p:dataTable rowKey="#{edition.editionId}" selectionMode="single"
+                                 selection="#{userController.edition}" value="#{editionController.availableEditions}"
+                                 var="edition" paginator="true" rows="10" paginatorPosition="bottom"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15">
+
+
+                        <p:column headerText="Nome">
+                            #{edition.editionName}
                         </p:column>
-                        <p:column headerText="Ano" sortBy="#{edition.yearEdition}">
-                                #{edition.yearEdition}
+                        <p:column headerText="Ano">
+                            #{edition.yearEdition}
                         </p:column>
-                        
+
                     </p:dataTable>
                     <br />
                     <br />
                     <div align="center">
-                    <h:commandButton id="selectEdition" value="Confirmar" action="#{userController.newStudent()}" onclick="PF('e').close();" />
+                        <h:commandButton id="selectEdition" value="Confirmar" action="#{userController.newStudent()}" />
                     </div>
                 </p:dialog>
-                </h:form>
-                
+            </h:form>
+
             <div align="center">
-                
+
                 <h:outputLabel id="errorEditionMissing" value="#{userController.insertEdition}" style="color: red"/>
-                <br />  
+                <br />
                 <br />
                 <p:commandButton id="editionsButton" value="Escolha a Edição" oncomplete="PF('e').show()" update="popupEd" />
-                
+
 
             </div>
         </h:form>

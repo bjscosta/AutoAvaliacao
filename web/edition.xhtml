@@ -16,9 +16,13 @@
         <ui:composition template="./mainTemplateAdmin.xhtml">
 
             <ui:define name ="content">
-                <h:form binding="#{editionController.editions}" rendered="true">
+                <h:form binding="#{editionController.editions}" rendered="true" id="editionlist">
                     <div align="center"><h2>Edições</h2></div>
-                    <p:dataTable rowKey="#{edition.editionId}" selectionMode="single" selection="#{userController.edition}" value="#{editionController.availableEditions}" var="edition">
+                    <p:dataTable rowKey="#{edition.editionId}" selectionMode="single"
+                                 selection="#{userController.edition}" value="#{editionController.availableEditions}" var="edition"
+                                 paginator="true" rows="10" paginatorPosition="bottom"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15" resizableColumns="false">
 
                         <p:column  headerText="Nome" sortBy="#{edition.editionName}">
                             #{edition.editionName}
@@ -26,6 +30,8 @@
                         <p:column headerText="Ano" sortBy="#{edition.yearEdition}">
                             #{edition.yearEdition}
                         </p:column>
+
+
 
                     </p:dataTable>
                     <div align="center">
@@ -157,7 +163,7 @@
                     </h:form>
                     <h:form binding="#{editionController.formSaveEditionCriteriaHide}" rendered="false">
                         <div align="center">
-                            <h:commandButton value="Confirmar" action="#{editionController.saveEdition()}"/>
+                            <h:commandButton  value="Confirmar" action="#{editionController.saveEdition()}"/>
                         </div>
                     </h:form>
 
@@ -165,7 +171,7 @@
 
                 <h:form  binding="#{editionController.formSaveEditionCriteriaShowing}" rendered="false">
                     <div align="center">
-                        <h:commandButton value="Confirmar" action="#{editionController.saveEdition()}"/>
+                        <h:commandButton  value="Confirmar" action="#{editionController.saveEdition()}" />
                     </div>
                 </h:form>
 

@@ -259,6 +259,10 @@ public class EditionController {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public String saveEdition() {
         if (loggedUserEJB.getActiveEdition() == null) {
             try {

@@ -272,7 +272,7 @@ public class StudentFacade extends AbstractFacade<Student> {
      * @throws DuplicateEmailException
      * @throws PassDontMatchException
      */
-    public Student newStudent(Student student, String password2) throws DuplicateEmailException, PassDontMatchException {
+    public Student persistStudent(Student student, String password2) throws DuplicateEmailException, PassDontMatchException {
 
         if (student.getPassword().equals(password2)) {
             try {
@@ -290,6 +290,32 @@ public class StudentFacade extends AbstractFacade<Student> {
             throw new PassDontMatchException();
         }
 
+    }
+
+    /**
+     * this is method to create student, uses the method persistStudent
+     *
+     * @param student
+     * @param confirmPassword
+     * @param edition
+     * @return
+     * @throws DuplicateEmailException
+     * @throws PassDontMatchException
+     */
+    public Student createStudent(Student student, String confirmPassword, Edition edition)
+            throws DuplicateEmailException, PassDontMatchException {
+        try {
+            student = persistStudent(student, confirmPassword);
+            edition.getStudents().add(student);
+            student.setEdition(edition);
+            edit(student);
+            em.merge(edition);
+            return student;
+        } catch (DuplicateEmailException e) {
+            throw new DuplicateEmailException();
+        } catch (PassDontMatchException ex) {
+            throw new PassDontMatchException();
+        }
     }
 
     /**

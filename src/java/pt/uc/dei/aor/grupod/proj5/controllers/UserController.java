@@ -246,13 +246,10 @@ public class UserController {
         if (edition != null) {
 
             try {
-                student = studentFacade.newStudent(student, confirmPassword);
-                loggedUserEJB.setLoggedUser(student);
-                edition.getStudents().add(student);
-                student.setEdition(edition);
-                studentFacade.edit(student);
-                editionFacade.edit(edition);
+
+                loggedUserEJB.setLoggedUser(studentFacade.createStudent(student, confirmPassword, edition));
                 return "openProjectStudent";
+
             } catch (DuplicateEmailException e) {
                 duplicateEmail = e.getMessage();
                 return null;

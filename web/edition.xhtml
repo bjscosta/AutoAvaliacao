@@ -155,12 +155,18 @@
                         <br />
 
                     </h:form>
-                    <h:form>
+                    <h:form binding="#{editionController.formSaveEditionCriteriaHide}" rendered="false">
                         <div align="center">
                             <h:commandButton value="Confirmar" action="#{editionController.saveEdition()}"/>
                         </div>
                     </h:form>
 
+                </h:form>
+
+                <h:form  binding="#{editionController.formSaveEditionCriteriaShowing}" rendered="false">
+                    <div align="center">
+                        <h:commandButton value="Confirmar" action="#{editionController.saveEdition()}"/>
+                    </div>
                 </h:form>
 
             </ui:define>

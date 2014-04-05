@@ -39,6 +39,8 @@ public class EditionController {
     private UIForm createCriteria;
     private String operationEditionError;
     private List<Criteria> criteriaList;
+    private UIForm formSaveEditionCriteriaHide;
+    private UIForm formSaveEditionCriteriaShowing;
 
     /**
      * method that initializes atributes of EditionController
@@ -144,6 +146,38 @@ public class EditionController {
         this.criteriaList = criteriaList;
     }
 
+    public CriteriaFacade getCriteriaFacade() {
+        return criteriaFacade;
+    }
+
+    public void setCriteriaFacade(CriteriaFacade criteriaFacade) {
+        this.criteriaFacade = criteriaFacade;
+    }
+
+    public LoggedUserEJB getLoggedUserEJB() {
+        return loggedUserEJB;
+    }
+
+    public void setLoggedUserEJB(LoggedUserEJB loggedUserEJB) {
+        this.loggedUserEJB = loggedUserEJB;
+    }
+
+    public UIForm getFormSaveEditionCriteriaHide() {
+        return formSaveEditionCriteriaHide;
+    }
+
+    public void setFormSaveEditionCriteriaHide(UIForm formSaveEditionCriteriaHide) {
+        this.formSaveEditionCriteriaHide = formSaveEditionCriteriaHide;
+    }
+
+    public UIForm getFormSaveEditionCriteriaShowing() {
+        return formSaveEditionCriteriaShowing;
+    }
+
+    public void setFormSaveEditionCriteriaShowing(UIForm formSaveEditionCriteriaShowing) {
+        this.formSaveEditionCriteriaShowing = formSaveEditionCriteriaShowing;
+    }
+
     /**
      * this method creates an edition to the database, uses the method
      * createsEdition of the editionFacade, if it can't create catches the
@@ -185,6 +219,7 @@ public class EditionController {
     public void goToNewEdition() {
         editions.setRendered(false);
         newEdition.setRendered(true);
+        formSaveEditionCriteriaHide.setRendered(true);
     }
 
     /**
@@ -194,6 +229,8 @@ public class EditionController {
         try {
             opensCreateCriteria();
             createEdition(edition);
+            formSaveEditionCriteriaHide.setRendered(false);
+            formSaveEditionCriteriaShowing.setRendered(true);
         } catch (CreateEditionAbortedException ex) {
             errorCreate = ex.getMessage();
             Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
@@ -234,6 +271,8 @@ public class EditionController {
             }
         }
         editionFacade.edit(loggedUserEJB.getActiveEdition());
+        createCriteria.setRendered(false);
+        formSaveEditionCriteriaShowing.setRendered(false);
         loggedUserEJB.setActiveEdition(null);
         return "edition";
 

@@ -187,8 +187,6 @@ public class EditionController {
     public void setAddCriteriaButton(UIComponent addCriteriaButton) {
         this.addCriteriaButton = addCriteriaButton;
     }
-    
-    
 
     /**
      * this method creates an edition to the database, uses the method
@@ -232,6 +230,9 @@ public class EditionController {
         editions.setRendered(false);
         newEdition.setRendered(true);
         formSaveEditionCriteriaHide.setRendered(true);
+        loggedUserEJB.setActiveEdition(null);
+        edition = null;
+        criteriaList = null;
     }
 
     /**
@@ -251,10 +252,23 @@ public class EditionController {
     }
 
     /**
+     * goes to the edition selected page
+     *
+     * @return "openEdition
+     */
+    public String openEdition() {
+        loggedUserEJB.setActiveEdition(edition);
+        return "openEdition";
+    }
+
+    /**
      * Opens the create criteria menu
      */
     public void opensCreateCriteria() {
-        addCriteriaButton.setRendered(false);
+        if (addCriteriaButton != null) {
+            addCriteriaButton.setRendered(false);
+            loggedUserEJB.setActiveEdition(edition);
+        }
         createCriteria.setRendered(true);
     }
 
@@ -294,16 +308,16 @@ public class EditionController {
         return "edition";
 
     }
-    
+
     /**
      * Deletes a list of criteria from one edition
      */
-    public void deleteCriteriaListFromEdition(){
+    public void deleteCriteriaListFromEdition() {
         for (Criteria c : criteriaList) {
             loggedUserEJB.getActiveEdition().getCriteriaList().remove(c);
             criteriaFacade.remove(c);
         }
-        
+
     }
 
 }

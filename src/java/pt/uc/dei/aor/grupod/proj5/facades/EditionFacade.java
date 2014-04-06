@@ -19,7 +19,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import pt.uc.dei.aor.grupod.proj5.entities.Criteria;
 import pt.uc.dei.aor.grupod.proj5.entities.Edition;
-import pt.uc.dei.aor.grupod.proj5.entities.ProjEvaluation;
 import pt.uc.dei.aor.grupod.proj5.entities.Project;
 import pt.uc.dei.aor.grupod.proj5.exceptions.CreateEditionAbortedException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.CriteriaNotFoundException;
@@ -180,17 +179,13 @@ public class EditionFacade extends AbstractFacade<Edition> {
      * @throws OperationEditionAborted
      */
     public void checksEvaluationsOnEdition(Edition e) throws OperationEditionAborted {
-//        Query q = em.createNamedQuery("ProjEvaluation.findByEdition");
-//        q.setParameter("edition", e);
-//        
-//        if (q.getResultList().isEmpty()) {
-//            throw new OperationEditionAborted();
-//        }
+
         for (Project p : e.getProjectList()) {
-            if(p.getProjAvaliations().size()>0){
+            if (p.getProjAvaliations().size() > 0) {
                 throw new OperationEditionAborted();
             }
         }
+
     }
 
     /**
@@ -227,7 +222,7 @@ public class EditionFacade extends AbstractFacade<Edition> {
             em.persist(c);
             e.getCriteriaList().add(c);
             edit(e);
-            
+
         } catch (OperationEditionAborted ex) {
             Logger.getLogger(EditionFacade.class.getName()).log(Level.SEVERE, null, ex);
             throw new OperationEditionAborted();

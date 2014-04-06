@@ -141,7 +141,7 @@ public class Edition implements Serializable {
 
     @Override
     public String toString() {
-        return "pt.uc.dei.aor.grupod.proj5.entities.Edition[ id=" + editionId + " ]";
+        return editionName;
     }
 
 }

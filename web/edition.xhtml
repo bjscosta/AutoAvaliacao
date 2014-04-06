@@ -12,7 +12,7 @@
 
 
     </h:head>
-    <h:body>
+    <h:body >
         <ui:composition template="./mainTemplateAdmin.xhtml">
 
             <ui:define name ="content">
@@ -41,7 +41,8 @@
                     </div>
                 </h:form>
 
-                <h:form binding="#{editionController.newEdition}" rendered="false">
+                <h:form id="createEditionForm" binding="#{editionController.newEdition}" rendered="false">
+
                     <div align="center"><h2>Nova Edição</h2></div>
 
                     <table align="center" cellspacing="5">
@@ -154,8 +155,10 @@
 
                                     <td>
 
-                                        <p:dataTable  id="criteriaTableCreate" var="criteria" value="#{editionController.edition.criteriaList}" rowKey="#{criteria.criteriaId}" selectionMode="multiple" selection="#{editionController.criteriaList}">
-
+                                        <p:dataTable  id="criteriaTableCreate" var="criteria"
+                                                      value="#{editionController.edition.criteriaList}" rowKey="#{criteria.criteriaId}"
+                                                      selection="#{editionController.criteriaList}">
+                                            <p:column selectionMode="multiple" />
                                             <p:column sortFunction="true"  headerText="Nome" sortBy="#{criteria.criteriaName}">
                                                 #{criteria.criteriaName}
                                             </p:column>
@@ -182,7 +185,7 @@
                     </h:form>
                     <h:form binding="#{editionController.formSaveEditionCriteriaHide}" rendered="false">
                         <div align="center">
-                            <h:commandButton  value="Confirmar" action="#{editionController.saveEdition()}"/>
+
                             <a href="edition.xhtml">Confirmar</a>
                         </div>
                     </h:form>
@@ -191,10 +194,11 @@
 
                 <h:form  binding="#{editionController.formSaveEditionCriteriaShowing}" rendered="false">
                     <div align="center">
-                        <h:commandButton  value="Confirmar" action="#{editionController.saveEdition()}" />
+
                         <a href="edition.xhtml">Confirmar</a>
                     </div>
                 </h:form>
+
 
             </ui:define>
 

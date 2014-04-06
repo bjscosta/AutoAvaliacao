@@ -19,21 +19,30 @@
                 <h:form binding="#{editionController.editions}" rendered="true" id="editionlist">
                     <div align="center"><h2>Edições</h2></div>
                     <p:dataTable rowKey="#{edition.editionId}" selectionMode="single"
-                                 selection="#{userController.edition}" value="#{editionController.availableEditions}" var="edition"
+                                 selection="#{loggedUserEJB.activeEdition}" value="#{editionController.availableEditions}" var="edition"
                                  paginator="true" rows="10" paginatorPosition="bottom"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15" resizableColumns="false">
 
+                        <p:ajax event="rowSelect" oncomplete="PF('ed').show()" />
+
                         <p:column  headerText="Nome" sortBy="#{edition.editionName}">
-                            #{edition.editionName}
+                            <h:link outcome="profileStudent"> #{edition.editionName}</h:link>
                         </p:column>
                         <p:column headerText="Ano" sortBy="#{edition.yearEdition}">
                             #{edition.yearEdition}
                         </p:column>
 
 
-
                     </p:dataTable>
+
+                    <p:dialog header="#{loggedUserEJB.activeEdition.editionName}" widgetVar="ed" modal="true" height="300">
+                        <p:commandButton value="diz nome" action="#{editionController.cenas}"></p:commandButton>
+                        <h:form binding="#{editionController.nomeCenas}" rendered="false">
+                            <h1>#{loggedUserEJB.activeEdition.editionName}</h1>
+                        </h:form>
+                    </p:dialog>
+
                     <br />
                     <div align="center">
                         <h:commandButton value="Criar Edição" action="#{editionController.goToNewEdition}"/>

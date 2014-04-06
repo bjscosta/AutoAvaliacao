@@ -43,6 +43,8 @@ public class EditionController {
     private UIForm formSaveEditionCriteriaHide;
     private UIForm formSaveEditionCriteriaShowing;
     private UIComponent addCriteriaButton;
+    private Edition selectedEdition;
+    private UIForm nomeCenas;
 
     /**
      * method that initializes atributes of EditionController
@@ -56,6 +58,7 @@ public class EditionController {
             edition = loggedUserEJB.getActiveEdition();
         }
         criteria = new Criteria();
+        selectedEdition = new Edition();
     }
 
     public List<Edition> getAvailableEditions() {
@@ -188,6 +191,30 @@ public class EditionController {
         this.addCriteriaButton = addCriteriaButton;
     }
 
+    public Edition getSelectedEdition() {
+        System.out.println("get - "+selectedEdition.getEditionName());
+        return selectedEdition;
+        
+    }
+
+    public void setSelectedEdition(Edition selectedEdition) {
+        this.selectedEdition = selectedEdition;
+        loggedUserEJB.setActiveEdition(selectedEdition);
+        System.out.println("set - "+selectedEdition.getEditionName());
+    }
+
+    public UIForm getNomeCenas() {
+        return nomeCenas;
+    }
+
+    public void setNomeCenas(UIForm nomeCenas) {
+        this.nomeCenas = nomeCenas;
+    }
+    
+    
+    
+    
+
     /**
      * this method creates an edition to the database, uses the method
      * createsEdition of the editionFacade, if it can't create catches the
@@ -319,5 +346,8 @@ public class EditionController {
         }
 
     }
-
+    
+    public void cenas(){
+        nomeCenas.setRendered(true);
+    }
 }

@@ -19,19 +19,25 @@ public class LoggedUserEJB {
     private Edition activeEdition;
 
     public User getLoggedUser() {
+        
         return loggedUser;
+        
     }
 
     public void setLoggedUser(User loggedUser) {
+        
         this.loggedUser = loggedUser;
+        
     }
 
     public Edition getActiveEdition() {
+        
         return activeEdition;
     }
 
     public void setActiveEdition(Edition activeEdition) {
         this.activeEdition = activeEdition;
+        
     }
 
     /**

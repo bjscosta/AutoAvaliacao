@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -41,6 +42,7 @@ public class EditionController {
     private List<Criteria> criteriaList;
     private UIForm formSaveEditionCriteriaHide;
     private UIForm formSaveEditionCriteriaShowing;
+    private UIComponent addCriteriaButton;
 
     /**
      * method that initializes atributes of EditionController
@@ -178,6 +180,16 @@ public class EditionController {
         this.formSaveEditionCriteriaShowing = formSaveEditionCriteriaShowing;
     }
 
+    public UIComponent getAddCriteriaButton() {
+        return addCriteriaButton;
+    }
+
+    public void setAddCriteriaButton(UIComponent addCriteriaButton) {
+        this.addCriteriaButton = addCriteriaButton;
+    }
+    
+    
+
     /**
      * this method creates an edition to the database, uses the method
      * createsEdition of the editionFacade, if it can't create catches the
@@ -242,6 +254,7 @@ public class EditionController {
      * Opens the create criteria menu
      */
     public void opensCreateCriteria() {
+        addCriteriaButton.setRendered(false);
         createCriteria.setRendered(true);
     }
 
@@ -280,6 +293,17 @@ public class EditionController {
         loggedUserEJB.setActiveEdition(null);
         return "edition";
 
+    }
+    
+    /**
+     * Deletes a list of criteria from one edition
+     */
+    public void deleteCriteriaListFromEdition(){
+        for (Criteria c : criteriaList) {
+            loggedUserEJB.getActiveEdition().getCriteriaList().remove(c);
+            criteriaFacade.remove(c);
+        }
+        
     }
 
 }

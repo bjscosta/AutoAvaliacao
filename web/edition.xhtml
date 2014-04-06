@@ -34,6 +34,7 @@
 
 
                     </p:dataTable>
+                    <br />
                     <div align="center">
                         <h:commandButton value="Criar Edição" action="#{editionController.goToNewEdition}"/>
 
@@ -49,7 +50,7 @@
                                 <td>
                                     <h:outputLabel value="Nome"/>
                                 </td>
-                                <td>
+                                <td align="center">
                                     <p:inputText value="#{editionController.edition.editionName}"/>
                                 </td>
                                 <td>
@@ -60,7 +61,7 @@
                                 <td>
                                     <h:outputLabel value="Ano"/>
                                 </td>
-                                <td>
+                                <td align="center">
                                     <p:inputText value="#{editionController.edition.yearEdition}"/>
                                 </td>
                                 <td>
@@ -74,11 +75,11 @@
                                 <td align="right">
                                     <h:panelGrid columns="1" style="margin-bottom:10px">
                                         <h:outputText id="displayRange" value="Entre #{editionController.edition.minValueScale} e #{editionController.edition.maxValueScale}"/>
-                                        <p:slider for="txt6,txt7" display="displayRange" style="width:200px" range="true"
+                                        <p:slider for="min,max" display="displayRange" style="width:200px" range="true"
                                                   displayTemplate="Entre {min} e {max}"/>
                                     </h:panelGrid>
-                                    <h:inputHidden id="txt6" value="#{editionController.edition.minValueScale}" />
-                                    <h:inputHidden id="txt7" value="#{editionController.edition.maxValueScale}" />
+                                    <h:inputHidden id="min" value="#{editionController.edition.minValueScale}" />
+                                    <h:inputHidden id="max" value="#{editionController.edition.maxValueScale}" />
                                 </td>
                                 <td>
 
@@ -89,7 +90,7 @@
 
                     </table>
                     <div align="center">
-                        <h:commandButton value="Criar critérios" action="#{editionController.opensCreateCriteriaWhenCreateEdition()}"/>
+                        <h:commandButton binding="#{editionController.addCriteriaButton}" rendered="true" value="Criar critérios" action="#{editionController.opensCreateCriteriaWhenCreateEdition()}"/>
                     </div>
 
                     <br />
@@ -98,6 +99,14 @@
                     <h:form binding="#{editionController.createCriteria}" rendered="false">
 
                         <table align="center" width="100%">
+                            <thead>
+
+                                <div align="center">
+                                    <h3>
+                                        Critérios
+                                    </h3>
+                                </div>
+                            </thead>
                             <tbody>
                                 <tr>
                                     <td>
@@ -144,15 +153,25 @@
                                     </td>
 
                                     <td>
-                                        <p:dataTable id="criteriaTableCreate" var="criteria" value="#{editionController.edition.criteriaList}" rowKey="#{criteria.criteriaId}" selectionMode="multiple" selection="#{editionController.criteriaList}">
 
-                                            <p:column headerText="Nome" sortBy="#{criteria.criteriaName}">
+                                        <p:dataTable  id="criteriaTableCreate" var="criteria" value="#{editionController.edition.criteriaList}" rowKey="#{criteria.criteriaId}" selectionMode="multiple" selection="#{editionController.criteriaList}">
+
+                                            <p:column sortFunction="true"  headerText="Nome" sortBy="#{criteria.criteriaName}">
                                                 #{criteria.criteriaName}
                                             </p:column>
                                             <p:column headerText="Descrição" sortBy="#{criteria.criteriaDiscription}">
                                                 #{criteria.criteriaDiscription}
                                             </p:column>
                                         </p:dataTable>
+                                        <br />
+
+                                        <h:form>
+                                            <div align="center">
+                                                <h:commandButton value="Apagar selecionadas" action="#{editionController.deleteCriteriaListFromEdition()}"/>
+                                            </div>
+
+                                        </h:form>
+
                                     </td>
                                 </tr>
                             </tbody>
@@ -164,6 +183,7 @@
                     <h:form binding="#{editionController.formSaveEditionCriteriaHide}" rendered="false">
                         <div align="center">
                             <h:commandButton  value="Confirmar" action="#{editionController.saveEdition()}"/>
+                            <a href="edition.xhtml">Confirmar</a>
                         </div>
                     </h:form>
 
@@ -172,6 +192,7 @@
                 <h:form  binding="#{editionController.formSaveEditionCriteriaShowing}" rendered="false">
                     <div align="center">
                         <h:commandButton  value="Confirmar" action="#{editionController.saveEdition()}" />
+                        <a href="edition.xhtml">Confirmar</a>
                     </div>
                 </h:form>
 

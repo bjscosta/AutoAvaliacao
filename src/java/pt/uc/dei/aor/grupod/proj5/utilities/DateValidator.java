@@ -42,7 +42,7 @@ public class DateValidator implements Validator {
         if (startDate == null) {
             startDateComponent.setValid(false);
             throw new ValidatorException(new FacesMessage(
-                    FacesMessage.SEVERITY_ERROR, "Precisa de preencher tudo", null));
+                    FacesMessage.SEVERITY_ERROR, "Precisa de preencher todos os campos", null));
         }
 
         Date endDate = (Date) value;

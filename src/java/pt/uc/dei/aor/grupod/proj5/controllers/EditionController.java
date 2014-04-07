@@ -45,6 +45,7 @@ public class EditionController {
     private UIForm formSaveEditionCriteriaHide;
     private UIForm formSaveEditionCriteriaShowing;
     private UIComponent addCriteriaButton;
+    private UIComponent createCriteriaArea;
     private Edition selectedEdition;
 
     /**
@@ -59,7 +60,8 @@ public class EditionController {
             edition = loggedUserEJB.getActiveEdition();
         }
         criteria = new Criteria();
-        selectedEdition = new Edition();
+        
+       
     }
 
     public List<Edition> getAvailableEditions() {
@@ -193,6 +195,7 @@ public class EditionController {
     }
 
     public Edition getSelectedEdition() {
+        loggedUserEJB.setActiveEdition(selectedEdition);
         return selectedEdition;
         
     }
@@ -202,6 +205,16 @@ public class EditionController {
         loggedUserEJB.setActiveEdition(selectedEdition);
     }
 
+    public UIComponent getCreateCriteriaArea() {
+        return createCriteriaArea;
+    }
+
+    public void setCreateCriteriaArea(UIComponent createCriteriaArea) {
+        this.createCriteriaArea = createCriteriaArea;
+    }
+    
+    
+    
     /**
      * this method creates an edition to the database, uses the method
      * createsEdition of the editionFacade, if it can't create catches the
@@ -243,7 +256,6 @@ public class EditionController {
     public void goToNewEdition() {
         editions.setRendered(false);
         newEdition.setRendered(true);
-        formSaveEditionCriteriaHide.setRendered(true);
         loggedUserEJB.setActiveEdition(null);
         edition = null;
         criteriaList = null;
@@ -256,7 +268,6 @@ public class EditionController {
         try {
             opensCreateCriteria();
             createEdition(edition);
-            formSaveEditionCriteriaHide.setRendered(false);
             formSaveEditionCriteriaShowing.setRendered(true);
         } catch (CreateEditionAbortedException ex) {
             errorCreate = ex.getMessage();
@@ -327,7 +338,6 @@ public class EditionController {
      * Deletes a list of criteria from one edition
      */
     public void deleteCriteriaListFromEdition() {
-        System.out.println(criteriaList.size());
         for (Criteria c : criteriaList) {
             loggedUserEJB.getActiveEdition().getCriteriaList().remove(c);
             criteriaFacade.remove(c);
@@ -348,4 +358,18 @@ public class EditionController {
         }
     }
     
+    public String editEdition(){
+        editionFacade.edit(loggedUserEJB.getActiveEdition());
+        return "edition";
+    }
+    
+    public String goToEdit(Edition edition){
+        loggedUserEJB.setActiveEdition(edition);
+        
+        return "editEdition";
+    }
+    
+    public void openCriteriaMaker(){
+        createCriteriaArea.setRendered(true);
+    }
 }

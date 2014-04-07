@@ -1,5 +1,7 @@
 package pt.uc.dei.aor.grupod.proj5.controllers;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -246,7 +248,7 @@ public class UserController {
         if (edition != null) {
 
             try {
-
+                student.setYearOfRegistration(new GregorianCalendar().get(Calendar.YEAR));
                 loggedUserEJB.setLoggedUser(studentFacade.createStudent(student, confirmPassword, edition));
                 return "openProjectStudent";
 

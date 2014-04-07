@@ -14,6 +14,13 @@
 
             <ui:define name ="content">
                 <h:form>
+                    <div align="left">
+                        <h:commandLink value="Todos" action="#{projectController.seeAll}"/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <h:commandLink value="Projectos Abertos" action="#{projectController.seeOpenProjects}"/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <h:commandLink value="Projectos Fechados" action="#{projectController.seeClosedProjects}"/>
+                    </div>
                     <div align="right"><h:commandButton value="Criar Projecto" action="#{projectController.goToCreateProject}"/> </div>
                 </h:form>
 

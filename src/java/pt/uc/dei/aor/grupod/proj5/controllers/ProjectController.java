@@ -239,8 +239,24 @@ public class ProjectController {
         edition = loggedUserEJB.getActiveEdition();
         makeProject();
     }
-    
-    public void cancelMakeProject(){
+
+    public void cancelMakeProject() {
         editEditionProject.setRendered(false);
     }
+
+    public void seeAll() {
+        closedProjecsForm.setRendered(true);
+        openProjectsForm.setRendered(true);
+    }
+
+    public void seeOpenProjects() {
+        openProjectsForm.setRendered(true);
+        closedProjecsForm.setRendered(false);
+    }
+
+    public void seeClosedProjects() {
+        openProjectsForm.setRendered(false);
+        closedProjecsForm.setRendered(true);
+    }
+
 }

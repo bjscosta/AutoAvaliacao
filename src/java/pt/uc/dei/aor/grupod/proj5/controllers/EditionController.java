@@ -338,7 +338,7 @@ public class EditionController {
         }
         editionFacade.edit(loggedUserEJB.getActiveEdition());
         createCriteria.setRendered(false);
-        formSaveEditionCriteriaShowing.setRendered(false);
+        
         loggedUserEJB.setActiveEdition(null);
         return "edition";
 
@@ -355,8 +355,11 @@ public class EditionController {
 
     }
     
-    public void deleteEdition(){
+    public String deleteEdition(){
         try {
+            if(selectedEdition ==null){
+                selectedEdition = loggedUserEJB.getActiveEdition();
+            }
             editionFacade.delete(selectedEdition);
         } catch (OperationEditionAborted ex) {
             Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
@@ -366,6 +369,7 @@ public class EditionController {
                       new FacesMessage(FacesMessage.SEVERITY_WARN, 
                                        msg.getSummary(), null));
         }
+        return "edition";
     }
     
     public String editEdition(){
@@ -382,5 +386,10 @@ public class EditionController {
     public void openCriteriaMaker(){
         vazio.setRendered(false);
         createCriteriaArea.setRendered(true);
+    }
+    
+    public void cancelMakeCriteria(){
+        createCriteriaArea.setRendered(false);
+        vazio.setRendered(true);
     }
 }

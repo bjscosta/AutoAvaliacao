@@ -188,20 +188,14 @@
 
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>
 
-                                        </td>
-                                        <td align="center">
-                                            <h:commandButton value="Inserir" action="#{editionController.createsCriteriaForEdition()}"/>
-                                        </td>
-                                        <td>
-
-                                        </td>
-                                    </tr>
 
                                 </tbody>
                             </table>
+                            <div align="center">
+                                <h:commandButton value="Inserir" action="#{editionController.createsCriteriaForEdition()}"/>
+                                <h:commandButton immediate="true" value="Cancelar" action="#{editionController.cancelMakeCriteria()}"/>
+                            </div>
 
                         </h:panelGroup>
 
@@ -272,6 +266,7 @@
                     <br />
                     <div align="center">
                         <h:commandButton value="Confirmar Alterações" action="#{editionController.editEdition}"/>
+                        <h:commandButton value="Eliminar Edição" action="#{editionController.deleteEdition()}"/>
                     </div>
                 </h:form>
             </ui:define>

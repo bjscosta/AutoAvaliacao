@@ -195,21 +195,11 @@
                         <br />
 
                     </h:form>
-                    <h:form binding="#{editionController.formSaveEditionCriteriaHide}" rendered="false">
-                        <div align="center">
 
-                            <a href="edition.xhtml">Confirmar</a>
-                        </div>
-                    </h:form>
-
+                    <h:commandButton action="#{editionController.saveEdition()}" value="Confirmar"/>
                 </h:form>
 
-                <h:form  binding="#{editionController.formSaveEditionCriteriaShowing}" rendered="false">
-                    <div align="center">
 
-                        <a href="edition.xhtml">Confirmar</a>
-                    </div>
-                </h:form>
 
 
             </ui:define>

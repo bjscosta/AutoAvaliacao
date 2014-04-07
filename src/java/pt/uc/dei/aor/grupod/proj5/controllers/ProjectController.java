@@ -12,10 +12,12 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import pt.uc.dei.aor.grupod.proj5.EJB.LoggedUserEJB;
 import pt.uc.dei.aor.grupod.proj5.entities.Edition;
 import pt.uc.dei.aor.grupod.proj5.entities.Project;
 import pt.uc.dei.aor.grupod.proj5.exceptions.CreateProjectAbortedException;
@@ -27,6 +29,9 @@ public class ProjectController {
 
     @Inject
     private ProjectFacade projectFacade;
+    
+    @Inject
+    private LoggedUserEJB loggedUserEJB;
 
     private List<Project> openProjects;
     private List<Project> closeProjects;
@@ -39,6 +44,8 @@ public class ProjectController {
     private Date beginningDate;
     private Date endingDate;
     private Edition edition;
+    private List<Project> projectList;
+    private UIComponent editEditionProject;
 
     @PostConstruct
     public void init() {
@@ -137,6 +144,24 @@ public class ProjectController {
         this.edition = edition;
     }
 
+    public List<Project> getProjectList() {
+        return projectList;
+    }
+
+    public void setProjectList(List<Project> projectList) {
+        this.projectList = projectList;
+    }
+
+    public UIComponent getEditEditionProject() {
+        return editEditionProject;
+    }
+
+    public void setEditEditionProject(UIComponent editEditionProject) {
+        this.editEditionProject = editEditionProject;
+    }
+    
+    
+
     /**
      * method to get the opened projects from the database
      */
@@ -165,8 +190,6 @@ public class ProjectController {
      * creating projects, catches the CreateProjectAbortedException if
      * unsuccessfull
      *
-     * @return projectAdmin if the exception is not catched, if the exception is
-     * catched return null
      */
     public void makeProject() {
         try {
@@ -189,6 +212,22 @@ public class ProjectController {
     public void addMessage(String summary) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
         FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+    
+    public void deleteProjectFromEdition(){
+        for (Project p : projectList) {
+            loggedUserEJB.getActiveEdition().getProjectList().remove(p);
+            projectFacade.remove(p);
+        }
+    }
+    
+    public void openProjectMaker(){
+        editEditionProject.setRendered(true);
+    }
+    
+    public void editEditionMakeProject(){
+        edition = loggedUserEJB.getActiveEdition();
+        makeProject();
     }
 
 }

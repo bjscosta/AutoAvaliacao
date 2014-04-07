@@ -1,0 +1,269 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Editar Edição</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="./mainTemplateAdmin.xhtml">
+
+            <ui:define name ="content">
+
+                <h:form>
+
+                    <div align="center"><h2> Editar #{loggedUserEJB.activeEdition.editionName}</h2></div>
+
+
+
+                    <h:panelGrid width="100%" columns="3">
+                        <h:panelGroup>
+                            <table align="center" cellspacing="5">
+
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td align="center"><h3>Dados Gerais</h3></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h:outputLabel value="Nome"/>
+                                        </td>
+                                        <td align="center">
+                                            <p:inputText value="#{loggedUserEJB.activeEdition.editionName}"/>
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h:outputLabel value="Ano"/>
+                                        </td>
+                                        <td align="center">
+                                            <p:inputText value="#{loggedUserEJB.activeEdition.yearEdition}"/>
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h:outputLabel value="Escala"/>
+                                        </td>
+                                        <td align="right">
+                                            <h:panelGrid columns="1" style="margin-bottom:10px">
+                                                <h:outputText id="displayRange" value="Entre #{loggedUserEJB.activeEdition.minValueScale} e #{loggedUserEJB.activeEdition.maxValueScale}"/>
+                                                <p:slider for="min,max" display="displayRange" style="width:200px" range="true"
+                                                          displayTemplate="Entre {min} e {max}"/>
+                                            </h:panelGrid>
+                                            <h:inputHidden id="min" value="#{loggedUserEJB.activeEdition.minValueScale}" />
+                                            <h:inputHidden id="max" value="#{loggedUserEJB.activeEdition.maxValueScale}" />
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <table align="center" border="0" cellpadding="5">
+
+                                <tbody>
+                                    <tr>
+
+                                        <td align="center"><h3>Critérios</h3></td>
+
+                                    </tr>
+                                    <tr>
+
+                                        <td>
+                                            <p:dataTable  id="criteriaTableCreate" var="criteria"
+                                                          value="#{loggedUserEJB.activeEdition.criteriaList}" rowKey="#{criteria.criteriaId}"
+                                                          selection="#{editionController.criteriaList}">
+                                                <p:column selectionMode="multiple" />
+                                                <p:column sortFunction="true"  headerText="Nome" sortBy="#{criteria.criteriaName}">
+                                                    #{criteria.criteriaName}
+                                                </p:column>
+                                                <p:column headerText="Descrição" sortBy="#{criteria.criteriaDiscription}">
+                                                    #{criteria.criteriaDiscription}
+                                                </p:column>
+
+                                                <f:facet name="footer">
+                                                    <h:commandButton value="Apagar selecionadas" action="#{editionController.deleteCriteriaListFromEdition()}"/>
+                                                    <h:commandButton value="Adicionar Critérios" action="#{editionController.openCriteriaMaker}"/>
+                                                </f:facet>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <table align="center" border="0" cellpadding="5">
+
+                                <tbody>
+                                    <tr>
+
+                                        <td align="center"><h3>Projetos</h3></td>
+
+                                    </tr>
+                                    <tr>
+
+                                        <td>
+                                            <p:dataTable  id="projetctTable" var="project"
+                                                          value="#{loggedUserEJB.activeEdition.projectList}" rowKey="#{project.id}"
+                                                          selection="#{projectController.projectList}">
+                                                <p:column selectionMode="multiple" />
+                                                <p:column sortFunction="true"  headerText="Nome" sortBy="#{project.name}">
+                                                    #{project.name}
+                                                </p:column>
+                                                <p:column headerText="Data de início" sortBy="#{project.startingSelfEvaluationDate}">
+                                                    #{project.startingSelfEvaluationDate}
+                                                </p:column>
+
+                                                <p:column headerText="Data de fim" sortBy="#{project.finishingSelfEvaluationDate}">
+                                                    #{project.finishingSelfEvaluationDate}
+                                                </p:column>
+
+                                                <f:facet name="footer">
+                                                    <h:commandButton value="Apagar selecionados" action="#{projectController.deleteProjectFromEdition()}"/>
+                                                    <h:commandButton value="Adicionar Projetos" action="#{projectController.openProjectMaker}"/>
+                                                </f:facet>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <br />
+                        </h:panelGroup>
+
+                        <h:panelGroup binding="#{editionController.createCriteriaArea}" rendered="false">
+                            <table align="center">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <h:outputLabel value="Nome"/>
+                                        </td>
+                                        <td>
+                                            <p:inputText value="#{editionController.criteria.criteriaName}"/>
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <h:outputLabel value="Descrição"/>
+                                        </td>
+                                        <td>
+                                            <p:inputTextarea value="#{editionController.criteria.criteriaDiscription}"/>
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+
+                                        </td>
+                                        <td align="center">
+                                            <h:commandButton value="Inserir" action="#{editionController.createsCriteriaForEdition()}"/>
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                        </h:panelGroup>
+
+                        <h:panelGroup binding="#{projectController.editEditionProject}" rendered="false">
+
+                            <p:growl id="messages"/>
+                            <div align="center"><h2>Criar Projecto</h2></div>
+
+                            <table align="center">
+                                <tbody>
+
+
+                                    <tr>
+                                        <td>
+                                            <h:outputLabel value="Nome"/>
+                                        </td>
+                                        <td>
+                                            <p:inputText value="#{projectController.projectCreated.name}"/>
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <h:outputLabel value="Data de Inicio da Avaliações"/>
+                                        </td>
+                                        <td>
+                                            <p:calendar value="#{projectController.beginningDate}"
+                                                        id="startDate" showOn="button" binding="#{startDateComponent}"
+                                                        required="true"/>
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h:outputLabel value="Data de Fim da Avaliações"/>
+                                        </td>
+                                        <td align="center">
+                                            <p:calendar value="#{projectController.endingDate}"
+                                                        id="endDate" showOn="button" required="true">
+                                                <f:validator validatorId="dateRangeValidator" />
+                                                <f:attribute name="startDateComponent" value="#{startDateComponent}" />
+                                            </p:calendar>
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+
+                            <h:commandButton value="Inserir" action="#{projectController.editEditionMakeProject()}"/>
+                        </h:panelGroup>
+
+                    </h:panelGrid>
+
+
+
+                    <br />
+                    <br />
+                    <div align="center">
+                        <h:commandButton value="Confirmar Alterações" action="#{editionController.editEdition}"/>
+                    </div>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+    </h:body>
+</html>
+

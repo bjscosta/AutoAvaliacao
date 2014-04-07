@@ -33,144 +33,18 @@
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15" resizableColumns="false">
 
-                        <p:ajax event="rowSelect" update=":editionlist:display" oncomplete="PF('ed').show()"/>
+
 
                         <p:column  headerText="Nome" sortBy="#{edition.editionName}">
-                            #{edition.editionName}
+                            <h:commandLink action="#{editionController.goToEdit(edition)}" value="#{edition.editionName}"/>
+
                         </p:column>
+
                         <p:column headerText="Ano" sortBy="#{edition.yearEdition}">
                             #{edition.yearEdition}
                         </p:column>
 
                     </p:dataTable>
-
-                    <p:dialog widgetVar="ed" modal="true" height="500" width="700">
-                        <h:panelGrid id="display" columns="2">
-
-                            <table border="0" cellspacing="5">
-
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <table align="left" cellspacing="5">
-                                                <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <h:outputLabel value="Nome"/>
-                                                        </td>
-                                                        <td align="center">
-                                                            <p:inputText value="#{editionController.selectedEdition.editionName}"/>
-                                                        </td>
-                                                        <td>
-
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <h:outputLabel value="Ano"/>
-                                                        </td>
-                                                        <td align="center">
-                                                            <p:inputText value="#{editionController.selectedEdition.yearEdition}"/>
-                                                        </td>
-                                                        <td>
-
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <h:outputLabel value="Escala"/>
-                                                        </td>
-                                                        <td align="right">
-                                                            <h:panelGrid columns="1" style="margin-bottom:10px">
-                                                                <h:outputText id="displayRange" value="Entre #{editionController.selectedEdition.minValueScale} e #{editionController.selectedEdition.maxValueScale}"/>
-                                                                <p:slider for="min,max" display="displayRange" style="width:200px" range="true"
-                                                                          displayTemplate="Entre {min} e {max}"/>
-                                                            </h:panelGrid>
-                                                            <h:inputHidden id="min" value="#{editionController.selectedEdition.minValueScale}" />
-                                                            <h:inputHidden id="max" value="#{editionController.selectedEdition.maxValueScale}" />
-                                                        </td>
-                                                        <td>
-
-                                                        </td>
-                                                    </tr>
-
-                                                </tbody>
-
-                                            </table>
-
-                                        </td>
-                                        <td>
-                                            <p:dataTable  id="criteriaTableEdit" var="criteria"
-                                                          value="#{editionController.selectedEdition.criteriaList}" rowKey="#{criteria.criteriaId}"
-                                                          selection="#{editionController.criteriaList}">
-
-                                                <p:column selectionMode="multiple"></p:column>
-                                                <p:column headerText="Nome" sortBy="#{criteria.criteriaName}">
-                                                    #{criteria.criteriaName}
-                                                </p:column>
-                                                <p:column headerText="Descrição" sortBy="#{criteria.criteriaDiscription}">
-                                                    #{criteria.criteriaDiscription}
-                                                </p:column>
-                                                <f:facet name="footer">
-                                                    <p:commandButton value="Apagar selecionados" action="#{editionController.deleteCriteriaListFromEdition()}"/>
-                                                </f:facet>
-
-
-                                            </p:dataTable>
-
-
-
-
-
-
-
-                                            <table align="center">
-                                                <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <h:outputLabel value="Nome"/>
-                                                        </td>
-                                                        <td>
-                                                            <p:inputText value="#{editionController.criteria.criteriaName}"/>
-                                                        </td>
-                                                        <td>
-
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>
-                                                            <h:outputLabel value="Descrição"/>
-                                                        </td>
-                                                        <td>
-                                                            <p:inputTextarea value="#{editionController.criteria.criteriaDiscription}"/>
-                                                        </td>
-                                                        <td>
-
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-
-                                                        </td>
-                                                        <td align="center">
-                                                            <p:commandButton value="Inserir" update="criteriaTableEdit" actionListener="#{editionController.createsCriteriaForEdition()}"/>
-                                                        </td>
-                                                        <td>
-
-                                                        </td>
-                                                    </tr>
-
-                                                </tbody>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-
-                        </h:panelGrid>
-                    </p:dialog>
 
                     <br />
 
@@ -305,15 +179,13 @@
                                             <p:column headerText="Descrição" sortBy="#{criteria.criteriaDiscription}">
                                                 #{criteria.criteriaDiscription}
                                             </p:column>
+
+                                            <f:facet name="footer">
+                                                <h:commandButton value="Apagar selecionadas" action="#{editionController.deleteCriteriaListFromEdition()}"/>
+                                            </f:facet>
                                         </p:dataTable>
                                         <br />
 
-                                        <h:form>
-                                            <div align="center">
-                                                <h:commandButton value="Apagar selecionadas" action="#{editionController.deleteCriteriaListFromEdition()}"/>
-                                            </div>
-
-                                        </h:form>
 
                                     </td>
                                 </tr>

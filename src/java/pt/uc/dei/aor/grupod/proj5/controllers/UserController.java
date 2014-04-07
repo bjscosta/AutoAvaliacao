@@ -292,7 +292,7 @@ public class UserController {
     public String verifyAdmin() {
         try {
             loggedUserEJB.setLoggedUser(administratorFacade.login(adminEmail, adminPassword));
-            return "openProjectAdmin";
+            return "projectAdmin";
         } catch (PasswordNotCorrectException e) {
             passNotCorrect = e.getMessage();
             return null;

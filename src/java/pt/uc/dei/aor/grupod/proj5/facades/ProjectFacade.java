@@ -5,6 +5,7 @@
  */
 package pt.uc.dei.aor.grupod.proj5.facades;
 
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +23,7 @@ import pt.uc.dei.aor.grupod.proj5.exceptions.ProjectListException;
 
 /**
  *
- * @author brunocosta
+ * @author
  */
 @Stateless
 public class ProjectFacade extends AbstractFacade<Project> {
@@ -60,7 +61,7 @@ public class ProjectFacade extends AbstractFacade<Project> {
     }
 
     /**
-     * mathod that finds a project, using the named query
+     * method that finds a project, using the named query
      * Project.findProjectById
      *
      * @param projectId
@@ -82,14 +83,60 @@ public class ProjectFacade extends AbstractFacade<Project> {
 
     }
 
+    /**
+     * method that gets all projects by one edition
+     *
+     * @param edition
+     * @return
+     * @throws ProjectListException
+     */
     public List<Project> getAllProjectsByEdition(Edition edition) throws ProjectListException {
         try {
-            Query q = em.createNamedQuery("Project.findProjectByEditionId");
+            Query q = em.createNamedQuery("Project.findProjectByEdition");
+
             q.setParameter("edition", edition);
             return q.getResultList();
         } catch (Exception ex) {
             throw new ProjectListException();
         }
+    }
+
+    /**
+     * method to find the all the projects that have the evaluation period
+     * opened
+     *
+     * @return the result of the query
+     */
+    public List<Project> findOpenProjects() {
+
+        List<Project> listProjects = em.createNamedQuery(Project.getFindAllProjects()).getResultList();
+        Date today = new Date();
+        for (Project p : listProjects) {
+            if (p.getFinishingSelfEvaluationDate().before(today) || p.getStartingSelfEvaluationDate().after(today)) {
+                listProjects.remove(p);
+            }
+        }
+        return listProjects;
+
+    }
+
+    /**
+     * method to find the all the projects that the evaluation period closed
+     *
+     *
+     * @return the result of the query
+     */
+    public List<Project> findClosedProjects() {
+
+        List<Project> listProjects = em.createNamedQuery(Project.getFindAllProjects()).getResultList();
+        Date today = new Date();
+        for (Project p : listProjects) {
+            if (!p.getFinishingSelfEvaluationDate().after(today) || !p.getStartingSelfEvaluationDate().before(today)) {
+                listProjects.remove(p);
+            }
+        }
+        return listProjects;
+
     }
 
 }

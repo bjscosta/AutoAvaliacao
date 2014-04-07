@@ -1,6 +1,7 @@
 package pt.uc.dei.aor.grupod.proj5.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,18 +15,28 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "PROJECT")
 @NamedQueries({
-    @NamedQuery(name = "Project.findAllStudents", query = "SELECT p FROM Project p"),
+    @NamedQuery(name = "Project.findAllProjects", query = "SELECT p FROM Project p"),
     @NamedQuery(name = "Project.findProjectById", query = "SELECT p FROM Project p WHERE p.id = :id"),
     @NamedQuery(name = "Project.findProjectByName", query = "SELECT p FROM Project p WHERE p.name = :name"),
-    @NamedQuery(name = "Project.findProjectByEditionId", query = "SELECT p FROM Project p WHERE p.edition = :edition")})
+    @NamedQuery(name = "Project.findProjectByEditionId", query = "SELECT p FROM Project p WHERE p.edition = :edition")
+})
 public class Project implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    private static final String findAllProjects = "Project.findAllProjects";
+
+    private static final String findProjectById = "Project.findProjectById";
+
+    private static final String findProjectByName = "Project.findProjectByName";
+
+    private static final String findProjectByEditionId = "Project.findProjectByEditionId";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -34,6 +45,16 @@ public class Project implements Serializable {
     @NotNull
     @Column(name = "PROJECT_NAME", nullable = false)
     private String name;
+
+    @NotNull
+    @Temporal(javax.persistence.TemporalType.DATE)
+    @Column(name = "STARTING_SELF_EVALUATION", nullable = false)
+    private Date startingSelfEvaluationDate;
+
+    @NotNull
+    @Temporal(javax.persistence.TemporalType.DATE)
+    @Column(name = "FINISHING_SELF_EVALUATION", nullable = false)
+    private Date finishingSelfEvaluationDate;
 
     @NotNull
     @ManyToOne
@@ -76,6 +97,38 @@ public class Project implements Serializable {
 
     public void setStudentsthatCantEvaluate(List<Student> studentsthatCantEvaluate) {
         this.studentsthatCantEvaluate = studentsthatCantEvaluate;
+    }
+
+    public Date getStartingSelfEvaluationDate() {
+        return new Date(startingSelfEvaluationDate.getTime());
+    }
+
+    public void setStartingSelfEvaluationDate(Date startingSelfEvaluationDate) {
+        this.startingSelfEvaluationDate = new Date(startingSelfEvaluationDate.getTime());
+    }
+
+    public Date getFinishingSelfEvaluationDate() {
+        return new Date(finishingSelfEvaluationDate.getTime());
+    }
+
+    public void setFinishingSelfEvaluationDate(Date finishingSelfEvaluationDate) {
+        this.finishingSelfEvaluationDate = new Date(finishingSelfEvaluationDate.getTime());
+    }
+
+    public static String getFindAllProjects() {
+        return findAllProjects;
+    }
+
+    public static String getFindProjectById() {
+        return findProjectById;
+    }
+
+    public static String getFindProjectByName() {
+        return findProjectByName;
+    }
+
+    public static String getFindProjectByEditionId() {
+        return findProjectByEditionId;
     }
 
     public Long getId() {

@@ -5,6 +5,7 @@
  */
 package pt.uc.dei.aor.grupod.proj5.facades;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -110,13 +111,14 @@ public class ProjectFacade extends AbstractFacade<Project> {
     public List<Project> findOpenProjects() {
 
         List<Project> listProjects = em.createNamedQuery(Project.getFindAllProjects()).getResultList();
+        List<Project> results = new ArrayList<>();
         Date today = new Date();
         for (Project p : listProjects) {
-            if (!p.getFinishingSelfEvaluationDate().after(today) || !p.getStartingSelfEvaluationDate().before(today)) {
-                listProjects.remove(p);
+            if (!p.getStartingSelfEvaluationDate().after(today) && !p.getFinishingSelfEvaluationDate().before(today)) {
+                results.add(p);
             }
         }
-        return listProjects;
+        return results;
 
     }
 
@@ -130,14 +132,14 @@ public class ProjectFacade extends AbstractFacade<Project> {
 
         List<Project> listProjects = em.createNamedQuery(Project.getFindAllProjects()).getResultList();
         Date today = new Date();
+        List<Project> results = new ArrayList<>();
         for (Project p : listProjects) {
-            if (!p.getStartingSelfEvaluationDate().before(today)) {
-                listProjects.remove(p);
-            } else if (!p.getStartingSelfEvaluationDate().after(today)) {
-                listProjects.remove(p);
+            if (today.before(p.getStartingSelfEvaluationDate()) || today.after(p.getFinishingSelfEvaluationDate())) {
+                results.add(p);
             }
+
         }
-        return listProjects;
+        return results;
 
     }
 

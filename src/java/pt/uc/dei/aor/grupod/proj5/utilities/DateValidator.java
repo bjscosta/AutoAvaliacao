@@ -24,19 +24,25 @@ public class DateValidator implements Validator {
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         if (value == null) {
-            return; // Let required="true" handle.
+
+            throw new ValidatorException(new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "Precisa de preencher todos os campos", null));
         }
 
         UIInput startDateComponent = (UIInput) component.getAttributes().get("startDateComponent");
 
         if (!startDateComponent.isValid()) {
-            return; // Already invalidated. Don't care about it then.
+            startDateComponent.setValid(false);
+            throw new ValidatorException(new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "Precisa de preencher todos os campos", null));
         }
 
         Date startDate = (Date) startDateComponent.getValue();
 
         if (startDate == null) {
-            return; // Let required="true" handle.
+            startDateComponent.setValid(false);
+            throw new ValidatorException(new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "Precisa de preencher tudo", null));
         }
 
         Date endDate = (Date) value;

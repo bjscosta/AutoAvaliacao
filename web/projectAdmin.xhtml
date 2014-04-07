@@ -32,10 +32,14 @@
                             #{project2.name}
                         </p:column>
                         <p:column headerText="Data de Inicio" sortBy="startingSelfEvaluationDate">
-                            #{project2.startingSelfEvaluationDate}
+                            <h:outputLabel value="#{project2.startingSelfEvaluationDate}">
+                                <f:convertDateTime locale="Europe/Lisbon"/>
+                            </h:outputLabel>
                         </p:column>
                         <p:column headerText="Data de Fim" sortBy="finishingSelfEvaluationDate">
-                            #{project2.finishingSelfEvaluationDate}
+                            <h:outputLabel value="#{project2.finishingSelfEvaluationDate}">
+                                <f:convertDateTime locale="Europe/Lisbon"/>
+                            </h:outputLabel>
                         </p:column>
                         <p:column headerText="Nome da Edição" sortBy="edition">
                             #{project2.edition.editionName}
@@ -57,10 +61,14 @@
                             #{project1.name}
                         </p:column>
                         <p:column headerText="Data de Inicio" sortBy="startingSelfEvaluationDate">
-                            #{project1.startingSelfEvaluationDate}
+                            <h:outputLabel value="#{project1.startingSelfEvaluationDate}">
+                                <f:convertDateTime locale="Europe/Lisbon"/>
+                            </h:outputLabel>
                         </p:column>
                         <p:column headerText="Data de Fim" sortBy="finishingSelfEvaluationDate">
-                            #{project1.finishingSelfEvaluationDate}
+                            <h:outputLabel value="#{project1.finishingSelfEvaluationDate}">
+                                <f:convertDateTime locale="Europe/Lisbon"/>
+                            </h:outputLabel>
                         </p:column>
                         <p:column headerText="Nome da Edição" sortBy="edition">
                             #{project1.edition.editionName}
@@ -94,7 +102,7 @@
                                 <td>
                                     <p:calendar value="#{projectController.beginningDate}"
                                                 id="startDate" showOn="button" binding="#{startDateComponent}"
-                                                required="true"/>
+                                                />
                                 </td>
                                 <td>
 
@@ -106,7 +114,7 @@
                                 </td>
                                 <td align="center">
                                     <p:calendar value="#{projectController.endingDate}"
-                                                id="endDate" showOn="button" required="true">
+                                                id="endDate" showOn="button">
                                         <f:validator validatorId="dateRangeValidator" />
                                         <f:attribute name="startDateComponent" value="#{startDateComponent}" />
                                     </p:calendar>

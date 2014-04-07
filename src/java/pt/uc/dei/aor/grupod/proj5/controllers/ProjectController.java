@@ -29,7 +29,7 @@ public class ProjectController {
 
     @Inject
     private ProjectFacade projectFacade;
-    
+
     @Inject
     private LoggedUserEJB loggedUserEJB;
 
@@ -159,8 +159,6 @@ public class ProjectController {
     public void setEditEditionProject(UIComponent editEditionProject) {
         this.editEditionProject = editEditionProject;
     }
-    
-    
 
     /**
      * method to get the opened projects from the database
@@ -196,6 +194,9 @@ public class ProjectController {
             projectCreated.setStartingSelfEvaluationDate(beginningDate);
             projectCreated.setFinishingSelfEvaluationDate(endingDate);
             projectFacade.createProject(projectCreated, edition);
+            createProject.setRendered(false);
+            openProjectsForm.setRendered(true);
+            closedProjecsForm.setRendered(true);
 
         } catch (CreateProjectAbortedException ex) {
             Logger.getLogger(ProjectController.class.getName()).log(Level.SEVERE, null, ex);
@@ -213,19 +214,19 @@ public class ProjectController {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
-    
-    public void deleteProjectFromEdition(){
+
+    public void deleteProjectFromEdition() {
         for (Project p : projectList) {
             loggedUserEJB.getActiveEdition().getProjectList().remove(p);
             projectFacade.remove(p);
         }
     }
-    
-    public void openProjectMaker(){
+
+    public void openProjectMaker() {
         editEditionProject.setRendered(true);
     }
-    
-    public void editEditionMakeProject(){
+
+    public void editEditionMakeProject() {
         edition = loggedUserEJB.getActiveEdition();
         makeProject();
     }

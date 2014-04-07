@@ -4,7 +4,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Projetos Abertos</title>
     </h:head>
@@ -12,58 +13,150 @@
         <ui:composition template="./mainTemplateAdmin.xhtml">
 
             <ui:define name ="content">
-                <div align="center"><h2>Projectos Abertos</h2></div>
                 <h:form>
-                    <div align="right"><h:commandButton value="Criar Projecto" /> </div>
+                    <div align="right"><h:commandButton value="Criar Projecto" action="#{projectController.goToCreateProject}"/> </div>
                 </h:form>
 
-                <h:form id="openedProjectsForm">
 
+
+
+                <h:form id="openedProjectsForm" binding="#{projectController.openProjectsForm}">
+                    <div align="center"><h2>Projectos Abertos</h2></div>
                     <br/>
-                    <p:dataTable value="#{projectController.openProjects}" var="project" rowKey="#{project.id}"
+                    <p:dataTable value="#{projectController.openProjects}" var="project2" rowKey="#{project2.id}"
                                  selectionMode="single" selection="#{projectController.selectedOpenedProject}"
                                  paginator="true" rows="10" paginatorPosition="bottom"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15" resizableColumns="false">
                         <p:column headerText="Nome" sortBy="name">
-                            #{project.name}
+                            #{project2.name}
                         </p:column>
                         <p:column headerText="Data de Inicio" sortBy="startingSelfEvaluationDate">
-                            #{project.startingSelfEvaluationDate}
+                            #{project2.startingSelfEvaluationDate}
                         </p:column>
                         <p:column headerText="Data de Fim" sortBy="finishingSelfEvaluationDate">
-                            #{project.finishingSelfEvaluationDate}
+                            #{project2.finishingSelfEvaluationDate}
                         </p:column>
                         <p:column headerText="Nome da Edição" sortBy="edition">
-                            #{project.edition.editionName}
+                            #{project2.edition.editionName}
                         </p:column>
 
                     </p:dataTable>
                 </h:form>
                 <br/>
-                <div align="center"><h2>Projectos Fechados</h2></div>
-                <h:form id="closedProjectsForm">
 
+                <h:form id="closedProjectsForm" binding="#{projectController.closedProjecsForm}">
+                    <div align="center"><h2>Projectos Fechados</h2></div>
                     <br/>
-                    <p:dataTable value="#{projectController.closeProjects}" var="project" rowKey="#{project.id}"
+                    <p:dataTable value="#{projectController.closeProjects}" var="project1" rowKey="#{project1.id}"
                                  selectionMode="single" selection="#{projectController.selectedClosedProject}"
                                  paginator="true" rows="10" paginatorPosition="bottom"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15" resizableColumns="false">
                         <p:column headerText="Nome" sortBy="name">
-                            #{project.name}
+                            #{project1.name}
                         </p:column>
                         <p:column headerText="Data de Inicio" sortBy="startingSelfEvaluationDate">
-                            #{project.startingSelfEvaluationDate}
+                            #{project1.startingSelfEvaluationDate}
                         </p:column>
                         <p:column headerText="Data de Fim" sortBy="finishingSelfEvaluationDate">
-                            #{project.finishingSelfEvaluationDate}
+                            #{project1.finishingSelfEvaluationDate}
                         </p:column>
                         <p:column headerText="Nome da Edição" sortBy="edition">
-                            #{project.edition.editionName}
+                            #{project1.edition.editionName}
                         </p:column>
 
                     </p:dataTable>
+                </h:form>
+
+                <h:form binding="#{projectController.createProject}" rendered="false">
+                    <p:growl id="messages"/>
+                    <div align="center"><h2>Criar Projecto</h2></div>
+                    <br/>
+                    <table align="center">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <h:outputLabel value="Nome"/>
+                                </td>
+                                <td>
+                                    <p:inputText value="#{projectController.projectCreated.name}"/>
+                                </td>
+                                <td>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <h:outputLabel value="Data de Inicio da Avaliações"/>
+                                </td>
+                                <td>
+                                    <p:calendar value="#{projectController.beginningDate}"
+                                                id="startDate" showOn="button" binding="#{startDateComponent}"
+                                                required="true"/>
+                                </td>
+                                <td>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:outputLabel value="Data de Fim da Avaliações"/>
+                                </td>
+                                <td align="center">
+                                    <p:calendar value="#{projectController.endingDate}"
+                                                id="endDate" showOn="button" required="true">
+                                        <f:validator validatorId="dateRangeValidator" />
+                                        <f:attribute name="startDateComponent" value="#{startDateComponent}" />
+                                    </p:calendar>
+                                </td>
+                                <td>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
+                                </td>
+                                <td align="center">
+                                    <p:commandButton id="editionButton" value="Escolha a Edição" oncomplete="PF('e').show()" update="popupE" />
+                                </td>
+                                <td>
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+
+                    <p:dialog header="Edições" widgetVar="e" modal="true" height="300">
+                        <h:panelGrid id="popupE">
+                            <p:dataTable rowKey="#{edition.editionId}" selectionMode="single"
+                                         selection="#{projectController.edition}" value="#{editionController.availableEditions}"
+                                         var="edition" paginator="true" rows="10" paginatorPosition="bottom"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="5,10,15">
+
+
+                                <p:column headerText="Nome">
+                                    #{edition.editionName}
+                                </p:column>
+                                <p:column headerText="Ano">
+                                    #{edition.yearEdition}
+                                </p:column>
+
+                            </p:dataTable>
+                            <br />
+                            <br />
+                            <div align="center">
+                                <h:commandButton id="selectEdition" value="Confirmar" action="#{projectController.makeProject()}"/>
+                            </div>
+                        </h:panelGrid>
+                    </p:dialog>
+
+
                 </h:form>
 
             </ui:define>

@@ -112,7 +112,7 @@ public class ProjectFacade extends AbstractFacade<Project> {
         List<Project> listProjects = em.createNamedQuery(Project.getFindAllProjects()).getResultList();
         Date today = new Date();
         for (Project p : listProjects) {
-            if (p.getFinishingSelfEvaluationDate().before(today) || p.getStartingSelfEvaluationDate().after(today)) {
+            if (!p.getFinishingSelfEvaluationDate().after(today) || !p.getStartingSelfEvaluationDate().before(today)) {
                 listProjects.remove(p);
             }
         }
@@ -131,7 +131,9 @@ public class ProjectFacade extends AbstractFacade<Project> {
         List<Project> listProjects = em.createNamedQuery(Project.getFindAllProjects()).getResultList();
         Date today = new Date();
         for (Project p : listProjects) {
-            if (!p.getFinishingSelfEvaluationDate().after(today) || !p.getStartingSelfEvaluationDate().before(today)) {
+            if (!p.getStartingSelfEvaluationDate().before(today)) {
+                listProjects.remove(p);
+            } else if (!p.getStartingSelfEvaluationDate().after(today)) {
                 listProjects.remove(p);
             }
         }

@@ -47,6 +47,7 @@ public class EditionController {
     private UIComponent addCriteriaButton;
     private UIComponent createCriteriaArea;
     private Edition selectedEdition;
+    private UIComponent vazio;
 
     /**
      * method that initializes atributes of EditionController
@@ -212,6 +213,15 @@ public class EditionController {
     public void setCreateCriteriaArea(UIComponent createCriteriaArea) {
         this.createCriteriaArea = createCriteriaArea;
     }
+
+    public UIComponent getVazio() {
+        return vazio;
+    }
+
+    public void setVazio(UIComponent vazio) {
+        this.vazio = vazio;
+    }
+    
     
     
     
@@ -370,6 +380,7 @@ public class EditionController {
     }
     
     public void openCriteriaMaker(){
+        vazio.setRendered(false);
         createCriteriaArea.setRendered(true);
     }
 }

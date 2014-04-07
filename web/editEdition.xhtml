@@ -128,11 +128,18 @@
                                                     #{project.name}
                                                 </p:column>
                                                 <p:column headerText="Data de início" sortBy="#{project.startingSelfEvaluationDate}">
-                                                    #{project.startingSelfEvaluationDate}
+
+
+                                                    <h:outputLabel value="#{project.startingSelfEvaluationDate}">
+                                                        <f:convertDateTime locale="Europe/Lisbon"/>
+                                                    </h:outputLabel>
                                                 </p:column>
 
                                                 <p:column headerText="Data de fim" sortBy="#{project.finishingSelfEvaluationDate}">
-                                                    #{project.finishingSelfEvaluationDate}
+
+                                                    <h:outputLabel value="#{project.finishingSelfEvaluationDate}">
+                                                        <f:convertDateTime locale="Europe/Lisbon"/>
+                                                    </h:outputLabel>
                                                 </p:column>
 
                                                 <f:facet name="footer">
@@ -149,6 +156,10 @@
 
                         <h:panelGroup>
                             <br />
+                        </h:panelGroup>
+
+                        <h:panelGroup binding="#{editionController.vazio}" rendered="true">
+
                         </h:panelGroup>
 
                         <h:panelGroup binding="#{editionController.createCriteriaArea}" rendered="false">
@@ -197,7 +208,7 @@
                         <h:panelGroup binding="#{projectController.editEditionProject}" rendered="false">
 
                             <p:growl id="messages"/>
-                            <div align="center"><h2>Criar Projecto</h2></div>
+
 
                             <table align="center">
                                 <tbody>
@@ -247,8 +258,10 @@
 
                                 </tbody>
                             </table>
-
-                            <h:commandButton value="Inserir" action="#{projectController.editEditionMakeProject()}"/>
+                            <div align="center">
+                                <h:commandButton value="Inserir" action="#{projectController.editEditionMakeProject()}"/>
+                                <h:commandButton immediate="true" value="Cancelar" action="#{projectController.cancelMakeProject()}"/>
+                            </div>
                         </h:panelGroup>
 
                     </h:panelGrid>

@@ -194,14 +194,23 @@ public class ProjectController {
             projectCreated.setStartingSelfEvaluationDate(beginningDate);
             projectCreated.setFinishingSelfEvaluationDate(endingDate);
             projectFacade.createProject(projectCreated, edition);
-            createProject.setRendered(false);
-            openProjectsForm.setRendered(true);
-            closedProjecsForm.setRendered(true);
+            pamps();
+            projectCreated = null;
+            beginningDate = null;
+            endingDate = null;
 
         } catch (CreateProjectAbortedException ex) {
             Logger.getLogger(ProjectController.class.getName()).log(Level.SEVERE, null, ex);
             addMessage(ex.getMessage());
 
+        }
+    }
+
+    public void pamps() {
+        if (createProject != null && openProjectsForm != null && closedProjecsForm != null) {
+            createProject.setRendered(false);
+            openProjectsForm.setRendered(true);
+            closedProjecsForm.setRendered(true);
         }
     }
 
@@ -230,5 +239,8 @@ public class ProjectController {
         edition = loggedUserEJB.getActiveEdition();
         makeProject();
     }
-
+    
+    public void cancelMakeProject(){
+        editEditionProject.setRendered(false);
+    }
 }

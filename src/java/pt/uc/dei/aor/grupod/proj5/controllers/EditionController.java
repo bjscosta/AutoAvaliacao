@@ -5,8 +5,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import pt.uc.dei.aor.grupod.proj5.EJB.LoggedUserEJB;
@@ -44,7 +46,6 @@ public class EditionController {
     private UIForm formSaveEditionCriteriaShowing;
     private UIComponent addCriteriaButton;
     private Edition selectedEdition;
-    private UIForm nomeCenas;
 
     /**
      * method that initializes atributes of EditionController
@@ -192,7 +193,6 @@ public class EditionController {
     }
 
     public Edition getSelectedEdition() {
-        System.out.println("get - "+selectedEdition.getEditionName());
         return selectedEdition;
         
     }
@@ -200,20 +200,7 @@ public class EditionController {
     public void setSelectedEdition(Edition selectedEdition) {
         this.selectedEdition = selectedEdition;
         loggedUserEJB.setActiveEdition(selectedEdition);
-        System.out.println("set - "+selectedEdition.getEditionName());
     }
-
-    public UIForm getNomeCenas() {
-        return nomeCenas;
-    }
-
-    public void setNomeCenas(UIForm nomeCenas) {
-        this.nomeCenas = nomeCenas;
-    }
-    
-    
-    
-    
 
     /**
      * this method creates an edition to the database, uses the method
@@ -340,6 +327,7 @@ public class EditionController {
      * Deletes a list of criteria from one edition
      */
     public void deleteCriteriaListFromEdition() {
+        System.out.println(criteriaList.size());
         for (Criteria c : criteriaList) {
             loggedUserEJB.getActiveEdition().getCriteriaList().remove(c);
             criteriaFacade.remove(c);
@@ -347,7 +335,17 @@ public class EditionController {
 
     }
     
-    public void cenas(){
-        nomeCenas.setRendered(true);
+    public void deleteEdition(){
+        try {
+            editionFacade.delete(selectedEdition);
+        } catch (OperationEditionAborted ex) {
+            Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
+            FacesMessage msg = new FacesMessage(ex.getMessage());  
+  
+            FacesContext.getCurrentInstance().addMessage(null, 
+                      new FacesMessage(FacesMessage.SEVERITY_WARN, 
+                                       msg.getSummary(), null));
+        }
     }
+    
 }

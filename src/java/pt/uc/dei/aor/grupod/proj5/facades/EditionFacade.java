@@ -282,5 +282,16 @@ public class EditionFacade extends AbstractFacade<Edition> {
 
         }
     }
+    
+    public void delete(Edition edition) throws OperationEditionAborted{
+        try {
+            checksEvaluationsOnEdition(edition);
+            remove(em.merge(edition));
+        } catch (OperationEditionAborted ex) {
+            Logger.getLogger(EditionFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new OperationEditionAborted();
+        }
+        
+    }
 
 }

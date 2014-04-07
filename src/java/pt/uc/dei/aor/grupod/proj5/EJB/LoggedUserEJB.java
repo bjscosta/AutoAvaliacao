@@ -31,13 +31,11 @@ public class LoggedUserEJB {
     }
 
     public Edition getActiveEdition() {
-        
         return activeEdition;
     }
 
     public void setActiveEdition(Edition activeEdition) {
         this.activeEdition = activeEdition;
-        
     }
 
     /**

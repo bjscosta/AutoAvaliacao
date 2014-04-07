@@ -2,6 +2,7 @@ package pt.uc.dei.aor.grupod.proj5.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,7 +24,7 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "Edition.findByYearEdition", query = "SELECT e FROM Edition e WHERE e.yearEdition >= :yearEdition"),})
 public class Edition implements Serializable {
 
-    @OneToMany(mappedBy = "edition")
+    @OneToMany(mappedBy = "edition", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Student> students;
 
     private static final long serialVersionUID = 1L;
@@ -49,10 +50,10 @@ public class Edition implements Serializable {
     @Column(name = "MAX_VALUE_SCALE", nullable = false)
     private int maxValueScale;
 
-    @OneToMany(mappedBy = "edition")
+    @OneToMany(mappedBy = "edition", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Project> projectList;
 
-    @OneToMany(mappedBy = "edition")
+    @OneToMany(mappedBy = "edition", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Criteria> criteriaList;
 
     public String getEditionName() {

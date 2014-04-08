@@ -24,8 +24,7 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "Project.findAllProjects", query = "SELECT p FROM Project p"),
     @NamedQuery(name = "Project.findProjectById", query = "SELECT p FROM Project p WHERE p.id = :id"),
     @NamedQuery(name = "Project.findProjectByName", query = "SELECT p FROM Project p WHERE p.name = :name"),
-    @NamedQuery(name = "Project.findProjectByEditionId", query = "SELECT p FROM Project p WHERE p.edition = :edition")
-})
+    @NamedQuery(name = "Project.findProjectByEditionId", query = "SELECT p FROM Project p WHERE p.edition = :edition"),})
 public class Project implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -60,7 +59,7 @@ public class Project implements Serializable {
     @ManyToOne
     private Edition edition;
 
-    @OneToMany
+    @OneToMany(mappedBy = "project")
     private List<ProjEvaluation> projAvaliations;
 
     @JoinTable(name = "STUDENT_CANT_EVALUATE")

@@ -7,7 +7,6 @@ package pt.uc.dei.aor.grupod.proj5.EJB;
 
 import java.util.Properties;
 import javax.ejb.Stateless;
-import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -21,7 +20,7 @@ import javax.mail.internet.MimeMessage;
  * @author User
  */
 @Stateless(name = "ejbs/EmailServiceEJB")
-public class MailEJB extends Authenticator {
+public class MailEJB {
 
     private final String email = "xxxxxxx@gmail.com";
     private final String password = "xxxxxxx";

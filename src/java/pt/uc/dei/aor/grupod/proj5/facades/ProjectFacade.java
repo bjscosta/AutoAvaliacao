@@ -254,17 +254,4 @@ public class ProjectFacade extends AbstractFacade<Project> {
         return lS;
     }
 
-    public List<Project> openProjectsForStudents(Student s) {
-        List<Project> list = findOpenProjects();
-        List<Project> projects = new ArrayList();
-        for (Project p : list) {
-            for (ProjEvaluation pe : p.getProjAvaliations()) {
-                if (s.getProjEvaluations().contains(pe)) {
-                    projects.add(p);
-                    break;
-                }
-            }
-        }
-        return projects;
-    }
 }

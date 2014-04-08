@@ -26,6 +26,12 @@
                     </div>
                 </h:form>
 
+                <h:form id="projectsFor evaluate">
+                    <div align="center"><h2>Projectos Por Avaliar</h2></div>
+                    <br/>
+
+                </h:form>
+
                 <h:form id="openedProjectsForm" binding="#{projectController.openProjectsForm}">
                     <div align="center"><h2>Projectos Abertos</h2></div>
                     <br/>
@@ -50,9 +56,8 @@
                         <p:column headerText="Nome da Edição" sortBy="edition">
                             #{project2.edition.editionName}
                         </p:column>
-                        <p:column>
-                            <h:commandLink value="Adicionar estudantes ao projecto" action="#{projectController.goToAddStudents}"/>
-                        </p:column>
+
+
 
                     </p:dataTable>
                 </h:form>

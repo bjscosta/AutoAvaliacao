@@ -209,16 +209,17 @@ public class ProjectFacade extends AbstractFacade<Project> {
     }
 
     public List<Student> studentsNotInProject(Project p) {
-        List<Student> allStudentsEdition = studentFacade.findStudentsByEdition(p.getEdition());
 
-        for (Student s : allStudentsEdition) {
-            for (ProjEvaluation pe : p.getProjAvaliations()) {
-                if (s.equals(pe.getStudent())) {
-                    allStudentsEdition.remove(s);
-                }
-            }
+        
+        List<Student> lS = em.createNamedQuery("Student.findStudentByEdition").setParameter("edition", p.getEdition()).getResultList();
+        List<Student> students = new ArrayList<>();
+        
+        for (Student s : lS){
+            if(s.getProjEvaluations().isEmpty())
+                students.add(s);
         }
-        return allStudentsEdition;
+
+        return students;
     }
 
     public void addStudentsProject(Project p, List<Student> sl) {
@@ -229,9 +230,27 @@ public class ProjectFacade extends AbstractFacade<Project> {
                 pe.setProject(p);
                 pe.setStudent(s);
                 pe.setCriteriaValue(-1);
+                p.getProjAvaliations().add(pe);
+                s.getProjEvaluations().add(pe);
                 em.persist(pe);
+                em.merge(p);
+                em.merge(s);
             }
         }
 
+    }
+
+    public List<Student> studentsInProject(Project p) {
+
+        
+        List<ProjEvaluation> lPE = em.createNamedQuery("ProjEvaluation.findByProject").setParameter("project", p).getResultList();
+        List<Student> lS = new ArrayList<>();
+        
+        for (ProjEvaluation pe : lPE){
+            if(!lS.contains(pe.getStudent()))
+                lS.add(pe.getStudent());
+        }
+
+        return lS;
     }
 }

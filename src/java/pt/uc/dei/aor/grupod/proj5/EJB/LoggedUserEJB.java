@@ -7,6 +7,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import pt.uc.dei.aor.grupod.proj5.entities.Administrator;
 import pt.uc.dei.aor.grupod.proj5.entities.Edition;
+import pt.uc.dei.aor.grupod.proj5.entities.Project;
 import pt.uc.dei.aor.grupod.proj5.entities.Student;
 import pt.uc.dei.aor.grupod.proj5.entities.User;
 
@@ -17,6 +18,7 @@ public class LoggedUserEJB {
 
     private User loggedUser;
     private Edition activeEdition;
+    private Project activeProject;
 
     public User getLoggedUser() {
         
@@ -37,6 +39,16 @@ public class LoggedUserEJB {
     public void setActiveEdition(Edition activeEdition) {
         this.activeEdition = activeEdition;
     }
+
+    public Project getActiveProject() {
+        return activeProject;
+    }
+
+    public void setActiveProject(Project activeProject) {
+        this.activeProject = activeProject;
+    }
+    
+    
 
     /**
      * redirect to protect the student's views

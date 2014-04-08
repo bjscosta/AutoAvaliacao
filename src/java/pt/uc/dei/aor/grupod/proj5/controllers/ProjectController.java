@@ -57,6 +57,7 @@ public class ProjectController {
     private Project project;
     private UIForm header;
     private UIComponent studentsEdition;
+    private long projectID;
 
     @PostConstruct
     public void init() {
@@ -227,6 +228,16 @@ public class ProjectController {
         this.studentsEdition = studentsEdition;
     }
 
+    public long getProjectID() {
+        return projectID;
+    }
+
+    public void setProjectID(long projectID) {
+        this.projectID = projectID;
+    }
+    
+    
+
     /**
      * method to get the opened projects from the database
      */
@@ -345,7 +356,7 @@ public class ProjectController {
 
     public void goToAddStudents(Project project) {
 
-        this.project = project;
+        loggedUserEJB.setActiveProject(project);
         openProjectsForm.setRendered(false);
         closedProjecsForm.setRendered(false);
         addStudentForm.setRendered(true);
@@ -353,22 +364,32 @@ public class ProjectController {
     }
 
     public void deleteStudentsFromProject() {
-        projectFacade.deleteStudents(project, selectedStudents);
+        
+        projectFacade.deleteStudents(loggedUserEJB.getActiveProject(), selectedStudents);
     }
 
     public List<Student> listNotInProject() {
-        return projectFacade.studentsNotInProject(project);
+        
+        return projectFacade.studentsNotInProject(loggedUserEJB.getActiveProject());
     }
 
     public void insertStudentsProject() {
-        projectFacade.addStudentsProject(project, selectedStudents);
+        
+        projectFacade.addStudentsProject(loggedUserEJB.getActiveProject(), selectedStudents);
     }
 
     public String editProject() {
-        projectFacade.edit(project);
+        projectFacade.edit(loggedUserEJB.getActiveProject());
+        loggedUserEJB.setActiveProject(null);
         return "openProjectAdmin";
     }
 
-   //public list<Student> listStudentEdition(){
-   //}
+   public List<Student> listStudentEdition(){
+       
+       
+       return projectFacade.studentsInProject(loggedUserEJB.getActiveProject());
+       
+   }
+   
+   
 }

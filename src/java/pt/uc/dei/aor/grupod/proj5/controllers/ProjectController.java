@@ -20,6 +20,7 @@ import javax.inject.Named;
 import pt.uc.dei.aor.grupod.proj5.EJB.LoggedUserEJB;
 import pt.uc.dei.aor.grupod.proj5.entities.Edition;
 import pt.uc.dei.aor.grupod.proj5.entities.Project;
+import pt.uc.dei.aor.grupod.proj5.entities.Student;
 import pt.uc.dei.aor.grupod.proj5.exceptions.CreateProjectAbortedException;
 import pt.uc.dei.aor.grupod.proj5.facades.ProjectFacade;
 
@@ -46,6 +47,8 @@ public class ProjectController {
     private Edition edition;
     private List<Project> projectList;
     private UIComponent editEditionProject;
+    private UIForm addStudentForm;
+    private List<Student> selectedStudents;
 
     @PostConstruct
     public void init() {
@@ -156,8 +159,44 @@ public class ProjectController {
         return editEditionProject;
     }
 
+    public UIForm getAddStudentForm() {
+        return addStudentForm;
+    }
+
+    public void setAddStudentForm(UIForm addStudentForm) {
+        this.addStudentForm = addStudentForm;
+    }
+
     public void setEditEditionProject(UIComponent editEditionProject) {
         this.editEditionProject = editEditionProject;
+    }
+
+    public ProjectFacade getProjectFacade() {
+        return projectFacade;
+    }
+
+    public void setProjectFacade(ProjectFacade projectFacade) {
+        this.projectFacade = projectFacade;
+    }
+
+    public LoggedUserEJB getLoggedUserEJB() {
+        return loggedUserEJB;
+    }
+
+    public void setLoggedUserEJB(LoggedUserEJB loggedUserEJB) {
+        this.loggedUserEJB = loggedUserEJB;
+    }
+
+    public List<Student> getSelectedStudents() {
+        return selectedStudents;
+    }
+
+    public void setSelectedStudents(List<Student> selectedStudents) {
+        this.selectedStudents = selectedStudents;
+    }
+
+    public List<Student> listStudentsEdition() {
+        return selectedOpenedProject.getEdition().getStudents();
     }
 
     /**
@@ -257,6 +296,12 @@ public class ProjectController {
     public void seeClosedProjects() {
         openProjectsForm.setRendered(false);
         closedProjecsForm.setRendered(true);
+    }
+
+    public void goToAddStudents() {
+        openProjectsForm.setRendered(false);
+        closedProjecsForm.setRendered(false);
+        addStudentForm.setRendered(true);
     }
 
 }

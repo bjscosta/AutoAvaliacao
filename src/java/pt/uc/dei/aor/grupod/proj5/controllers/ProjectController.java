@@ -68,14 +68,10 @@ public class ProjectController {
 
     @PostConstruct
     public void init() {
-        openProjects = projectFacade.findOpenProjects();
-        closeProjects = projectFacade.findClosedProjects();
+
         projectCreated = new Project();
         User u = loggedUserEJB.getLoggedUser();
-        if (u instanceof Student) {
-            studentProjectEvaluate = projectFacade.
-                    openProjectsToEvaluateStudent((Student) u);
-        }
+
     }
 
     public List<Project> getOpenProjects() {
@@ -304,8 +300,6 @@ public class ProjectController {
     public void setFilterStudent(List<Student> filterStudent) {
         this.filterStudent = filterStudent;
     }
-    
-    
 
     /**
      * method to get the opened projects from the database
@@ -313,7 +307,7 @@ public class ProjectController {
     public void actualizeOpenProjects() {
         if (loggedUserEJB.getLoggedUser() instanceof Student) {
             Student s = (Student) loggedUserEJB.getLoggedUser();
-            openProjects = projectFacade.studentOpenProjects(s);
+            openProjects = projectFacade.openProjectsToEvaluateStudent(s);
 
         } else if (loggedUserEJB.getLoggedUser() instanceof Administrator) {
             openProjects = projectFacade.findOpenProjects();
@@ -410,24 +404,18 @@ public class ProjectController {
 
     public void seeAll() {
         closedProjecsForm.setRendered(true);
-        openProjectsForm.setRendered(true);
+
         projectsForevaluate.setRendered(true);
     }
 
-    public void seeOpenProjects() {
-        openProjectsForm.setRendered(true);
-        closedProjecsForm.setRendered(false);
-        projectsForevaluate.setRendered(false);
-    }
-
     public void seeClosedProjects() {
-        openProjectsForm.setRendered(false);
+
         closedProjecsForm.setRendered(true);
         projectsForevaluate.setRendered(false);
     }
 
     public void seeProjForEvaluate() {
-        openProjectsForm.setRendered(false);
+
         closedProjecsForm.setRendered(false);
         projectsForevaluate.setRendered(true);
     }
@@ -469,6 +457,6 @@ public class ProjectController {
     }
 
     private void makeSearch() {
-        
+
     }
 }

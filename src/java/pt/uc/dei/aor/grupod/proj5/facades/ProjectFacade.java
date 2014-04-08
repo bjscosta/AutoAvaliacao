@@ -178,13 +178,12 @@ public class ProjectFacade extends AbstractFacade<Project> {
      * @return projects
      */
     public List<Project> studentClosedProjects(Student s) {
-        Date today = new Date();
-        List<ProjEvaluation> peList = getProjEvaluationByStudent(s);
+        Edition e = s.getEdition();
         List<Project> projects = new ArrayList();
-        for (ProjEvaluation pe : peList) {
-            Project p = pe.getProject();
-            if (today.before(p.getStartingSelfEvaluationDate()) || today.after(p.getFinishingSelfEvaluationDate())) {
-                projects.add(p);
+        List<Project> listOpen = openProjectsToEvaluateStudent(s);
+        for (Project p1 : e.getProjectList()) {
+            if (!listOpen.contains(p1)) {
+                projects.add(p1);
             }
         }
         return projects;
@@ -219,11 +218,14 @@ public class ProjectFacade extends AbstractFacade<Project> {
 
         List<Student> lS = em.createNamedQuery("Student.findStudentByEdition").setParameter("edition", p.getEdition()).getResultList();
         List<Student> students = new ArrayList<>();
-
+        List<ProjEvaluation> projEvaluations;
+        Query q = em.createNamedQuery("ProjEvaluation.userEvaluation").setParameter("project", p);
         for (Student s : lS) {
-            if (s.getProjEvaluations().isEmpty()) {
+            projEvaluations = q.setParameter("student", s).getResultList();
+            if (projEvaluations.isEmpty()) {
                 students.add(s);
             }
+
         }
 
         return students;
@@ -262,17 +264,29 @@ public class ProjectFacade extends AbstractFacade<Project> {
     }
 
     public List<Project> openProjectsToEvaluateStudent(Student s) {
-        List<Project> projects = studentOpenProjects(s);
-        List<Project> list = new ArrayList();
-        for (Project p : projects) {
-            for (ProjEvaluation pe : p.getProjAvaliations()) {
-                if (pe.getCriteriaValue() == -1) {
-                    list.add(p);
-                    break;
+        List<Project> openProjects = new ArrayList();
+        Edition ae = s.getEdition();
+        Query query = em.createNamedQuery("ProjEvaluation.userEvaluation", ProjEvaluation.class);
+        query.setParameter("student", s);
+
+        Date d = new Date();
+        for (int i = 0; i < ae.getProjectList().size(); i++) {
+            Project a = ae.getProjectList().get(i);
+            if (!a.getStartingSelfEvaluationDate().after(d) && !a.getFinishingSelfEvaluationDate().before(d)) {
+                query.setParameter("project", a);
+
+                List<ProjEvaluation> evaluations = query.getResultList();
+
+                for (ProjEvaluation pe : evaluations) {
+                    if (pe.getCriteriaValue() == -1) {
+                        openProjects.add(a);
+                        break;
+                    }
                 }
+
             }
         }
-        return list;
+        return openProjects;
     }
 
 }

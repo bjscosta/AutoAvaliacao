@@ -150,6 +150,51 @@ public class ProjectFacade extends AbstractFacade<Project> {
 
     }
 
+    /**
+     * method to get open projects of a student
+     *
+     * @param s
+     * @return projects
+     */
+    public List<Project> studentOpenProjects(Student s) {
+        Date today = new Date();
+        List<ProjEvaluation> peList = getProjEvaluationByStudent(s);
+        List<Project> projects = new ArrayList();
+        for (ProjEvaluation pe : peList) {
+            if (pe.getCriteriaValue() != -1) {
+                Project p = pe.getProject();
+                if (!p.getStartingSelfEvaluationDate().after(today) && !p.getFinishingSelfEvaluationDate().before(today)) {
+                    projects.add(p);
+                }
+            }
+        }
+        return projects;
+    }
+
+    /**
+     * method to get the closed projects of a student
+     *
+     * @param s
+     * @return projects
+     */
+    public List<Project> studentClosedProjects(Student s) {
+        Date today = new Date();
+        List<ProjEvaluation> peList = getProjEvaluationByStudent(s);
+        List<Project> projects = new ArrayList();
+        for (ProjEvaluation pe : peList) {
+            Project p = pe.getProject();
+            if (today.before(p.getStartingSelfEvaluationDate()) || today.after(p.getFinishingSelfEvaluationDate())) {
+                projects.add(p);
+            }
+        }
+        return projects;
+    }
+
+    public List<ProjEvaluation> getProjEvaluationByStudent(Student s) {
+        return em.createNamedQuery("ProjEvaluation.findByProject_Student")
+                .setParameter("student", s).getResultList();
+    }
+
     public void deleteStudents(Project project, List<Student> selectedStudents) {
         for (ProjEvaluation pe : project.getProjAvaliations()) {
             for (Student s : selectedStudents) {

@@ -18,6 +18,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import pt.uc.dei.aor.grupod.proj5.EJB.LoggedUserEJB;
+import pt.uc.dei.aor.grupod.proj5.entities.Administrator;
 import pt.uc.dei.aor.grupod.proj5.entities.Edition;
 import pt.uc.dei.aor.grupod.proj5.entities.Project;
 import pt.uc.dei.aor.grupod.proj5.entities.Student;
@@ -34,7 +35,7 @@ public class ProjectController {
 
     @Inject
     private LoggedUserEJB loggedUserEJB;
-    
+
     @Inject
     private StudentFacade studentFacade;
 
@@ -56,7 +57,6 @@ public class ProjectController {
     private Project project;
     private UIForm header;
     private UIComponent studentsEdition;
-    
 
     @PostConstruct
     public void init() {
@@ -203,7 +203,6 @@ public class ProjectController {
         this.selectedStudents = selectedStudents;
     }
 
-
     public Project getProject() {
         return project;
     }
@@ -227,21 +226,33 @@ public class ProjectController {
     public void setStudentsEdition(UIComponent studentsEdition) {
         this.studentsEdition = studentsEdition;
     }
-    
-    
-    
+
     /**
      * method to get the opened projects from the database
      */
     public void actualizeOpenProjects() {
-        openProjects = projectFacade.findOpenProjects();
+        if (loggedUserEJB.getLoggedUser() instanceof Student) {
+            Student s = (Student) loggedUserEJB.getLoggedUser();
+            openProjects = projectFacade.studentOpenProjects(s);
+
+        } else if (loggedUserEJB.getLoggedUser() instanceof Administrator) {
+            openProjects = projectFacade.findOpenProjects();
+
+        }
     }
 
     /**
      * method to get the closed projects from the database
      */
     public void actualizeClosedProjects() {
-        closeProjects = projectFacade.findClosedProjects();
+        if (loggedUserEJB.getLoggedUser() instanceof Student) {
+            Student s = (Student) loggedUserEJB.getLoggedUser();
+
+            closeProjects = projectFacade.studentClosedProjects(s);
+        } else if (loggedUserEJB.getLoggedUser() instanceof Administrator) {
+
+            closeProjects = projectFacade.findClosedProjects();
+        }
     }
 
     /**
@@ -276,7 +287,7 @@ public class ProjectController {
             addMessage(ex.getMessage());
 
         }
-        
+
     }
 
     public void pamps() {
@@ -333,33 +344,31 @@ public class ProjectController {
     }
 
     public void goToAddStudents(Project project) {
-        
+
         this.project = project;
         openProjectsForm.setRendered(false);
         closedProjecsForm.setRendered(false);
         addStudentForm.setRendered(true);
         header.setRendered(false);
     }
-    
-    
-    public void deleteStudentsFromProject(){
+
+    public void deleteStudentsFromProject() {
         projectFacade.deleteStudents(project, selectedStudents);
     }
-    
-    public List<Student> listNotInProject(){
+
+    public List<Student> listNotInProject() {
         return projectFacade.studentsNotInProject(project);
     }
-    
-    public void insertStudentsProject(){
+
+    public void insertStudentsProject() {
         projectFacade.addStudentsProject(project, selectedStudents);
     }
-    
-    public String editProject(){
+
+    public String editProject() {
         projectFacade.edit(project);
-        return"openProjectAdmin";
+        return "openProjectAdmin";
     }
-    
+
    //public list<Student> listStudentEdition(){
-       
    //}
 }

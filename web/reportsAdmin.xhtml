@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Relatórios</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="./mainTemplateAdmin.xhtml">
+            <ui:define name ="content">
+
+                <h:outputText value="#{reportsController.editionsList.size}" />
+                <h:form>
+
+                    <h:outputText value="#{reportsController.editionsList.size}" />
+                    <p:selectOneMenu value="#{reportsController.edition}" panelStyle="width:150px"
+                                     effect="fade" var="e" style="width:160px"  filter="true" filterMatchMode="startsWith">
+
+                        <f:selectItem itemLabel="Escolha uma Edição" itemValue="" />
+                        <f:selectItems value="#{reportsController.editionsList}" var="edition" itemLabel="#{edition.editionName}" itemValue="#{edition}"/>
+
+                        <p:column>
+                            #{edition.editionName}
+                        </p:column>
+                    </p:selectOneMenu>
+                    <p:commandButton ajax="false" value="Confirmar Edição" actionListener="#{reportsController.confirmEdition()}"/>
+
+                    <h:outputText value="Grouping: " />
+
+                    <p:selectOneMenu value="#{reportsController.edition}">
+                        <f:selectItem itemLabel="Select One" itemValue="" />
+                        <f:selectItems value="#{reportsController.editionsList}" />
+                    </p:selectOneMenu>
+
+                </h:form>
+
+
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

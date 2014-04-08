@@ -53,7 +53,6 @@ public class ProjectController {
     private UIComponent editEditionProject;
     private UIForm addStudentForm;
     private List<Student> selectedStudents;
-    private List<Student> listStudentsEdition;
     private Project project;
     private UIForm header;
     private UIComponent studentsEdition;
@@ -204,13 +203,6 @@ public class ProjectController {
         this.selectedStudents = selectedStudents;
     }
 
-    public List<Student> getListStudentsEdition() {
-        return this.listStudentsEdition;
-    }
-
-    public void setListStudentsEdition(List<Student> listStudentsEdition) {
-        this.listStudentsEdition = listStudentsEdition;
-    }
 
     public Project getProject() {
         return project;
@@ -340,7 +332,7 @@ public class ProjectController {
     }
 
     public void goToAddStudents(Project project) {
-        this.listStudentsEdition = project.getEdition().getStudents();
+        
         this.project = project;
         openProjectsForm.setRendered(false);
         closedProjecsForm.setRendered(false);
@@ -366,8 +358,7 @@ public class ProjectController {
         return"openProjectAdmin";
     }
     
-   public List<Student> allStudentsEdition(){
-        return studentFacade.findStudentsByEdition(loggedUserEJB.getActiveEdition());
-   }
-    
+   //public list<Student> listStudentEdition(){
+       
+   //}
 }

@@ -19,7 +19,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "ProjEvaluation.findByStudent", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.student = :student"),
     @NamedQuery(name = "ProjEvaluation.findByProject", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.project = :project"),
     @NamedQuery(name = "ProjEvaluation.findByEdition", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.project.edition = :edition"),
-    @NamedQuery(name = "ProjEvaluation.findByProject_Student", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.project = :project AND pe.student = :student")
+    @NamedQuery(name = "ProjEvaluation.findByProject_Student", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.student = :student")
 })
 public class ProjEvaluation implements Serializable {
 
@@ -38,7 +38,6 @@ public class ProjEvaluation implements Serializable {
     @ManyToOne
     private Project project;
 
-    
     @ManyToOne
     private Criteria criteria;
 
@@ -73,7 +72,6 @@ public class ProjEvaluation implements Serializable {
     public void setCriteria(Criteria criteria) {
         this.criteria = criteria;
     }
-    
 
     public Long getId() {
         return id;

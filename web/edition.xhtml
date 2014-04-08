@@ -104,100 +104,104 @@
                         </tbody>
 
                     </table>
+
+
+                    <br />
+                    <br />
                     <div align="center">
-                        <h:commandButton binding="#{editionController.addCriteriaButton}" rendered="true" value="Criar critérios" action="#{editionController.opensCreateCriteriaWhenCreateEdition()}"/>
+                        <p:commandButton ajax="false" actionListener="#{editionController.saveEdition()}" value="Confirmar"/>
+                    </div>
+                </h:form>
+
+                <h:form binding="#{editionController.createCriteria}" rendered="false">
+
+                    <table align="center" width="100%">
+                        <thead>
+
+                            <div align="center">
+                                <h3>
+                                    Critérios
+                                </h3>
+                            </div>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <table align="center">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <h:outputLabel value="Nome"/>
+                                                </td>
+                                                <td>
+                                                    <p:inputText value="#{editionController.criteria.criteriaName}"/>
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <h:outputLabel value="Descrição"/>
+                                                </td>
+                                                <td>
+                                                    <p:inputTextarea value="#{editionController.criteria.criteriaDiscription}"/>
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+
+                                                </td>
+                                                <td align="center">
+                                                    <h:commandButton value="Inserir" action="#{editionController.createsCriteriaForEdition()}"/>
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                </td>
+
+                                <td>
+
+                                    <p:dataTable  id="criteriaTableCreate" var="criteria"
+                                                  value="#{editionController.edition.criteriaList}" rowKey="#{criteria.criteriaId}"
+                                                  selection="#{editionController.criteriaList}">
+                                        <p:column selectionMode="multiple" />
+                                        <p:column sortFunction="true"  headerText="Nome" sortBy="#{criteria.criteriaName}">
+                                            #{criteria.criteriaName}
+                                        </p:column>
+                                        <p:column headerText="Descrição" sortBy="#{criteria.criteriaDiscription}">
+                                            #{criteria.criteriaDiscription}
+                                        </p:column>
+
+                                        <f:facet name="footer">
+                                            <h:commandButton value="Apagar selecionadas" action="#{editionController.deleteCriteriaListFromEdition()}"/>
+                                        </f:facet>
+                                    </p:dataTable>
+                                    <br />
+
+
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                    <br />
+                    <div align="center">
+                        <p:commandButton ajax="false" actionListener="#{editionController.returnToEditions()}" value="Adicionar Depois"/>
                     </div>
 
-                    <br />
-                    <br />
-
-                    <h:form binding="#{editionController.createCriteria}" rendered="false">
-
-                        <table align="center" width="100%">
-                            <thead>
-
-                                <div align="center">
-                                    <h3>
-                                        Critérios
-                                    </h3>
-                                </div>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <table align="center">
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <h:outputLabel value="Nome"/>
-                                                    </td>
-                                                    <td>
-                                                        <p:inputText value="#{editionController.criteria.criteriaName}"/>
-                                                    </td>
-                                                    <td>
-
-                                                    </td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td>
-                                                        <h:outputLabel value="Descrição"/>
-                                                    </td>
-                                                    <td>
-                                                        <p:inputTextarea value="#{editionController.criteria.criteriaDiscription}"/>
-                                                    </td>
-                                                    <td>
-
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-
-                                                    </td>
-                                                    <td align="center">
-                                                        <h:commandButton value="Inserir" action="#{editionController.createsCriteriaForEdition()}"/>
-                                                    </td>
-                                                    <td>
-
-                                                    </td>
-                                                </tr>
-
-                                            </tbody>
-                                        </table>
-
-                                    </td>
-
-                                    <td>
-
-                                        <p:dataTable  id="criteriaTableCreate" var="criteria"
-                                                      value="#{editionController.edition.criteriaList}" rowKey="#{criteria.criteriaId}"
-                                                      selection="#{editionController.criteriaList}">
-                                            <p:column selectionMode="multiple" />
-                                            <p:column sortFunction="true"  headerText="Nome" sortBy="#{criteria.criteriaName}">
-                                                #{criteria.criteriaName}
-                                            </p:column>
-                                            <p:column headerText="Descrição" sortBy="#{criteria.criteriaDiscription}">
-                                                #{criteria.criteriaDiscription}
-                                            </p:column>
-
-                                            <f:facet name="footer">
-                                                <h:commandButton value="Apagar selecionadas" action="#{editionController.deleteCriteriaListFromEdition()}"/>
-                                            </f:facet>
-                                        </p:dataTable>
-                                        <br />
-
-
-                                    </td>
-                                </tr>
-                            </tbody>
-
-                        </table>
-                        <br />
-
-                    </h:form>
-
-                    <h:commandButton action="#{editionController.saveEdition()}" value="Confirmar"/>
                 </h:form>
+
+
 
 
 

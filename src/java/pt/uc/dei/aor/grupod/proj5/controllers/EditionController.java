@@ -61,8 +61,7 @@ public class EditionController {
             edition = loggedUserEJB.getActiveEdition();
         }
         criteria = new Criteria();
-        
-       
+
     }
 
     public List<Edition> getAvailableEditions() {
@@ -198,7 +197,7 @@ public class EditionController {
     public Edition getSelectedEdition() {
         loggedUserEJB.setActiveEdition(selectedEdition);
         return selectedEdition;
-        
+
     }
 
     public void setSelectedEdition(Edition selectedEdition) {
@@ -221,10 +220,7 @@ public class EditionController {
     public void setVazio(UIComponent vazio) {
         this.vazio = vazio;
     }
-    
-    
-    
-    
+
     /**
      * this method creates an edition to the database, uses the method
      * createsEdition of the editionFacade, if it can't create catches the
@@ -278,7 +274,7 @@ public class EditionController {
         try {
             opensCreateCriteria();
             createEdition(edition);
-            formSaveEditionCriteriaShowing.setRendered(true);
+
         } catch (CreateEditionAbortedException ex) {
             errorCreate = ex.getMessage();
             Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
@@ -323,9 +319,8 @@ public class EditionController {
 
     /**
      *
-     * @return
      */
-    public String saveEdition() {
+    public void saveEdition() {
         if (loggedUserEJB.getActiveEdition() == null) {
             try {
                 createEdition(edition);
@@ -333,14 +328,14 @@ public class EditionController {
             } catch (CreateEditionAbortedException ex) {
                 errorCreate = ex.getMessage();
                 Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
-                return null;
+
             }
         }
+
         editionFacade.edit(loggedUserEJB.getActiveEdition());
         createCriteria.setRendered(false);
-        
-        loggedUserEJB.setActiveEdition(null);
-        return "edition";
+        newEdition.setRendered(false);
+        createCriteria.setRendered(true);
 
     }
 
@@ -354,41 +349,47 @@ public class EditionController {
         }
 
     }
-    
-    public String deleteEdition(){
+
+    public String deleteEdition() {
         try {
-            if(selectedEdition ==null){
+            if (selectedEdition == null) {
                 selectedEdition = loggedUserEJB.getActiveEdition();
             }
             editionFacade.delete(selectedEdition);
         } catch (OperationEditionAborted ex) {
             Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
-            FacesMessage msg = new FacesMessage(ex.getMessage());  
-  
-            FacesContext.getCurrentInstance().addMessage(null, 
-                      new FacesMessage(FacesMessage.SEVERITY_WARN, 
-                                       msg.getSummary(), null));
+            FacesMessage msg = new FacesMessage(ex.getMessage());
+
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN,
+                            msg.getSummary(), null));
         }
         return "edition";
     }
-    
-    public String editEdition(){
+
+    public String editEdition() {
         editionFacade.edit(loggedUserEJB.getActiveEdition());
         return "edition";
     }
-    
-    public String goToEdit(Edition edition){
+
+    public String goToEdit(Edition edition) {
         loggedUserEJB.setActiveEdition(edition);
+
         return "editEdition";
     }
-    
-    public void openCriteriaMaker(){
+
+    public void openCriteriaMaker() {
         vazio.setRendered(false);
         createCriteriaArea.setRendered(true);
     }
-    
-    public void cancelMakeCriteria(){
+
+    public void cancelMakeCriteria() {
         createCriteriaArea.setRendered(false);
         vazio.setRendered(true);
+    }
+
+    public void returnToEditions() {
+        createCriteria.setRendered(false);
+        editions.setRendered(true);
     }
 }

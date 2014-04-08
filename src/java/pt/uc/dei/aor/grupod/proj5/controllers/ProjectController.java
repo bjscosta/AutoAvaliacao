@@ -58,6 +58,10 @@ public class ProjectController {
     private UIForm header;
     private UIComponent studentsEdition;
     private long projectID;
+    private List<Student> studentsToDelete;
+    private List<Student> studentsToAdd;
+    private String searchText;
+    
 
     @PostConstruct
     public void init() {
@@ -235,6 +239,31 @@ public class ProjectController {
     public void setProjectID(long projectID) {
         this.projectID = projectID;
     }
+
+    public List<Student> getStudentsToDelete() {
+        return studentsToDelete;
+    }
+
+    public void setStudentsToDelete(List<Student> StudentsToDelete) {
+        this.studentsToDelete = StudentsToDelete;
+    }
+
+    public List<Student> getStudentsToAdd() {
+        return studentsToAdd;
+    }
+
+    public void setStudentsToAdd(List<Student> StudentsToAdd) {
+        this.studentsToAdd = StudentsToAdd;
+    }
+
+    public String getSearchText() {
+        return searchText;
+    }
+
+    public void setSearchText(String searchText) {
+        this.searchText = searchText;
+    }
+    
     
     
 
@@ -365,7 +394,7 @@ public class ProjectController {
 
     public void deleteStudentsFromProject() {
         
-        projectFacade.deleteStudents(loggedUserEJB.getActiveProject(), selectedStudents);
+        projectFacade.deleteStudents(loggedUserEJB.getActiveProject(), studentsToDelete);
     }
 
     public List<Student> listNotInProject() {
@@ -375,7 +404,7 @@ public class ProjectController {
 
     public void insertStudentsProject() {
         
-        projectFacade.addStudentsProject(loggedUserEJB.getActiveProject(), selectedStudents);
+        projectFacade.addStudentsProject(loggedUserEJB.getActiveProject(), studentsToAdd);
     }
 
     public String editProject() {
@@ -391,5 +420,8 @@ public class ProjectController {
        
    }
    
+   private void makeSearch(){
+       
+   }
    
 }

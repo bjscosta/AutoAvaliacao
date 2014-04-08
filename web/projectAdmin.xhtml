@@ -101,10 +101,11 @@
 
                     <div><h3>Estudantes inscritos no projeto</h3></div>
                     <p:dataTable id="StudentsIn" value="#{projectController.listStudentEdition()}" var="student" rowKey="#{student.studentID}"
-                                 selection="#{projectController.selectedStudents}"
+                                 selection="#{projectController.studentsToDelete}"
                                  paginator="true" rows="10" paginatorPosition="bottom"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15" resizableColumns="false">
+
                         <p:column selectionMode="multiple" />
 
 
@@ -116,7 +117,7 @@
                         </p:column>
 
                         <f:facet name="footer">
-                            <p:commandButton ajax="false" update="StudentsIn" value="Apagar selecionados" actionListener="#{projectController.deleteStudentsFromProject}"/>
+                            <p:commandButton ajax="false" value="Apagar selecionados" actionListener="#{projectController.deleteStudentsFromProject}"/>
 
                         </f:facet>
 
@@ -124,14 +125,18 @@
                     <br />
                     <br />
                     <div><h3>Estudantes por inscrever</h3></div>
+                    <br />
+                    <h:form>
+                        <h:inputText value="#{projectController.searchText}"/> <h:commandButton value="Filtrar" action="#{projectController.makeSearch}"/>
+
+                    </h:form>
                     <p:dataTable id="StudentsNot" value="#{projectController.listNotInProject()}" var="student" rowKey="#{student.studentID}"
-                                 selection="#{projectController.selectedStudents}"
+                                 selection="#{projectController.studentsToAdd}"
                                  paginator="true" rows="10" paginatorPosition="bottom"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15" resizableColumns="false">
+
                         <p:column selectionMode="multiple" />
-
-
                         <p:column headerText="Nome" sortBy="#{student.name}">
                             #{student.name}
                         </p:column>
@@ -140,7 +145,7 @@
                         </p:column>
 
                         <f:facet name="footer">
-                            <p:commandButton ajax="false" update="StudentsIn" value="Adicionar selecionados" actionListener="#{projectController.insertStudentsProject}"/>
+                            <p:commandButton ajax="false"  value="Adicionar selecionados" actionListener="#{projectController.insertStudentsProject}"/>
                         </f:facet>
 
                     </p:dataTable>

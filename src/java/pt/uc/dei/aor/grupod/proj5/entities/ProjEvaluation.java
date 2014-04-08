@@ -20,7 +20,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "ProjEvaluation.findByProject", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.project = :project"),
     @NamedQuery(name = "ProjEvaluation.findByEdition", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.project.edition = :edition"),
     @NamedQuery(name = "ProjEvaluation.findByProject_Student", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.student = :student"),
-    @NamedQuery(name = "ProjEvaluation.findByProjectAndStudent", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.student = :student && pe.project :project")
+    //@NamedQuery(name = "ProjEvaluation.findByProjectAndStudent", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.student = :student AND pe.project :project")
 })
 public class ProjEvaluation implements Serializable {
 

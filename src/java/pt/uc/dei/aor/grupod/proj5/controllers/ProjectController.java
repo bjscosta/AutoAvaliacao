@@ -22,6 +22,7 @@ import pt.uc.dei.aor.grupod.proj5.entities.Administrator;
 import pt.uc.dei.aor.grupod.proj5.entities.Edition;
 import pt.uc.dei.aor.grupod.proj5.entities.Project;
 import pt.uc.dei.aor.grupod.proj5.entities.Student;
+import pt.uc.dei.aor.grupod.proj5.entities.User;
 import pt.uc.dei.aor.grupod.proj5.exceptions.CreateProjectAbortedException;
 import pt.uc.dei.aor.grupod.proj5.facades.ProjectFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.StudentFacade;
@@ -61,13 +62,19 @@ public class ProjectController {
     private List<Student> studentsToDelete;
     private List<Student> studentsToAdd;
     private String searchText;
-    
+    private List<Project> studentProjectEvaluate;
+    private UIForm projectsForevaluate;
 
     @PostConstruct
     public void init() {
         openProjects = projectFacade.findOpenProjects();
         closeProjects = projectFacade.findClosedProjects();
         projectCreated = new Project();
+        User u = loggedUserEJB.getLoggedUser();
+        if (u instanceof Student) {
+            studentProjectEvaluate = projectFacade.
+                    openProjectsToEvaluateStudent((Student) u);
+        }
     }
 
     public List<Project> getOpenProjects() {
@@ -263,9 +270,31 @@ public class ProjectController {
     public void setSearchText(String searchText) {
         this.searchText = searchText;
     }
-    
-    
-    
+
+    public List<Project> getStudentProjectEvaluate() {
+        actualizeStudentEvaluateProje();
+        return studentProjectEvaluate;
+    }
+
+    public void setStudentProjectEvaluate(List<Project> studentProjectEvaluate) {
+        this.studentProjectEvaluate = studentProjectEvaluate;
+    }
+
+    public UIForm getProjectsForevaluate() {
+        return projectsForevaluate;
+    }
+
+    public void setProjectsForevaluate(UIForm projectsForevaluate) {
+        this.projectsForevaluate = projectsForevaluate;
+    }
+
+    public void actualizeStudentEvaluateProje() {
+        User u = loggedUserEJB.getLoggedUser();
+        if (u instanceof Student) {
+            studentProjectEvaluate = projectFacade.
+                    openProjectsToEvaluateStudent((Student) u);
+        }
+    }
 
     /**
      * method to get the opened projects from the database
@@ -316,7 +345,7 @@ public class ProjectController {
             projectCreated.setStartingSelfEvaluationDate(beginningDate);
             projectCreated.setFinishingSelfEvaluationDate(endingDate);
             projectFacade.createProject(projectCreated, edition);
-            pamps();
+            closeCreateProjectForm();
             projectCreated = null;
             beginningDate = null;
             endingDate = null;
@@ -330,7 +359,7 @@ public class ProjectController {
 
     }
 
-    public void pamps() {
+    public void closeCreateProjectForm() {
         if (createProject != null && openProjectsForm != null && closedProjecsForm != null) {
             createProject.setRendered(false);
             openProjectsForm.setRendered(true);
@@ -371,16 +400,25 @@ public class ProjectController {
     public void seeAll() {
         closedProjecsForm.setRendered(true);
         openProjectsForm.setRendered(true);
+        projectsForevaluate.setRendered(true);
     }
 
     public void seeOpenProjects() {
         openProjectsForm.setRendered(true);
         closedProjecsForm.setRendered(false);
+        projectsForevaluate.setRendered(false);
     }
 
     public void seeClosedProjects() {
         openProjectsForm.setRendered(false);
         closedProjecsForm.setRendered(true);
+        projectsForevaluate.setRendered(false);
+    }
+
+    public void seeProjForEvaluate() {
+        openProjectsForm.setRendered(false);
+        closedProjecsForm.setRendered(false);
+        projectsForevaluate.setRendered(true);
     }
 
     public void goToAddStudents(Project project) {
@@ -393,17 +431,17 @@ public class ProjectController {
     }
 
     public void deleteStudentsFromProject() {
-        
+
         projectFacade.deleteStudents(loggedUserEJB.getActiveProject(), studentsToDelete);
     }
 
     public List<Student> listNotInProject() {
-        
+
         return projectFacade.studentsNotInProject(loggedUserEJB.getActiveProject());
     }
 
     public void insertStudentsProject() {
-        
+
         projectFacade.addStudentsProject(loggedUserEJB.getActiveProject(), studentsToAdd);
     }
 
@@ -413,15 +451,13 @@ public class ProjectController {
         return "openProjectAdmin";
     }
 
-   public List<Student> listStudentEdition(){
-       
-       
-       return projectFacade.studentsInProject(loggedUserEJB.getActiveProject());
-       
-   }
-   
-   private void makeSearch(){
-       
-   }
-   
+    public List<Student> listStudentEdition() {
+
+        return projectFacade.studentsInProject(loggedUserEJB.getActiveProject());
+
+    }
+
+    private void makeSearch() {
+
+    }
 }

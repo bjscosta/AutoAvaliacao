@@ -20,14 +20,41 @@
                     <div align="left">
                         <h:commandLink value="Todos" action="#{projectController.seeAll}"/>
                         &nbsp;&nbsp;&nbsp;&nbsp;
+                        <h:commandLink value="Projectos Por Avaliar" action="#{projectController.seeProjForEvaluate}"/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
                         <h:commandLink value="Projectos Abertos" action="#{projectController.seeOpenProjects}"/>
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <h:commandLink value="Projectos Fechados" action="#{projectController.seeClosedProjects}"/>
                     </div>
                 </h:form>
 
-                <h:form id="projectsForevaluate">
+                <h:form binding="#{projectController.projectsForevaluate}">
                     <div align="center"><h2>Projectos Por Avaliar</h2></div>
+                    <p:dataTable value="#{projectController.openProjects}" var="project2" rowKey="#{project2.id}"
+                                 selectionMode="single" selection="#{projectController.selectedOpenedProject}"
+                                 paginator="true" rows="10" paginatorPosition="bottom"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15" resizableColumns="false">
+                        <p:column headerText="Nome" sortBy="name">
+                            #{project2.name}
+                        </p:column>
+                        <p:column headerText="Data de Inicio" sortBy="startingSelfEvaluationDate">
+                            <h:outputLabel value="#{project2.startingSelfEvaluationDate}">
+                                <f:convertDateTime locale="Europe/Lisbon"/>
+                            </h:outputLabel>
+                        </p:column>
+                        <p:column headerText="Data de Fim" sortBy="finishingSelfEvaluationDate">
+                            <h:outputLabel value="#{project2.finishingSelfEvaluationDate}">
+                                <f:convertDateTime locale="Europe/Lisbon"/>
+                            </h:outputLabel>
+                        </p:column>
+                        <p:column headerText="Nome da Edição" sortBy="edition">
+                            #{project2.edition.editionName}
+                        </p:column>
+
+
+
+                    </p:dataTable>
                     <br/>
 
                 </h:form>

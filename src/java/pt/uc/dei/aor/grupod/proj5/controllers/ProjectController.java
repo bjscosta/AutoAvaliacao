@@ -49,6 +49,7 @@ public class ProjectController {
     private UIComponent editEditionProject;
     private UIForm addStudentForm;
     private List<Student> selectedStudents;
+    private List<Student> listStudentsEdition;
 
     @PostConstruct
     public void init() {
@@ -195,8 +196,12 @@ public class ProjectController {
         this.selectedStudents = selectedStudents;
     }
 
-    public List<Student> listStudentsEdition() {
+    public List<Student> getListStudentsEdition() {
         return selectedOpenedProject.getEdition().getStudents();
+    }
+
+    public void setListStudentsEdition(List<Student> listStudentsEdition) {
+        this.listStudentsEdition = listStudentsEdition;
     }
 
     /**

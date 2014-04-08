@@ -126,10 +126,10 @@
                     <br />
                     <div><h3>Estudantes por inscrever</h3></div>
                     <br />
-                    <h:form>
-                        <h:inputText value="#{projectController.searchText}"/> <h:commandButton value="Filtrar" action="#{projectController.makeSearch}"/>
 
-                    </h:form>
+                    <h:inputText value="#{projectController.searchText}"/> <h:commandButton value="Filtrar" action="#{projectController.makeSearch}"/>
+                    <br />
+
                     <p:dataTable id="StudentsNot" value="#{projectController.listNotInProject()}" var="student" rowKey="#{student.studentID}"
                                  selection="#{projectController.studentsToAdd}"
                                  paginator="true" rows="10" paginatorPosition="bottom"

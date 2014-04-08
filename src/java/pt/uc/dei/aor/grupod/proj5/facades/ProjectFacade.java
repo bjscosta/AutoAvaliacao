@@ -196,15 +196,22 @@ public class ProjectFacade extends AbstractFacade<Project> {
     }
 
     public void deleteStudents(Project project, List<Student> selectedStudents) {
-        for (ProjEvaluation pe : project.getProjAvaliations()) {
-            for (Student s : selectedStudents) {
+        for (Student s : selectedStudents) {
+            ProjEvaluation projE = null;
+            for (ProjEvaluation pe : project.getProjAvaliations()) {
+
                 if (pe.getStudent().equals(s)) {
-                    s.getProjEvaluations().remove(pe);
-                    project.getProjAvaliations().remove(pe);
-                    em.merge(s);
-                    edit(project);
+                    projE = pe;
+                    break;
+
                 }
             }
+            s.getProjEvaluations().remove(projE);
+            project.getProjAvaliations().remove(projE);
+            em.merge(project);
+            em.merge(s);
+            em.remove(em.merge(projE));
+
         }
     }
 

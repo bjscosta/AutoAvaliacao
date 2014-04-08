@@ -12,13 +12,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import pt.uc.dei.aor.grupod.proj5.entities.Criteria;
 import pt.uc.dei.aor.grupod.proj5.entities.Edition;
+import pt.uc.dei.aor.grupod.proj5.entities.ProjEvaluation;
 import pt.uc.dei.aor.grupod.proj5.entities.Project;
+import pt.uc.dei.aor.grupod.proj5.entities.Student;
 import pt.uc.dei.aor.grupod.proj5.exceptions.CreateProjectAbortedException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.ProjectListException;
 
@@ -36,6 +40,9 @@ public class ProjectFacade extends AbstractFacade<Project> {
     protected EntityManager getEntityManager() {
         return em;
     }
+
+    @Inject
+    private StudentFacade studentFacade;
 
     public ProjectFacade() {
         super(Project.class);
@@ -143,4 +150,43 @@ public class ProjectFacade extends AbstractFacade<Project> {
 
     }
 
+    public void deleteStudents(Project project, List<Student> selectedStudents) {
+        for (ProjEvaluation pe : project.getProjAvaliations()) {
+            for (Student s : selectedStudents) {
+                if (pe.getStudent().equals(s)) {
+                    s.getProjEvaluations().remove(pe);
+                    project.getProjAvaliations().remove(pe);
+                    em.merge(s);
+                    edit(project);
+                }
+            }
+        }
+    }
+
+    public List<Student> studentsNotInProject(Project p) {
+        List<Student> allStudentsEdition = studentFacade.findStudentsByEdition(p.getEdition());
+
+        for (Student s : allStudentsEdition) {
+            for (ProjEvaluation pe : p.getProjAvaliations()) {
+                if (s.equals(pe.getStudent())) {
+                    allStudentsEdition.remove(s);
+                }
+            }
+        }
+        return allStudentsEdition;
+    }
+
+    public void addStudentsProject(Project p, List<Student> sl) {
+        for (Criteria c : p.getEdition().getCriteriaList()) {
+            for (Student s : sl) {
+                ProjEvaluation pe = new ProjEvaluation();
+                pe.setCriteria(c);
+                pe.setProject(p);
+                pe.setStudent(s);
+                pe.setCriteriaValue(-1);
+                em.persist(pe);
+            }
+        }
+
+    }
 }

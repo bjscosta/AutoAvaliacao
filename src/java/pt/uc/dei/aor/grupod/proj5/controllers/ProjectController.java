@@ -23,6 +23,7 @@ import pt.uc.dei.aor.grupod.proj5.entities.Project;
 import pt.uc.dei.aor.grupod.proj5.entities.Student;
 import pt.uc.dei.aor.grupod.proj5.exceptions.CreateProjectAbortedException;
 import pt.uc.dei.aor.grupod.proj5.facades.ProjectFacade;
+import pt.uc.dei.aor.grupod.proj5.facades.StudentFacade;
 
 @Named
 @RequestScoped
@@ -33,6 +34,9 @@ public class ProjectController {
 
     @Inject
     private LoggedUserEJB loggedUserEJB;
+    
+    @Inject
+    private StudentFacade studentFacade;
 
     private List<Project> openProjects;
     private List<Project> closeProjects;
@@ -50,6 +54,10 @@ public class ProjectController {
     private UIForm addStudentForm;
     private List<Student> selectedStudents;
     private List<Student> listStudentsEdition;
+    private Project project;
+    private UIForm header;
+    private UIComponent studentsEdition;
+    
 
     @PostConstruct
     public void init() {
@@ -197,13 +205,39 @@ public class ProjectController {
     }
 
     public List<Student> getListStudentsEdition() {
-        return selectedOpenedProject.getEdition().getStudents();
+        return this.listStudentsEdition;
     }
 
     public void setListStudentsEdition(List<Student> listStudentsEdition) {
         this.listStudentsEdition = listStudentsEdition;
     }
 
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public UIForm getHeader() {
+        return header;
+    }
+
+    public void setHeader(UIForm header) {
+        this.header = header;
+    }
+
+    public UIComponent getStudentsEdition() {
+        return studentsEdition;
+    }
+
+    public void setStudentsEdition(UIComponent studentsEdition) {
+        this.studentsEdition = studentsEdition;
+    }
+    
+    
+    
     /**
      * method to get the opened projects from the database
      */
@@ -225,6 +259,7 @@ public class ProjectController {
         openProjectsForm.setRendered(false);
         closedProjecsForm.setRendered(false);
         createProject.setRendered(true);
+        header.setRendered(false);
     }
 
     /**
@@ -248,6 +283,7 @@ public class ProjectController {
             addMessage(ex.getMessage());
 
         }
+        
     }
 
     public void pamps() {
@@ -303,10 +339,35 @@ public class ProjectController {
         closedProjecsForm.setRendered(true);
     }
 
-    public void goToAddStudents() {
+    public void goToAddStudents(Project project) {
+        this.listStudentsEdition = project.getEdition().getStudents();
+        this.project = project;
         openProjectsForm.setRendered(false);
         closedProjecsForm.setRendered(false);
         addStudentForm.setRendered(true);
+        header.setRendered(false);
     }
-
+    
+    
+    public void deleteStudentsFromProject(){
+        projectFacade.deleteStudents(project, selectedStudents);
+    }
+    
+    public List<Student> listNotInProject(){
+        return projectFacade.studentsNotInProject(project);
+    }
+    
+    public void insertStudentsProject(){
+        projectFacade.addStudentsProject(project, selectedStudents);
+    }
+    
+    public String editProject(){
+        projectFacade.edit(project);
+        return"openProjectAdmin";
+    }
+    
+   public List<Student> allStudentsEdition(){
+        return studentFacade.findStudentsByEdition(loggedUserEJB.getActiveEdition());
+   }
+    
 }

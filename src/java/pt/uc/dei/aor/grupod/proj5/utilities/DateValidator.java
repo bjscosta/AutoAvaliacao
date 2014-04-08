@@ -30,7 +30,19 @@ public class DateValidator implements Validator {
         }
 
         UIInput startDateComponent = (UIInput) component.getAttributes().get("startDateComponent");
-
+        UIInput editStartDateComponent = (UIInput) component.getAttributes().get("editStartDateComponent");
+        
+        if(startDateComponent != null){
+            validateStart(context, startDateComponent, value);
+        }
+        
+        if(editStartDateComponent != null){
+            validateEditStart(context, editStartDateComponent, value);
+        }
+        
+    }
+    
+    public void validateStart(FacesContext context, UIInput startDateComponent, Object value){
         if (!startDateComponent.isValid()) {
             startDateComponent.setValid(false);
             throw new ValidatorException(new FacesMessage(
@@ -49,6 +61,30 @@ public class DateValidator implements Validator {
 
         if (startDate.after(endDate)) {
             startDateComponent.setValid(false);
+            throw new ValidatorException(new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "Data de inicio não pode ser depois da data de fim", null));
+        }
+    }
+    
+    public void validateEditStart(FacesContext context, UIInput editStartDateComponent, Object value){
+        if (!editStartDateComponent.isValid()) {
+            editStartDateComponent.setValid(false);
+            throw new ValidatorException(new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "Precisa de preencher todos os campos", null));
+        }
+
+        Date startDate = (Date) editStartDateComponent.getValue();
+
+        if (startDate == null) {
+            editStartDateComponent.setValid(false);
+            throw new ValidatorException(new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "Precisa de preencher todos os campos", null));
+        }
+
+        Date endDate = (Date) value;
+
+        if (startDate.after(endDate)) {
+            editStartDateComponent.setValid(false);
             throw new ValidatorException(new FacesMessage(
                     FacesMessage.SEVERITY_ERROR, "Data de inicio não pode ser depois da data de fim", null));
         }

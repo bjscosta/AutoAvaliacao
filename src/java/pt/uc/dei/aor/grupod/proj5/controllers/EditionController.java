@@ -379,7 +379,6 @@ public class EditionController {
     
     public String goToEdit(Edition edition){
         loggedUserEJB.setActiveEdition(edition);
-        
         return "editEdition";
     }
     

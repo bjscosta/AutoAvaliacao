@@ -13,7 +13,7 @@
         <ui:composition template="./mainTemplateAdmin.xhtml">
 
             <ui:define name ="content">
-                <h:form>
+                <h:form binding="#{projectController.header}">
                     <div align="left">
                         <h:commandLink value="Todos" action="#{projectController.seeAll}"/>
                         &nbsp;&nbsp;&nbsp;&nbsp;
@@ -52,26 +52,100 @@
                             #{project2.edition.editionName}
                         </p:column>
                         <p:column>
-                            <h:commandLink value="Adicionar estudantes ao projecto" action="#{projectController.goToAddStudents}"/>
+                            <h:commandLink value="Abrir projecto" action="#{projectController.goToAddStudents(project2)}"/>
                         </p:column>
 
                     </p:dataTable>
                 </h:form>
                 <br/>
                 <h:form binding = "#{projectController.addStudentForm}" rendered="false">
+                    <div align="center"><h1>#{projectController.project.name}</h1></div>
+                    <div align="right">
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td align="center">
+                                        <h3>Editar datas</h3>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td>
+                                    <h:outputLabel value="Data de Inicio da Avaliações"/>
+                                </td>
+                                <td>
+                                    <p:calendar value="#{projectController.project.startingSelfEvaluationDate}"
+                                                id="editStartDate" mode="popup" binding="#{editStartDateComponent}">
+
+                                    </p:calendar>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:outputLabel value="Data de Fim da Avaliações"/>
+                                </td>
+                                <td>
+                                    <p:calendar value="#{projectController.project.finishingSelfEvaluationDate}"
+                                                id="editEndDate" mode="popup">
+                                        <f:validator validatorId="dateRangeValidator" />
+                                        <f:attribute name="startDateComponent" value="#{editStartDateComponent}" />
+                                    </p:calendar>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+
+                    <div><h3>Estudantes inscritos no projeto</h3></div>
                     <p:dataTable value="#{projectController.listStudentsEdition}" var="student" rowKey="#{student.studentID}"
-                                 selectionMode="multiple" selection="#{projectController.selectedStudents}"
+                                 selection="#{projectController.selectedStudents}"
                                  paginator="true" rows="10" paginatorPosition="bottom"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15" resizableColumns="false">
-                        <p:column>
+                        <p:column selectionMode="multiple" />
+
+
+                        <p:column headerText="Nome" sortBy="#{student.name}">
                             #{student.name}
                         </p:column>
-                        <p:column>
+                        <p:column headerText="E-mail" sortBy="#{student.email}">
                             #{student.email}
                         </p:column>
-                    </p:dataTable>
 
+                        <f:facet name="footer">
+                            <h:commandButton value="Apagar selecionados" action="#{projectController.deleteStudentsFromProject}"/>
+                        </f:facet>
+
+                    </p:dataTable>
+                    <br />
+                    <br />
+                    <div><h3>Estudantes por inscrever</h3></div>
+                    <p:dataTable value="#{projectController.listNotInProject()}" var="student" rowKey="#{student.studentID}"
+                                 selection="#{projectController.selectedStudents}"
+                                 paginator="true" rows="10" paginatorPosition="bottom"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15" resizableColumns="false">
+                        <p:column selectionMode="multiple" />
+
+
+                        <p:column headerText="Nome" sortBy="#{student.name}">
+                            #{student.name}
+                        </p:column>
+                        <p:column headerText="E-mail" sortBy="#{student.email}">
+                            #{student.email}
+                        </p:column>
+
+                        <f:facet name="footer">
+                            <h:commandButton value="Adicionar selecionados" action="#{projectController.insertStudentsProject}"/>
+                        </f:facet>
+
+                    </p:dataTable>
+                    <br />
+                    <br />
+                    <div align="center">
+                        <h:commandButton value="Confirmar Alterações" action="#{projectController.editProject}"/>
+                    </div>
                 </h:form>
 
                 <h:form id="closedProjectsForm" binding="#{projectController.closedProjecsForm}">
@@ -99,6 +173,10 @@
                             #{project1.edition.editionName}
                         </p:column>
 
+                        <p:column>
+                            <h:commandLink value="Abrir Projecto" action="#{projectController.goToAddStudents(project1)}"/>
+                        </p:column>
+
                     </p:dataTable>
                 </h:form>
 
@@ -106,6 +184,7 @@
                     <p:growl id="messages"/>
                     <div align="center"><h2>Criar Projecto</h2></div>
                     <br/>
+
                     <table align="center">
                         <tbody>
                             <tr>
@@ -126,7 +205,7 @@
                                 </td>
                                 <td>
                                     <p:calendar value="#{projectController.beginningDate}"
-                                                id="startDate" showOn="button" binding="#{startDateComponent}"
+                                                id="startDate" mode="popup" binding="#{startDateComponent}"
                                                 />
                                 </td>
                                 <td>
@@ -139,7 +218,7 @@
                                 </td>
                                 <td align="center">
                                     <p:calendar value="#{projectController.endingDate}"
-                                                id="endDate" showOn="button">
+                                                id="endDate" mode="popup">
                                         <f:validator validatorId="dateRangeValidator" />
                                         <f:attribute name="startDateComponent" value="#{startDateComponent}" />
                                     </p:calendar>
@@ -148,20 +227,14 @@
 
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
 
-                                </td>
-                                <td align="center">
-                                    <p:commandButton id="editionButton" value="Escolha a Edição" oncomplete="PF('e').show()" update="popupE" />
-                                </td>
-                                <td>
-
-                                </td>
-                            </tr>
 
                         </tbody>
                     </table>
+                    <br />
+                    <div align="center">
+                        <p:commandButton id="editionButton" value="Escolha a Edição" oncomplete="PF('e').show()" update="popupE" />
+                    </div>
 
 
                     <p:dialog header="Edições" widgetVar="e" modal="true" height="300">
@@ -180,12 +253,12 @@
                                     #{edition.yearEdition}
                                 </p:column>
 
+                                <f:facet name="footer">
+                                    <p:commandButton ajax="false" id="selectEdition" value="Confirmar" action="#{projectController.makeProject()}"/>
+                                </f:facet>
+
                             </p:dataTable>
-                            <br />
-                            <br />
-                            <div align="center">
-                                <h:commandButton id="selectEdition" value="Confirmar" action="#{projectController.makeProject()}"/>
-                            </div>
+
                         </h:panelGrid>
                     </p:dialog>
 

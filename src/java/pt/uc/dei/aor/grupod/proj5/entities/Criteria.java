@@ -22,7 +22,7 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "Criteria.findByName", query = "SELECT c FROM Criteria c WHERE c.criteriaName = :criteriaName"),
     @NamedQuery(name = "Criteria.findByEdition", query = "SELECT c FROM Criteria c WHERE c.edition = :edition"),})
 public class Criteria implements Serializable {
-    
+
     @OneToMany(mappedBy = "criteria")
     private List<ProjEvaluation> projEvaluations;
 
@@ -82,8 +82,6 @@ public class Criteria implements Serializable {
     public void setProjEvaluations(List<ProjEvaluation> projEvaluations) {
         this.projEvaluations = projEvaluations;
     }
-
-    
 
     @Override
     public int hashCode() {

@@ -64,6 +64,7 @@ public class ProjectController {
     private String searchText;
     private List<Project> studentProjectEvaluate;
     private UIForm projectsForevaluate;
+    private List<Student> filterStudent;
 
     @PostConstruct
     public void init() {
@@ -296,6 +297,16 @@ public class ProjectController {
         }
     }
 
+    public List<Student> getFilterStudent() {
+        return filterStudent;
+    }
+
+    public void setFilterStudent(List<Student> filterStudent) {
+        this.filterStudent = filterStudent;
+    }
+    
+    
+
     /**
      * method to get the opened projects from the database
      */
@@ -458,6 +469,6 @@ public class ProjectController {
     }
 
     private void makeSearch() {
-
+        
     }
 }

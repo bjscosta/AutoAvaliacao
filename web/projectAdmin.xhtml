@@ -127,20 +127,19 @@
                     <div><h3>Estudantes por inscrever</h3></div>
                     <br />
 
-                    <h:inputText value="#{projectController.searchText}"/> <h:commandButton value="Filtrar" action="#{projectController.makeSearch}"/>
-                    <br />
-
                     <p:dataTable id="StudentsNot" value="#{projectController.listNotInProject()}" var="student" rowKey="#{student.studentID}"
                                  selection="#{projectController.studentsToAdd}"
                                  paginator="true" rows="10" paginatorPosition="bottom"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="5,10,15" resizableColumns="false">
+                                 rowsPerPageTemplate="5,10,15" resizableColumns="false" emptyMessage="Não existem alunos por inscrever" filteredValue="#{projectController.filterStudent}">
+
+
 
                         <p:column selectionMode="multiple" />
-                        <p:column headerText="Nome" sortBy="#{student.name}">
+                        <p:column filterBy="name" filterMatchMode="contains" headerText="Nome" sortBy="#{student.name}">
                             #{student.name}
                         </p:column>
-                        <p:column headerText="E-mail" sortBy="#{student.email}">
+                        <p:column filterBy="email" filterMatchMode="contains" headerText="E-mail" sortBy="#{student.email}">
                             #{student.email}
                         </p:column>
 

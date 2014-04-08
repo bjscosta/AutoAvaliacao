@@ -12,6 +12,7 @@ import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 
 @Entity
+
 public class Log implements Serializable {
 
     @ManyToOne

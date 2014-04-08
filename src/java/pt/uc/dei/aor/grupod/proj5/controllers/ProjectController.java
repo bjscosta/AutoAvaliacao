@@ -245,6 +245,7 @@ public class ProjectController {
 
         } catch (CreateProjectAbortedException ex) {
             Logger.getLogger(ProjectController.class.getName()).log(Level.SEVERE, null, ex);
+
             addMessage(ex.getMessage());
 
         }

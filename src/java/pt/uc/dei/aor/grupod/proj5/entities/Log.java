@@ -55,6 +55,14 @@ public class Log implements Serializable {
         this.timeStamp = new Date(timeStamp.getTime());
     }
 
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;

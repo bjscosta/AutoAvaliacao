@@ -15,11 +15,13 @@ import pt.uc.dei.aor.grupod.proj5.entities.Edition;
 import pt.uc.dei.aor.grupod.proj5.entities.Student;
 import pt.uc.dei.aor.grupod.proj5.entities.User;
 import pt.uc.dei.aor.grupod.proj5.exceptions.DuplicateEmailException;
+import pt.uc.dei.aor.grupod.proj5.exceptions.LogException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.PassDontMatchException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.PasswordNotCorrectException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.UserNotFoundException;
 import pt.uc.dei.aor.grupod.proj5.facades.AdministratorFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.EditionFacade;
+import pt.uc.dei.aor.grupod.proj5.facades.LogFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.StudentFacade;
 
 @Named
@@ -37,6 +39,9 @@ public class UserController {
 
     @Inject
     private EditionFacade editionFacade;
+
+    @Inject
+    private LogFacade logFacade;
 
     private User user;
     private Student student;
@@ -250,7 +255,6 @@ public class UserController {
             try {
                 student.setYearOfRegistration(new GregorianCalendar().get(Calendar.YEAR));
                 loggedUserEJB.setLoggedUser(studentFacade.createStudent(student, confirmPassword, edition));
-                return "openProjectStudent";
 
             } catch (DuplicateEmailException e) {
                 duplicateEmail = e.getMessage();
@@ -263,6 +267,12 @@ public class UserController {
             insertEdition = "Necessita de selecionar uma Edição";
             return null;
         }
+        try {
+            logFacade.createLog("Registration", student);
+        } catch (LogException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "openProjectStudent";
 
     }
 
@@ -349,22 +359,44 @@ public class UserController {
      * @return The String that leads to a XHTML window
      */
     public String makeUpdateStudent() {
+        boolean error = editProfile();
+
+        if (error) {
+            try {
+                logFacade.createLog("FailToEditProfile", student);
+            } catch (LogException ex) {
+                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return null;
+        }
+
+        try {
+            logFacade.createLog("EditProfile", student);
+        } catch (LogException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return "openProjectStudent";
+
+    }
+
+    private boolean editProfile() {
 
         try {
             loggedUserEJB.setLoggedUser(studentFacade.updateUser((Student) loggedUserEJB.getLoggedUser(),
                     student, password1, password2));
-            return "openProjectStudent";
+            return false;
 
         } catch (PassDontMatchException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             passDontMatch = ex.getMessage();
-            return null;
+
         } catch (DuplicateEmailException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             duplicateEmail = ex.getMessage();
-            return null;
-        }
 
+        }
+        return true;
     }
 
     public String deleteStudent() {

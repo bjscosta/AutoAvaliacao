@@ -10,7 +10,7 @@
         <f:event listener="#{projectController.updateProjEv()}" type="preRenderView" />
     </h:head>
     <h:body>
-        <ui:composition template="./mainTemplateAdmin.xhtml">
+        <ui:composition template="./mainTemplateStudent.xhtml">
 
             <ui:define name ="content">
                 <h:form>
@@ -36,11 +36,16 @@
                     <br />
                     <br />
                     <div align="center">
-
+                        <p:growl id="messages" showDetail="true" />
                         <p:commandButton id="selectEdition" value="Confirmar"
-                                         ajax="false" action="#{evaluationController.confirm()}" update="form">
+                                         ajax="false" action="#{evaluationController.confirm()}" update="messages">
+                            <p:confirm header="Confirmation" message="Tem a certeza que quer submeter estas respostas?"  />
 
                         </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" />
+                            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" />
+                        </p:confirmDialog>
 
                     </div>
                 </h:form>

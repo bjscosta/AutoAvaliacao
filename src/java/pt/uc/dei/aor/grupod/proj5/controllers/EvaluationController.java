@@ -17,6 +17,7 @@ import pt.uc.dei.aor.grupod.proj5.entities.ProjEvaluation;
 import pt.uc.dei.aor.grupod.proj5.entities.Student;
 import pt.uc.dei.aor.grupod.proj5.exceptions.ProjEvaluationException;
 import pt.uc.dei.aor.grupod.proj5.facades.ProjEvaluationFacade;
+import pt.uc.dei.aor.grupod.proj5.utilities.MessagesForUser;
 
 /**
  *
@@ -32,6 +33,8 @@ public class EvaluationController {
     @Inject
     private LoggedUserEJB loggedUserEJB;
 
+    private boolean evaluated;
+
     private List<ProjEvaluation> list;
 
     @PostConstruct
@@ -39,6 +42,7 @@ public class EvaluationController {
         list = projEvaluationFacade
                 .evaluationsOfStudentAndProject((Student) loggedUserEJB.getLoggedUser(),
                         loggedUserEJB.getActiveProject());
+        evaluated = false;
 
     }
 
@@ -48,6 +52,14 @@ public class EvaluationController {
 
     public void setList(List<ProjEvaluation> list) {
         this.list = list;
+    }
+
+    public boolean isEvaluated() {
+        return evaluated;
+    }
+
+    public void setEvaluated(boolean evaluated) {
+        this.evaluated = evaluated;
     }
 
     public void updateProjEv() {
@@ -61,7 +73,7 @@ public class EvaluationController {
             projEvaluationFacade.confirm(list);
 
         } catch (ProjEvaluationException ex) {
-
+            MessagesForUser.addMessage(ex.getMessage());
             Logger.getLogger(ProjectController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "openProjectStudent";

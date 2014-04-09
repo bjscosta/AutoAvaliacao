@@ -28,15 +28,20 @@
                             <p:spinner id="minmax"
                                        value="#{evaluation.criteriaValue}"
                                        min="#{userController.student.edition.minValueScale}"
-                                       max="#{userController.student.edition.maxValueScale}"/>
+                                       max="#{userController.student.edition.maxValueScale}">
+                            </p:spinner>
                         </p:column>
 
                     </p:dataTable>
                     <br />
                     <br />
                     <div align="center">
+
                         <p:commandButton id="selectEdition" value="Confirmar"
-                                         ajax="false" action="#{evaluationController.confirm()}" update="form"/>
+                                         ajax="false" action="#{evaluationController.confirm()}" update="form">
+
+                        </p:commandButton>
+
                     </div>
                 </h:form>
 

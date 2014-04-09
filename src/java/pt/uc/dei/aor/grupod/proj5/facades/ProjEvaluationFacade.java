@@ -8,6 +8,7 @@ package pt.uc.dei.aor.grupod.proj5.facades;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.RollbackException;
 import pt.uc.dei.aor.grupod.proj5.entities.Criteria;
@@ -15,6 +16,7 @@ import pt.uc.dei.aor.grupod.proj5.entities.Edition;
 import pt.uc.dei.aor.grupod.proj5.entities.ProjEvaluation;
 import pt.uc.dei.aor.grupod.proj5.entities.Project;
 import pt.uc.dei.aor.grupod.proj5.entities.Student;
+import pt.uc.dei.aor.grupod.proj5.exceptions.NoResultQueryException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.ProjEvaluationException;
 
 /**
@@ -83,30 +85,65 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
         }
     }
 
-    public double averageEdition(Edition edition) {
-        return (double) em.createNamedQuery("ProjEvaluation.avgOfAnEdition").setParameter("editionId", edition.getEditionId()).getSingleResult();
-
+    public double averageEdition(Edition edition) throws NoResultQueryException {
+        try {
+            return (double) em.createNamedQuery("ProjEvaluation.avgOfAnEdition").setParameter("editionId", edition.getEditionId()).getSingleResult();
+        } catch (NoResultException e) {
+            throw new NoResultQueryException();
+        }
     }
 
-    public Edition averageCriteriaEdition(Edition edition) {
+    public Edition averageCriteriaEdition(Edition edition) throws NoResultQueryException {
 
         for (Criteria c : edition.getCriteriaList()) {
-            c.setAvgValue((Double) em.createNamedQuery("ProjEvaluation.avgOfACriteriaEdition").setParameter("criteriaId", c.getCriteriaId()).getSingleResult());
-
+            try {
+                c.setAvgValue((Double) em.createNamedQuery("ProjEvaluation.avgOfACriteriaEdition").setParameter("criteriaId", c.getCriteriaId()).getSingleResult());
+            } catch (NoResultException e) {
+                throw new NoResultQueryException();
+            }
         }
         return edition;
 
     }
 
-    public double averageProject(Project p) {
-        return (double) em.createNamedQuery("ProjEvaluation.avgProj").setParameter("project.id", p.getId()).getSingleResult();
+    public double averageProject(Project p) throws NoResultQueryException {
+        try {
+            return (double) em.createNamedQuery("ProjEvaluation.avgProj").setParameter("project.id", p.getId()).getSingleResult();
+        } catch (NoResultException e) {
+            throw new NoResultQueryException();
+        }
     }
 
-    public Edition averageCriteriaProject(Edition edition, Project project) {
+    public Edition averageCriteriaProject(Edition edition, Project project) throws NoResultQueryException {
 
         for (Criteria c : edition.getCriteriaList()) {
-            c.setAvgValue((Double) em.createNamedQuery("ProjEvaluation.avgOfACriteriaProject").setParameter("projectId", project.getId()).setParameter("criteriaId", c.getCriteriaId()).getSingleResult());
+            try {
+                c.setAvgValue((Double) em.createNamedQuery("ProjEvaluation.avgOfACriteriaProject").setParameter("projectId", project.getId()).setParameter("criteriaId", c.getCriteriaId()).getSingleResult());
+            } catch (NoResultException e) {
+                throw new NoResultQueryException();
+            }
+        }
+        return edition;
 
+    }
+    
+    public double averageStudent(Student s) throws NoResultQueryException{
+        try {
+            return (double) em.createNamedQuery("ProjEvaluation.avgStudent").setParameter("studentId", s.getStudentID()).getSingleResult();
+        } catch (NoResultException e) {
+            throw new NoResultQueryException();
+        }
+    }
+    
+    
+    public Edition averageCriteriaStudent(Edition edition, Student student) throws NoResultQueryException {
+
+        for (Criteria c : edition.getCriteriaList()) {
+            try {
+                c.setAvgValue((Double) em.createNamedQuery("ProjEvaluation.avgOfCriteriaStudent").setParameter("studentId", student.getStudentID()).setParameter("criteriaId", c.getCriteriaId()).getSingleResult());
+            } catch (NoResultException e) {
+                throw new NoResultQueryException();
+            }
         }
         return edition;
 

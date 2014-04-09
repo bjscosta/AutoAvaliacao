@@ -22,7 +22,9 @@ import javax.persistence.Table;
     @NamedQuery(name = "ProjEvaluation.findByProject_Student", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.student = :student"),
     @NamedQuery(name = "ProjEvaluation.userEvaluation", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.project = :project AND pe.student = :student"),
     @NamedQuery(name = "ProjEvaluation.avgOfAnEdition", query = "SELECT avg(e.criteriaValue) FROM ProjEvaluation e GROUP BY e.project.edition.editionId HAVING e.project.edition.editionId = :editionId"),
-    @NamedQuery(name = "ProjEvaluation.avgOfACriterion", query = "SELECT avg(e.criteriaValue), c FROM ProjEvaluation e, Criteria c GROUP BY e.criteria HAVING e.criteria.criteriaId = :criteria")
+    @NamedQuery(name = "ProjEvaluation.avgProj", query = "SELECT AVG(u.criteriaValue) FROM ProjEvaluation u WHERE u.project.id = :projectId"),
+    @NamedQuery(name = "ProjEvaluation.avgOfACriteriaProject", query = "SELECT avg(e.criteriaValue) FROM ProjEvaluation e WHERE e.project.id = :projectId AND e.criteria.criteriaId = :criteriaId"),
+    @NamedQuery(name = "ProjEvaluation.avgOfACriteriaEdition", query = "SELECT avg(e.criteriaValue) FROM ProjEvaluation e WHERE e.criteria.criteriaId = :criteriaId")
 })
 public class ProjEvaluation implements Serializable {
 
@@ -43,16 +45,6 @@ public class ProjEvaluation implements Serializable {
 
     @ManyToOne
     private Criteria criteria;
-
-    private boolean evaluation;
-
-    public boolean isEvaluation() {
-        return evaluation;
-    }
-
-    public void setEvaluation(boolean evaluation) {
-        this.evaluation = evaluation;
-    }
 
     public double getCriteriaValue() {
         return criteriaValue;
@@ -93,6 +85,8 @@ public class ProjEvaluation implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+    
+    
 
     @Override
     public int hashCode() {

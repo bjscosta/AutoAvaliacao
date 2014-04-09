@@ -12,6 +12,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -39,6 +40,9 @@ public class Criteria implements Serializable {
     @NotNull
     @Column(name = "CRITERIA_DISCRIPTION", nullable = false)
     private String criteriaDiscription;
+    
+    @Transient
+    private double avgValue;
 
     @ManyToOne
     private Edition edition;
@@ -82,6 +86,16 @@ public class Criteria implements Serializable {
     public void setProjEvaluations(List<ProjEvaluation> projEvaluations) {
         this.projEvaluations = projEvaluations;
     }
+
+    public double getAvgValue() {
+        return avgValue;
+    }
+
+    public void setAvgValue(double avgValue) {
+        this.avgValue = avgValue;
+    }
+    
+    
 
     @Override
     public int hashCode() {

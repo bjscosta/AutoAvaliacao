@@ -23,8 +23,12 @@
                         <p:column headerText="Nome">
                             #{evaluation.criteria.criteriaName}
                         </p:column>
-                        <p:column headerText="Ano">
-                            <h:inputText value="#{evaluation.criteriaValue}"/>
+                        <p:column headerText="Nota">
+
+                            <p:spinner id="minmax"
+                                       value="#{evaluation.criteriaValue}"
+                                       min="#{userController.student.edition.minValueScale}"
+                                       max="#{userController.student.edition.maxValueScale}"/>
                         </p:column>
 
                     </p:dataTable>

@@ -59,7 +59,7 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
     public void confirm(List<ProjEvaluation> pelist) throws ProjEvaluationException {
         try {
             for (ProjEvaluation pe : pelist) {
-                
+
                 em.merge(pe);
                 em.merge(pe.getStudent());
             }
@@ -67,36 +67,49 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
             throw new ProjEvaluationException();
         }
     }
-    
-    public double averageEdition(Edition edition){
+
+    public void createProj(Project p, Student s) {
+        for (Criteria c : s.getEdition().getCriteriaList()) {
+            ProjEvaluation pe = new ProjEvaluation();
+            pe.setCriteria(c);
+            pe.setProject(p);
+            pe.setStudent(s);
+            em.persist(pe);
+            p.getProjAvaliations().add(pe);
+            s.getProjEvaluations().add(pe);
+            em.merge(s);
+            em.merge(p);
+
+        }
+    }
+
+    public double averageEdition(Edition edition) {
         return (double) em.createNamedQuery("ProjEvaluation.avgOfAnEdition").setParameter("editionId", edition.getEditionId()).getSingleResult();
-        
+
     }
-    
-    public Edition averageCriteriaEdition (Edition edition){
-        
-           
-           for(Criteria c : edition.getCriteriaList()){
-            c.setAvgValue((Double)em.createNamedQuery("ProjEvaluation.avgOfACriteriaEdition").setParameter("criteriaId", c.getCriteriaId()).getSingleResult());
-       
-           }
-         return edition;
-           
+
+    public Edition averageCriteriaEdition(Edition edition) {
+
+        for (Criteria c : edition.getCriteriaList()) {
+            c.setAvgValue((Double) em.createNamedQuery("ProjEvaluation.avgOfACriteriaEdition").setParameter("criteriaId", c.getCriteriaId()).getSingleResult());
+
+        }
+        return edition;
+
     }
-    
-    public double averageProject(Project p){
+
+    public double averageProject(Project p) {
         return (double) em.createNamedQuery("ProjEvaluation.avgProj").setParameter("project.id", p.getId()).getSingleResult();
     }
-    
-    public Edition averageCriteriaProject (Edition edition, Project project){
-        
-           
-           for(Criteria c : edition.getCriteriaList()){
-            c.setAvgValue((Double)em.createNamedQuery("ProjEvaluation.avgOfACriteriaProject").setParameter("projectId", project.getId()).setParameter("criteriaId", c.getCriteriaId()).getSingleResult());
-       
-           }
-         return edition;
-           
+
+    public Edition averageCriteriaProject(Edition edition, Project project) {
+
+        for (Criteria c : edition.getCriteriaList()) {
+            c.setAvgValue((Double) em.createNamedQuery("ProjEvaluation.avgOfACriteriaProject").setParameter("projectId", project.getId()).setParameter("criteriaId", c.getCriteriaId()).getSingleResult());
+
+        }
+        return edition;
+
     }
 
 }

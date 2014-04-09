@@ -18,7 +18,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import pt.uc.dei.aor.grupod.proj5.entities.Criteria;
 import pt.uc.dei.aor.grupod.proj5.entities.Edition;
 import pt.uc.dei.aor.grupod.proj5.entities.ProjEvaluation;
 import pt.uc.dei.aor.grupod.proj5.entities.Project;
@@ -216,13 +215,13 @@ public class ProjectFacade extends AbstractFacade<Project> {
 
     public List<Student> studentsNotInProject(Project p) {
 
-        List<Student> lS = em.createNamedQuery("Student.findStudentByEdition").setParameter("edition", p.getEdition()).getResultList();
+        List<Student> lS = em.createNamedQuery("Student.findStudentByEdition")
+                .setParameter("edition", p.getEdition()).getResultList();
         List<Student> students = new ArrayList<>();
-        List<ProjEvaluation> projEvaluations;
-        Query q = em.createNamedQuery("ProjEvaluation.userEvaluation").setParameter("project", p);
+
         for (Student s : lS) {
-            projEvaluations = q.setParameter("student", s).getResultList();
-            if (projEvaluations.isEmpty()) {
+
+            if (!p.getStudents().contains(s)) {
                 students.add(s);
             }
 
@@ -232,60 +231,42 @@ public class ProjectFacade extends AbstractFacade<Project> {
     }
 
     public void addStudentsProject(Project p, List<Student> sl) {
-        for (Criteria c : p.getEdition().getCriteriaList()) {
-            for (Student s : sl) {
-                ProjEvaluation pe = new ProjEvaluation();
-                pe.setCriteria(c);
-                pe.setProject(p);
-                pe.setStudent(s);
-                pe.setEvaluation(false);
-                p.getProjAvaliations().add(pe);
-                s.getProjEvaluations().add(pe);
-                em.persist(pe);
-                em.merge(p);
-                em.merge(s);
-            }
+
+        for (Student s : sl) {
+            p.getStudents().add(s);
+            s.getProjects().add(p);
+            em.merge(p);
+            em.merge(s);
         }
 
     }
 
     public List<Student> studentsInProject(Project p) {
 
-        List<ProjEvaluation> lPE = em.createNamedQuery("ProjEvaluation.findByProject").setParameter("project", p).getResultList();
-        List<Student> lS = new ArrayList<>();
-
-        for (ProjEvaluation pe : lPE) {
-            if (!lS.contains(pe.getStudent())) {
-                lS.add(pe.getStudent());
-            }
-        }
-
-        return lS;
+        return p.getStudents();
     }
 
     public List<Project> openProjectsToEvaluateStudent(Student s) {
         List<Project> openProjects = new ArrayList();
-        Edition ae = s.getEdition();
+
         Query query = em.createNamedQuery("ProjEvaluation.userEvaluation", ProjEvaluation.class);
         query.setParameter("student", s);
 
         Date d = new Date();
-        for (int i = 0; i < ae.getProjectList().size(); i++) {
-            Project a = ae.getProjectList().get(i);
+        for (int i = 0; i < s.getProjects().size(); i++) {
+            Project a = s.getProjects().get(i);
             if (!a.getStartingSelfEvaluationDate().after(d) && !a.getFinishingSelfEvaluationDate().before(d)) {
                 query.setParameter("project", a);
 
                 List<ProjEvaluation> evaluations = query.getResultList();
 
-                for (ProjEvaluation pe : evaluations) {
-                    if (!pe.isEvaluation()) {
-                        openProjects.add(a);
-                        break;
-                    }
+                if (evaluations.isEmpty()) {
+                    openProjects.add(a);
                 }
 
             }
         }
+
         return openProjects;
     }
 

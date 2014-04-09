@@ -34,7 +34,7 @@ public class Student extends User implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long studentID;
 
-    @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "studentsthatCantEvaluate")
+    @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "students")
     private List<Project> projects;
 
     @Digits(integer = 4, fraction = 0, message = "Year not valid")

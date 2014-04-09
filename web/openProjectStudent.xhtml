@@ -29,64 +29,37 @@
 
                 <h:form binding="#{projectController.projectsForevaluate}" id="form">
                     <div align="center"><h2>Projectos Por Avaliar</h2></div>
-                    <p:dataTable value="#{projectController.openProjects}" var="project2" rowKey="#{project2.id}"
-                                 selectionMode="single" selection="#{projectController.selectedOpenedProject}"
-                                 paginator="true" rows="10" paginatorPosition="bottom"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="5,10,15" resizableColumns="false">
-                        <p:ajax event="rowSelect" listener="#{projectController.evaluate()}"
-                                update=":form:popupE" oncomplete="PF('e').show()" />
-                        <p:column headerText="Nome" sortBy="name">
-                            #{project2.name}
-                        </p:column>
-                        <p:column headerText="Data de Inicio" sortBy="startingSelfEvaluationDate">
-                            <h:outputLabel value="#{project2.startingSelfEvaluationDate}">
-                                <f:convertDateTime locale="Europe/Lisbon"/>
-                            </h:outputLabel>
-                        </p:column>
-                        <p:column headerText="Data de Fim" sortBy="finishingSelfEvaluationDate">
-                            <h:outputLabel value="#{project2.finishingSelfEvaluationDate}">
-                                <f:convertDateTime locale="Europe/Lisbon"/>
-                            </h:outputLabel>
-                        </p:column>
-                        <p:column headerText="Nome da Edição" sortBy="edition">
-                            #{project2.edition.editionName}
-                        </p:column>
-                        <p:column>
+                    <div align="center"><h4>Selecione num Projecto para avaliar</h4>
+                        <p:dataTable value="#{projectController.openProjects}" var="project2" rowKey="#{project2.id}"
+                                     selectionMode="single" selection="#{projectController.selectedOpenedProject}"
+                                     paginator="true" rows="10" paginatorPosition="bottom"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15" resizableColumns="false">
 
-                        </p:column>
-
-
-
-
-                    </p:dataTable>
-                    <br/>
-
-
-                    <p:dialog header="Avaliações" widgetVar="e" modal="true" height="300" id="popupE">
-
-                        <h3>Escala de #{userController.student.edition.minValueScale} a
-                            #{userController.student.edition.maxValueScale}</h3>
-                        <p:dataTable rowKey="#{evaluation.id}" value="#{projectController.peListStudent}"
-                                     var="evaluation">
-
-
-                            <p:column headerText="Nome">
-                                #{evaluation.criteria.criteriaName}
+                            <p:column headerText="Nome" sortBy="name">
+                                #{project2.name}
                             </p:column>
-                            <p:column headerText="Ano">
-                                <h:inputText value="#{evaluation.criteriaValue}"/>
+                            <p:column headerText="Data de Inicio" sortBy="startingSelfEvaluationDate">
+                                <h:outputLabel value="#{project2.startingSelfEvaluationDate}">
+                                    <f:convertDateTime locale="Europe/Lisbon"/>
+                                </h:outputLabel>
+                            </p:column>
+                            <p:column headerText="Data de Fim" sortBy="finishingSelfEvaluationDate">
+                                <h:outputLabel value="#{project2.finishingSelfEvaluationDate}">
+                                    <f:convertDateTime locale="Europe/Lisbon"/>
+                                </h:outputLabel>
+                            </p:column>
+                            <p:column headerText="Nome da Edição" sortBy="edition">
+                                #{project2.edition.editionName}
+                            </p:column>
+                            <p:column>
+                                <p:commandButton value="Avaliar" ajax="false" action="#{projectController.evaluate()}">
+                                    <f:setPropertyActionListener value="#{projectController}" target="#{projectController.selectedOpenedProject}"/>
+                                </p:commandButton>
                             </p:column>
 
                         </p:dataTable>
-                        <br />
-                        <br />
-                        <div align="center">
-                            <p:commandButton id="selectEdition" value="Confirmar" ajax="false" action="#{projectController.confirm()}" />
-                        </div>
-
-                    </p:dialog>
-
+                        <br/>
 
                 </h:form>
 

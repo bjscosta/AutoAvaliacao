@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -62,9 +61,8 @@ public class Project implements Serializable {
     @OneToMany(mappedBy = "project")
     private List<ProjEvaluation> projAvaliations;
 
-    @JoinTable(name = "STUDENT_CANT_EVALUATE")
     @ManyToMany
-    private List<Student> studentsthatCantEvaluate;
+    private List<Student> students;
 
     public String getName() {
         return name;
@@ -90,12 +88,12 @@ public class Project implements Serializable {
         this.projAvaliations = projAvaliations;
     }
 
-    public List<Student> getStudentsthatCantEvaluate() {
-        return studentsthatCantEvaluate;
+    public List<Student> getStudents() {
+        return students;
     }
 
-    public void setStudentsthatCantEvaluate(List<Student> studentsthatCantEvaluate) {
-        this.studentsthatCantEvaluate = studentsthatCantEvaluate;
+    public void setStudents(List<Student> students) {
+        this.students = students;
     }
 
     public Date getStartingSelfEvaluationDate() {

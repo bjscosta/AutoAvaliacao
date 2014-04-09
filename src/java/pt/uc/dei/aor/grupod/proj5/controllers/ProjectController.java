@@ -25,7 +25,6 @@ import pt.uc.dei.aor.grupod.proj5.entities.Project;
 import pt.uc.dei.aor.grupod.proj5.entities.Student;
 import pt.uc.dei.aor.grupod.proj5.entities.User;
 import pt.uc.dei.aor.grupod.proj5.exceptions.CreateProjectAbortedException;
-import pt.uc.dei.aor.grupod.proj5.exceptions.ProjEvaluationException;
 import pt.uc.dei.aor.grupod.proj5.facades.ProjEvaluationFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.ProjectFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.StudentFacade;
@@ -429,7 +428,9 @@ public class ProjectController {
         if (openProjectsForm != null) {
             openProjectsForm.setRendered(true);
         }
-        projectsForevaluate.setRendered(true);
+        if (projectsForevaluate != null) {
+            projectsForevaluate.setRendered(true);
+        }
     }
 
     public void seeOpenProjects() {
@@ -437,7 +438,9 @@ public class ProjectController {
             openProjectsForm.setRendered(true);
         }
         closedProjecsForm.setRendered(false);
-        projectsForevaluate.setRendered(false);
+        if (projectsForevaluate != null) {
+            projectsForevaluate.setRendered(false);
+        }
     }
 
     public void seeClosedProjects() {
@@ -445,7 +448,9 @@ public class ProjectController {
             openProjectsForm.setRendered(false);
         }
         closedProjecsForm.setRendered(true);
-        projectsForevaluate.setRendered(false);
+        if (projectsForevaluate != null) {
+            projectsForevaluate.setRendered(false);
+        }
     }
 
     public void seeProjForEvaluate() {
@@ -496,21 +501,36 @@ public class ProjectController {
 
     }
 
-    public void evaluate() {
+    public String evaluate() {
 
         loggedUserEJB.setActiveProject(selectedOpenedProject);
+        projEvaluationFacade.createProj(selectedOpenedProject,
+                (Student) loggedUserEJB.getLoggedUser());
+        return "evaluation";
 
     }
 
     public String confirm() {
-        try {
-            projEvaluationFacade.confirm(peListStudent);
-            return "openProject";
-        } catch (ProjEvaluationException ex) {
-            Logger.getLogger(ProjectController.class.getName()).log(Level.SEVERE, null, ex);
-            addMessage(ex.getMessage());
-            return null;
-        }
+//        try {
+//            projEvaluationFacade.confirm(peListStudent, loggedUserEJB.getActiveEdition(), loggedUserEJB.getActiveProject(), (Student) loggedUserEJB.getLoggedUser());
+//
+//        } catch (ProjEvaluationException ex) {
+//
+//            Logger.getLogger(ProjectController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        return "openProjectStudent";
 
     }
+
+//    public void createEvaluation() {
+//        FacesContext context = FacesContext.getCurrentInstance();
+//        try {
+//            evaluationFacade.makeEvaluation(autoEvaluationsList, lg.getLoggedUser().getEdition().getCriterias(), currentProject.getCurrentProject().getProjectId(), lg.getLoggedUser().getUserId());
+//            context.addMessage(null, new FacesMessage("Successful submited", "The Average mark for this project is " + avg()));
+//        } catch (AutoEvaluationException ex) {
+//            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), "Error"));
+//            Logger.getLogger(UserEvaluationBean.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//    }
 }

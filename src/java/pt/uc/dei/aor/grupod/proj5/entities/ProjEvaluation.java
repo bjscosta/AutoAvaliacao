@@ -26,7 +26,8 @@ import javax.persistence.Table;
     @NamedQuery(name = "ProjEvaluation.avgOfACriteriaProject", query = "SELECT avg(e.criteriaValue) FROM ProjEvaluation e WHERE e.project.id = :projectId AND e.criteria.criteriaId = :criteriaId"),
     @NamedQuery(name = "ProjEvaluation.avgOfACriteriaEdition", query = "SELECT avg(e.criteriaValue) FROM ProjEvaluation e WHERE e.criteria.criteriaId = :criteriaId"),
     @NamedQuery(name = "ProjEvaluation.avgOfCriteriaStudent", query = "SELECT avg(e.criteriaValue) FROM ProjEvaluation e WHERE e.student.studentID = :studentId AND e.criteria.criteriaId = :criteriaId"),
-    @NamedQuery(name = "ProjEvaluation.avgStudent", query = "SELECT avg(e.criteriaValue) FROM ProjEvaluation e WHERE e.student.studentID = :studentId")
+    @NamedQuery(name = "ProjEvaluation.avgStudent", query = "SELECT avg(e.criteriaValue) FROM ProjEvaluation e WHERE e.student.studentID = :studentId"),
+    @NamedQuery(name = "ProjEvaluation.avgStudentProject", query = "SELECT avg(e.criteriaValue) FROM ProjEvaluation e WHERE e.student.studentID = :studentId AND e.project.id = :projectId AND e.criteria.criteriaId = :criteriaId")
         
 })
 public class ProjEvaluation implements Serializable {

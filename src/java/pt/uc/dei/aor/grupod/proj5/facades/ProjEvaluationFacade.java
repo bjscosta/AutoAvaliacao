@@ -108,7 +108,7 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
 
     public double averageProject(Project p) throws NoResultQueryException {
         try {
-            return (double) em.createNamedQuery("ProjEvaluation.avgProj").setParameter("project.id", p.getId()).getSingleResult();
+            return (double) em.createNamedQuery("ProjEvaluation.avgProj").setParameter("projectId", p.getId()).getSingleResult();
         } catch (NoResultException e) {
             throw new NoResultQueryException();
         }
@@ -130,11 +130,24 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
     public double averageStudent(Student s) throws NoResultQueryException{
         try {
             return (double) em.createNamedQuery("ProjEvaluation.avgStudent").setParameter("studentId", s.getStudentID()).getSingleResult();
-        } catch (NoResultException e) {
+        } catch (NullPointerException | NoResultException e) {
             throw new NoResultQueryException();
         }
     }
     
+    
+    public Edition averageStudentProject(Edition edition, Student student, Project project) throws NoResultQueryException {
+
+        for (Criteria c : edition.getCriteriaList()) {
+            try {
+                c.setAvgValue((Double) em.createNamedQuery("ProjEvaluation.avgStudentProject").setParameter("studentId", student.getStudentID()).setParameter("projectId", project.getId()).setParameter("criteriaId", c.getCriteriaId()).getSingleResult());
+            } catch (NoResultException e) {
+                throw new NoResultQueryException();
+            }
+        }
+        return edition;
+
+    }
     
     public Edition averageCriteriaStudent(Edition edition, Student student) throws NoResultQueryException {
 
@@ -148,5 +161,4 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
         return edition;
 
     }
-
 }

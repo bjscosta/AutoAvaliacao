@@ -3,9 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package pt.uc.dei.aor.grupod.proj5.controllers;
-
 
 import java.util.List;
 import java.util.logging.Level;
@@ -28,21 +26,19 @@ import pt.uc.dei.aor.grupod.proj5.facades.EditionFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.ProjEvaluationFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.ProjectFacade;
 
-
 @Named
 @ViewScoped
 public class ReportsController {
-    
+
     @Inject
     private EditionFacade editionFacade;
-    
+
     @Inject
     private ProjectFacade projectFacade;
-    
+
     @Inject
     private ProjEvaluationFacade projEvaluationFacade;
-    
-    
+
     private Edition edition;
     private Project project;
     private Student student;
@@ -54,7 +50,7 @@ public class ReportsController {
     private UIComponent editionReport;
     private double editionAverage;
     private List<Double> criteriaAvgEdition;
-    private CartesianChartModel editionGraph; 
+    private CartesianChartModel editionGraph;
     private UIComponent projectReport;
     private CartesianChartModel projectGraph;
     private double projectAverage;
@@ -63,13 +59,13 @@ public class ReportsController {
     private CartesianChartModel studentGraph;
     private double studentAverage;
     private List<Double> criteriaAvgStudent;
-    
-    
+
     @PostConstruct
-    public void init(){
-       editionsList = editionFacade.findAllEditions();
-       editionGraph = new CartesianChartModel();
-       projectGraph = new CartesianChartModel();
+    public void init() {
+        editionsList = editionFacade.findAllEditions();
+        editionGraph = new CartesianChartModel();
+        projectGraph = new CartesianChartModel();
+        studentGraph = new CartesianChartModel();
     }
 
     public Edition getEdition() {
@@ -104,8 +100,6 @@ public class ReportsController {
         this.editionGraph = editionGraph;
     }
 
-    
-
     public List<Edition> getEditionsList() {
         return editionsList;
     }
@@ -129,8 +123,6 @@ public class ReportsController {
     public void setStudent(Student student) {
         this.student = student;
     }
-
-    
 
     public UIComponent getProjectTable() {
         return projectTable;
@@ -235,29 +227,29 @@ public class ReportsController {
     public void setCriteriaAvgStudent(List<Double> criteriaAvgStudent) {
         this.criteriaAvgStudent = criteriaAvgStudent;
     }
-    
-    public void confirmEdition(){
+
+    public void confirmEdition() {
         try {
             projectsList = edition.getProjectList();
+            studentsList = edition.getStudents();
             editionAverage = projEvaluationFacade.averageEdition(edition);
             edition = projEvaluationFacade.averageCriteriaEdition(edition);
             createEditionGraph(edition);
             editionReport.setRendered(true);
-            projectTable.setRendered(true);
         } catch (NoResultQueryException ex) {
             Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
             addMessage(ex.getMessage());
         }
-        
+
     }
-    
-    public void confirmProject(){
+
+    public void confirmProject() {
         try {
             studentsList = projectFacade.studentsInProject(project);
             projectAverage = projEvaluationFacade.averageProject(project);
             edition = projEvaluationFacade.averageCriteriaProject(edition, project);
             createProjGraph(edition);
-            studentsTable.setRendered(true);
+
             editionReport.setRendered(false);
             projectReport.setRendered(true);
         } catch (NoResultQueryException ex) {
@@ -265,48 +257,53 @@ public class ReportsController {
             addMessage(ex.getMessage());
         }
     }
-    
-    public void confirmStudents(){
+
+    public void confirmStudents() {
         try {
             studentAverage = projEvaluationFacade.averageStudent(student);
-            edition = projEvaluationFacade.averageCriteriaStudent(edition, student);
+            if (project == null) {
+                edition = projEvaluationFacade.averageCriteriaStudent(edition, student);
+            } else {
+                edition = projEvaluationFacade.averageStudentProject(edition, student, project);
+            }
             createStudentGraph(edition);
             projectReport.setRendered(false);
             studentReport.setRendered(true);
+            editionReport.setRendered(false);
         } catch (NoResultQueryException ex) {
             Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
+            addMessage(ex.getMessage());
         }
-        
+
     }
-    
-    public void createEditionGraph(Edition edition){
-        ChartSeries criteria = new ChartSeries();  
-         
-        for(Criteria c : edition.getCriteriaList()){
+
+    public void createEditionGraph(Edition edition) {
+        ChartSeries criteria = new ChartSeries();
+
+        for (Criteria c : edition.getCriteriaList()) {
             criteria.set(c.getCriteriaName(), c.getAvgValue());
         }
         editionGraph.addSeries(criteria);
     }
-    
-    public void createProjGraph(Edition edition){
-        ChartSeries criteria = new ChartSeries();  
-         
-        for(Criteria c : edition.getCriteriaList()){
+
+    public void createProjGraph(Edition edition) {
+        ChartSeries criteria = new ChartSeries();
+
+        for (Criteria c : edition.getCriteriaList()) {
             criteria.set(c.getCriteriaName(), c.getAvgValue());
         }
         projectGraph.addSeries(criteria);
     }
-    
-    public void createStudentGraph(Edition edition){
-        ChartSeries criteria = new ChartSeries();  
-         
-        for(Criteria c : edition.getCriteriaList()){
+
+    public void createStudentGraph(Edition edition) {
+        ChartSeries criteria = new ChartSeries();
+
+        for (Criteria c : edition.getCriteriaList()) {
             criteria.set(c.getCriteriaName(), c.getAvgValue());
         }
         studentGraph.addSeries(criteria);
     }
-    
-    
+
     public void addMessage(String summary) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
         FacesContext.getCurrentInstance().addMessage(null, message);

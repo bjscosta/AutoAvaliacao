@@ -66,7 +66,7 @@ public class EvaluationController {
                 (Student) loggedUserEJB.getLoggedUser());
     }
 
-    public String confirm() {
+    public void confirm() {
         try {
             projEvaluationFacade.confirm(list);
 
@@ -74,7 +74,12 @@ public class EvaluationController {
             MessagesForUser.addMessage(ex.getMessage());
             Logger.getLogger(ProjectController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "openProjectStudent";
+//        return "openProjectStudent";
 
+    }
+
+    public String confirmbutton() {
+        confirm();
+        return "openProjectStudent.xhtml?faces-redirect=true";
     }
 }

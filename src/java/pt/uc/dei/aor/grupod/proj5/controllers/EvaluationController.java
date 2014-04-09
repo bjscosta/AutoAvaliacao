@@ -39,9 +39,8 @@ public class EvaluationController {
 
     @PostConstruct
     public void init() {
-        list = projEvaluationFacade
-                .evaluationsOfStudentAndProject((Student) loggedUserEJB.getLoggedUser(),
-                        loggedUserEJB.getActiveProject());
+        list = projEvaluationFacade.createProjEvaluation(loggedUserEJB.getActiveProject(),
+                (Student) loggedUserEJB.getLoggedUser());
         evaluated = false;
 
     }
@@ -63,9 +62,8 @@ public class EvaluationController {
     }
 
     public void updateProjEv() {
-        list = projEvaluationFacade
-                .evaluationsOfStudentAndProject((Student) loggedUserEJB.getLoggedUser(),
-                        loggedUserEJB.getActiveProject());
+        list = projEvaluationFacade.createProjEvaluation(loggedUserEJB.getActiveProject(),
+                (Student) loggedUserEJB.getLoggedUser());
     }
 
     public String confirm() {

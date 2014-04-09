@@ -78,6 +78,9 @@ public class ProjectController {
 
         projectCreated = new Project();
         User u = loggedUserEJB.getLoggedUser();
+//        peListStudent = projEvaluationFacade
+//                .evaluationsOfStudentAndProject((Student) loggedUserEJB.getLoggedUser(),
+//                        selectedOpenedProject);
 
     }
 

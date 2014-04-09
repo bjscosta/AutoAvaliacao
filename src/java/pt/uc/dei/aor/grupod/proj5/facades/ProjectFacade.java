@@ -12,6 +12,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -194,23 +196,26 @@ public class ProjectFacade extends AbstractFacade<Project> {
     }
 
     public void deleteStudents(Project project, List<Student> selectedStudents) {
+        Query q = em.createNamedQuery("ProjEvaluation.userEvaluation").setParameter("project", project);
+        List<ProjEvaluation> pe;
         for (Student s : selectedStudents) {
-            ProjEvaluation projE = null;
-            for (ProjEvaluation pe : project.getProjAvaliations()) {
-
-                if (pe.getStudent().equals(s)) {
-                    projE = pe;
-                    break;
-
-                }
+            q.setParameter("student", s);
+            pe = q.getResultList();
+            if (pe.isEmpty()) {
+                project.getStudents().remove(s);
+                s.getProjects().remove(project);
+                em.merge(s);
+                em.merge(project);
+            } else {
+                addMessage("Estudante " + s.getName() + " não pode ser eliminado");
             }
-            s.getProjEvaluations().remove(projE);
-            project.getProjAvaliations().remove(projE);
-            em.merge(project);
-            em.merge(s);
-            em.remove(em.merge(projE));
 
         }
+    }
+
+    public void addMessage(String summary) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
     public List<Student> studentsNotInProject(Project p) {
@@ -249,11 +254,15 @@ public class ProjectFacade extends AbstractFacade<Project> {
     public List<Project> openProjectsToEvaluateStudent(Student s) {
         List<Project> openProjects = new ArrayList();
 
-        Query query = em.createNamedQuery("ProjEvaluation.userEvaluation", ProjEvaluation.class);
-        query.setParameter("student", s);
+        Query query = em.createNamedQuery("ProjEvaluation.userEvaluation", ProjEvaluation.class
+        );
+        query.setParameter(
+                "student", s);
 
         Date d = new Date();
-        for (int i = 0; i < s.getProjects().size(); i++) {
+        for (int i = 0;
+                i < s.getProjects()
+                .size(); i++) {
             Project a = s.getProjects().get(i);
             if (!a.getStartingSelfEvaluationDate().after(d) && !a.getFinishingSelfEvaluationDate().before(d)) {
                 query.setParameter("project", a);

@@ -78,9 +78,6 @@ public class ProjectController {
 
         projectCreated = new Project();
         User u = loggedUserEJB.getLoggedUser();
-//        peListStudent = projEvaluationFacade
-//                .evaluationsOfStudentAndProject((Student) loggedUserEJB.getLoggedUser(),
-//                        selectedOpenedProject);
 
     }
 
@@ -338,10 +335,10 @@ public class ProjectController {
         }
     }
 
-    public void actualiaProjEv() {
+    public void updateProjEv() {
         peListStudent = projEvaluationFacade
                 .evaluationsOfStudentAndProject((Student) loggedUserEJB.getLoggedUser(),
-                        selectedOpenedProject);
+                        loggedUserEJB.getActiveProject());
     }
 
     /**

@@ -7,7 +7,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Facelet Title</title>
-        <f:event listener="#{projectController.actualiaProjEv()}" type="preRenderView" />
+        <f:event listener="#{projectController.updateProjEv()}" type="preRenderView" />
     </h:head>
     <h:body>
         <ui:composition template="./mainTemplateAdmin.xhtml">
@@ -16,7 +16,7 @@
                 <h:form>
                     <h3>Escala de #{userController.student.edition.minValueScale} a
                         #{userController.student.edition.maxValueScale}</h3>
-                    <p:dataTable rowKey="#{evaluation.id}" value="#{projectController.peListStudent}"
+                    <p:dataTable rowKey="#{evaluation.id}" value="#{evaluationController.list}"
                                  var="evaluation">
 
 
@@ -32,7 +32,7 @@
                     <br />
                     <div align="center">
                         <p:commandButton id="selectEdition" value="Confirmar"
-                                         ajax="false" action="#{projectController.confirm()}" update="form"/>
+                                         ajax="false" action="#{evaluationController.confirm()}" update="form"/>
                     </div>
                 </h:form>
 

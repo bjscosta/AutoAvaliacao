@@ -59,13 +59,20 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
     }
 
     public void confirm(List<ProjEvaluation> pelist) throws ProjEvaluationException {
+        Edition e = pelist.get(0).getProject().getEdition();
         try {
             for (ProjEvaluation pe : pelist) {
+                if (pe.getCriteriaValue() >= e.getMinValueScale() && pe.getCriteriaValue() <= e.getMaxValueScale()) {
+                    em.merge(pe);
+                    em.merge(pe.getStudent());
+                } else {
+                    ProjEvaluationException ex = new ProjEvaluationException();
 
-                em.merge(pe);
-                em.merge(pe.getStudent());
+                    throw new ProjEvaluationException();
+                }
+
             }
-        } catch (RollbackException e) {
+        } catch (RollbackException exception) {
             throw new ProjEvaluationException();
         }
     }
@@ -126,16 +133,15 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
         return edition;
 
     }
-    
-    public double averageStudent(Student s) throws NoResultQueryException{
+
+    public double averageStudent(Student s) throws NoResultQueryException {
         try {
             return (double) em.createNamedQuery("ProjEvaluation.avgStudent").setParameter("studentId", s.getStudentID()).getSingleResult();
         } catch (NoResultException e) {
             throw new NoResultQueryException();
         }
     }
-    
-    
+
     public Edition averageCriteriaStudent(Edition edition, Student student) throws NoResultQueryException {
 
         for (Criteria c : edition.getCriteriaList()) {

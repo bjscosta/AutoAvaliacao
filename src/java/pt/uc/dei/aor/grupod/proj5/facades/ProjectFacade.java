@@ -238,7 +238,7 @@ public class ProjectFacade extends AbstractFacade<Project> {
                 pe.setCriteria(c);
                 pe.setProject(p);
                 pe.setStudent(s);
-                pe.setCriteriaValue(-1);
+                pe.setEvaluation(false);
                 p.getProjAvaliations().add(pe);
                 s.getProjEvaluations().add(pe);
                 em.persist(pe);
@@ -278,7 +278,7 @@ public class ProjectFacade extends AbstractFacade<Project> {
                 List<ProjEvaluation> evaluations = query.getResultList();
 
                 for (ProjEvaluation pe : evaluations) {
-                    if (pe.getCriteriaValue() == -1) {
+                    if (!pe.isEvaluation()) {
                         openProjects.add(a);
                         break;
                     }

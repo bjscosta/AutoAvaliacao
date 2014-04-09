@@ -20,10 +20,13 @@ import javax.inject.Named;
 import pt.uc.dei.aor.grupod.proj5.EJB.LoggedUserEJB;
 import pt.uc.dei.aor.grupod.proj5.entities.Administrator;
 import pt.uc.dei.aor.grupod.proj5.entities.Edition;
+import pt.uc.dei.aor.grupod.proj5.entities.ProjEvaluation;
 import pt.uc.dei.aor.grupod.proj5.entities.Project;
 import pt.uc.dei.aor.grupod.proj5.entities.Student;
 import pt.uc.dei.aor.grupod.proj5.entities.User;
 import pt.uc.dei.aor.grupod.proj5.exceptions.CreateProjectAbortedException;
+import pt.uc.dei.aor.grupod.proj5.exceptions.ProjEvaluationException;
+import pt.uc.dei.aor.grupod.proj5.facades.ProjEvaluationFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.ProjectFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.StudentFacade;
 
@@ -39,6 +42,9 @@ public class ProjectController {
 
     @Inject
     private StudentFacade studentFacade;
+
+    @Inject
+    private ProjEvaluationFacade projEvaluationFacade;
 
     private List<Project> openProjects;
     private List<Project> closeProjects;
@@ -65,6 +71,7 @@ public class ProjectController {
     private List<Project> studentProjectEvaluate;
     private UIForm projectsForevaluate;
     private List<Student> filterStudent;
+    private List<ProjEvaluation> peListStudent;
 
     @PostConstruct
     public void init() {
@@ -218,6 +225,7 @@ public class ProjectController {
 
     public void setProject(Project project) {
         this.project = project;
+
     }
 
     public UIForm getHeader() {
@@ -283,6 +291,18 @@ public class ProjectController {
 
     public void setProjectsForevaluate(UIForm projectsForevaluate) {
         this.projectsForevaluate = projectsForevaluate;
+    }
+
+    public List<ProjEvaluation> getPeListStudent() {
+
+        peListStudent = projEvaluationFacade
+                .evaluationsOfStudentAndProject((Student) loggedUserEJB.getLoggedUser(),
+                        selectedOpenedProject);
+        return peListStudent;
+    }
+
+    public void setPeListStudent(List<ProjEvaluation> peListStudent) {
+        this.peListStudent = peListStudent;
     }
 
     public void actualizeStudentEvaluateProje() {
@@ -369,6 +389,8 @@ public class ProjectController {
             createProject.setRendered(false);
             openProjectsForm.setRendered(true);
             closedProjecsForm.setRendered(true);
+            header.setRendered(true);
+
         }
     }
 
@@ -404,12 +426,24 @@ public class ProjectController {
 
     public void seeAll() {
         closedProjecsForm.setRendered(true);
-
+        if (openProjectsForm != null) {
+            openProjectsForm.setRendered(true);
+        }
         projectsForevaluate.setRendered(true);
     }
 
-    public void seeClosedProjects() {
+    public void seeOpenProjects() {
+        if (openProjectsForm != null) {
+            openProjectsForm.setRendered(true);
+        }
+        closedProjecsForm.setRendered(false);
+        projectsForevaluate.setRendered(false);
+    }
 
+    public void seeClosedProjects() {
+        if (openProjectsForm != null) {
+            openProjectsForm.setRendered(false);
+        }
         closedProjecsForm.setRendered(true);
         projectsForevaluate.setRendered(false);
     }
@@ -444,10 +478,12 @@ public class ProjectController {
         projectFacade.addStudentsProject(loggedUserEJB.getActiveProject(), studentsToAdd);
     }
 
-    public String editProject() {
+    public void editProject() {
         projectFacade.edit(loggedUserEJB.getActiveProject());
-        loggedUserEJB.setActiveProject(null);
-        return "openProjectAdmin";
+        addStudentForm.setRendered(false);
+
+        closedProjecsForm.setRendered(true);
+        openProjectsForm.setRendered(true);
     }
 
     public List<Student> listStudentEdition() {
@@ -457,6 +493,24 @@ public class ProjectController {
     }
 
     private void makeSearch() {
+
+    }
+
+    public void evaluate() {
+
+        loggedUserEJB.setActiveProject(selectedOpenedProject);
+
+    }
+
+    public String confirm() {
+        try {
+            projEvaluationFacade.confirm(peListStudent);
+            return "openProject";
+        } catch (ProjEvaluationException ex) {
+            Logger.getLogger(ProjectController.class.getName()).log(Level.SEVERE, null, ex);
+            addMessage(ex.getMessage());
+            return null;
+        }
 
     }
 }

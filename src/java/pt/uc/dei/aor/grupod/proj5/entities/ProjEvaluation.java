@@ -20,7 +20,9 @@ import javax.persistence.Table;
     @NamedQuery(name = "ProjEvaluation.findByProject", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.project = :project"),
     @NamedQuery(name = "ProjEvaluation.findByEdition", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.project.edition = :edition"),
     @NamedQuery(name = "ProjEvaluation.findByProject_Student", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.student = :student"),
-    @NamedQuery(name = "ProjEvaluation.userEvaluation", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.project = :project AND pe.student = :student")
+    @NamedQuery(name = "ProjEvaluation.userEvaluation", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.project = :project AND pe.student = :student"),
+    @NamedQuery(name = "ProjEvaluation.avgOfAnEdition", query = "SELECT avg(e.criteriaValue) FROM ProjEvaluation e GROUP BY e.project.edition.editionId HAVING e.project.edition.editionId = :editionId"),
+    @NamedQuery(name = "ProjEvaluation.avgOfACriterion", query = "SELECT avg(e.criteriaValue), c FROM ProjEvaluation e, Criteria c GROUP BY e.criteria HAVING e.criteria.criteriaId = :criteria")
 })
 public class ProjEvaluation implements Serializable {
 
@@ -41,6 +43,16 @@ public class ProjEvaluation implements Serializable {
 
     @ManyToOne
     private Criteria criteria;
+
+    private boolean evaluation;
+
+    public boolean isEvaluation() {
+        return evaluation;
+    }
+
+    public void setEvaluation(boolean evaluation) {
+        this.evaluation = evaluation;
+    }
 
     public double getCriteriaValue() {
         return criteriaValue;

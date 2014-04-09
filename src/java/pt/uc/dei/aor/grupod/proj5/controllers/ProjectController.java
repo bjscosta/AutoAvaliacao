@@ -356,7 +356,7 @@ public class ProjectController {
     }
 
     /**
-     * this method opens the createProject form
+     * this method opens the createProjEvaluationect form
      */
     public void goToCreateProject() {
         openProjectsForm.setRendered(false);
@@ -366,8 +366,8 @@ public class ProjectController {
     }
 
     /**
-     * this methods call the method of the projectFacade createProject for
-     * creating projects, catches the CreateProjectAbortedException if
+     * this methods call the method of the projectFacade createProjEvaluationect
+     * for creating projects, catches the CreateProjectAbortedException if
      * unsuccessfull
      *
      */
@@ -511,8 +511,7 @@ public class ProjectController {
     public String evaluate() {
 
         loggedUserEJB.setActiveProject(selectedOpenedProject);
-        projEvaluationFacade.createProj(selectedOpenedProject,
-                (Student) loggedUserEJB.getLoggedUser());
+
         return "evaluation";
 
     }

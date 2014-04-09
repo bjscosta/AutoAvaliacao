@@ -21,7 +21,8 @@
                         <h:commandLink value="Todos" action="#{projectController.seeAll}"/>
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <h:commandLink value="Projectos Por Avaliar" action="#{projectController.seeProjForEvaluate}"/>
-
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <h:commandLink value="Projectos Avaliados" action="#{projectController.seeProjEvaluated}"/>
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <h:commandLink value="Projectos Fechados" action="#{projectController.seeClosedProjects}"/>
                     </div>
@@ -64,8 +65,39 @@
 
                 </h:form>
 
+                <h:form binding="#{projectController.projEvaluatedForm}">
+                    <div align="center"><h2>Projectos Avaliados</h2></div>
+                    <p:dataTable value="#{projectController.projectsAlreadyEvaluated}" var="project1" rowKey="#{project1.id}"
+                                 selectionMode="single" selection="#{projectController.selectedClosedProject}"
+                                 paginator="true" rows="10" paginatorPosition="bottom"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15" resizableColumns="false">
+                        <p:column headerText="Nome" sortBy="name">
+                            #{project1.name}
+                        </p:column>
+                        <p:column headerText="Data de Inicio" sortBy="startingSelfEvaluationDate">
+                            <h:outputLabel value="#{project1.startingSelfEvaluationDate}">
+                                <f:convertDateTime locale="Europe/Lisbon"/>
+                            </h:outputLabel>
+                        </p:column>
+                        <p:column headerText="Data de Fim" sortBy="finishingSelfEvaluationDate">
+                            <h:outputLabel value="#{project1.finishingSelfEvaluationDate}">
+                                <f:convertDateTime locale="Europe/Lisbon"/>
+                            </h:outputLabel>
+                        </p:column>
+                        <p:column headerText="Nome da Edição" sortBy="edition">
+                            #{project1.edition.editionName}
+                        </p:column>
+                        <p:column headerText="Ver notas">
+                            <p:commandButton value="Ver" ajax="false" action="#{projectController.seeGradesinProjectStudent}">
+                                <f:setPropertyActionListener value="#{project1}" target="#{projectController.selectedClosedProject}"/>
 
+                            </p:commandButton>
+                        </p:column>
 
+                    </p:dataTable>
+                </h:form>
+                <br/>
                 <h:form id="closedProjectsForm" binding="#{projectController.closedProjecsForm}">
                     <div align="center"><h2>Projectos Fechados</h2></div>
                     <br/>

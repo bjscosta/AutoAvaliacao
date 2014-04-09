@@ -28,12 +28,13 @@
                             #{evaluation.criteria.criteriaName}
                         </p:column>
                         <p:column headerText="Nota">
-
-                            <p:spinner id="minmax"
-                                       value="#{evaluation.criteriaValue}"
-                                       min="#{userController.student.edition.minValueScale}"
-                                       max="#{userController.student.edition.maxValueScale}">
-                            </p:spinner>
+                            <div align="center">
+                                <p:spinner id="minmax"
+                                           value="#{evaluation.criteriaValue}"
+                                           min="#{userController.student.edition.minValueScale}"
+                                           max="#{userController.student.edition.maxValueScale}">
+                                </p:spinner>
+                            </div>
                         </p:column>
 
                     </p:dataTable>
@@ -42,19 +43,14 @@
                     <div align="center">
                         <p:growl id="messages" showDetail="true" />
                         <p:commandButton id="selectEdition" value="Confirmar"
-                                         update="messages" process="@this" actionListener="#{evaluationController.confirm()}">
-                            <p:confirm header="Confirmation" message="Tem a certeza que quer submeter estas respostas?"  />
+                                         update="messages" process="@this" action="#{evaluationController.confirmbutton()}"
+                                         ajax="false">
+
 
                         </p:commandButton>
                         <p:commandButton value="Cancelar" action="openProjectStudent.xhtml?faces-redirect=true"/>
 
-                        <p:confirmDialog global="true" widgetVar="confirm" showEffect="fade" hideEffect="explode" >
-                            <h:form>
-                                <p:commandButton  immediate="true" value="Sim" styleClass="ui-confirmdialog-yes"
-                                                  process="@this" oncomplete="confirm.hide()" action="#{evaluationController.confirmbutton()}" />
-                                <p:commandButton oncomplete="confirm.hide()" value="Não" styleClass="ui-confirmdialog-no" />
-                            </h:form>
-                        </p:confirmDialog>
+
 
                     </div>
                 </h:form>

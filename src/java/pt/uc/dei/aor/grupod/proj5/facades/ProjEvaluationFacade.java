@@ -40,7 +40,7 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
     }
 
     public List<ProjEvaluation> getListProjEvaluation(Student s, Project p) {
-        return em.createNamedQuery("ProjEvaluation.findByProjectAndStudent")
+        return em.createNamedQuery("ProjEvaluation.userEvaluation")
                 .setParameter("student", s).setParameter("project", p).getResultList();
     }
 

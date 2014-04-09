@@ -69,6 +69,18 @@ public class ProjectFacade extends AbstractFacade<Project> {
         }
     }
 
+    public List<Project> projectsEvaluated(Student s) {
+        List<ProjEvaluation> list = em.createNamedQuery("ProjEvaluation.findByStudent")
+                .setParameter("student", s).getResultList();
+        List<Project> projects = new ArrayList();
+        for (ProjEvaluation pe : list) {
+            if (!projects.contains(pe.getProject())) {
+                projects.add(pe.getProject());
+            }
+        }
+        return projects;
+    }
+
     /**
      * method that finds a project, using the named query
      * Project.findProjectById

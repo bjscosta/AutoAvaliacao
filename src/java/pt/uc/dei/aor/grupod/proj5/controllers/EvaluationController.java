@@ -33,15 +33,16 @@ public class EvaluationController {
     @Inject
     private LoggedUserEJB loggedUserEJB;
 
-    private boolean evaluated;
-
     private List<ProjEvaluation> list;
+
+    private List<ProjEvaluation> evaluations;
 
     @PostConstruct
     public void init() {
         list = projEvaluationFacade.createProjEvaluation(loggedUserEJB.getActiveProject(),
                 (Student) loggedUserEJB.getLoggedUser());
-        evaluated = false;
+        evaluations = projEvaluationFacade.getListProjEvaluation(
+                (Student) loggedUserEJB.getLoggedUser(), loggedUserEJB.getActiveProject());
 
     }
 
@@ -53,12 +54,14 @@ public class EvaluationController {
         this.list = list;
     }
 
-    public boolean isEvaluated() {
-        return evaluated;
+    public List<ProjEvaluation> getEvaluations() {
+        evaluations = projEvaluationFacade.getListProjEvaluation(
+                (Student) loggedUserEJB.getLoggedUser(), loggedUserEJB.getActiveProject());
+        return evaluations;
     }
 
-    public void setEvaluated(boolean evaluated) {
-        this.evaluated = evaluated;
+    public void setEvaluations(List<ProjEvaluation> evaluations) {
+        this.evaluations = evaluations;
     }
 
     public void updateProjEv() {

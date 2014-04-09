@@ -72,6 +72,8 @@ public class ProjectController {
     private UIForm projectsForevaluate;
     private List<Student> filterStudent;
     private List<ProjEvaluation> peListStudent;
+    private List<Project> projectsAlreadyEvaluated;
+    private UIForm projEvaluatedForm;
 
     @PostConstruct
     public void init() {
@@ -163,6 +165,14 @@ public class ProjectController {
         this.createProject = createProject;
     }
 
+    public UIForm getProjEvaluatedForm() {
+        return projEvaluatedForm;
+    }
+
+    public void setProjEvaluatedForm(UIForm projEvaluatedForm) {
+        this.projEvaluatedForm = projEvaluatedForm;
+    }
+
     public Edition getEdition() {
         return edition;
     }
@@ -226,6 +236,15 @@ public class ProjectController {
     public void setProject(Project project) {
         this.project = project;
 
+    }
+
+    public List<Project> getProjectsAlreadyEvaluated() {
+        projectsAlreadyEvaluated = projectFacade.projectsEvaluated((Student) loggedUserEJB.getLoggedUser());
+        return projectsAlreadyEvaluated;
+    }
+
+    public void setProjectsAlreadyEvaluated(List<Project> projectsAlreadyEvaluated) {
+        this.projectsAlreadyEvaluated = projectsAlreadyEvaluated;
     }
 
     public UIForm getHeader() {
@@ -438,6 +457,9 @@ public class ProjectController {
         if (projectsForevaluate != null) {
             projectsForevaluate.setRendered(true);
         }
+        if (projEvaluatedForm != null) {
+            projEvaluatedForm.setRendered(true);
+        }
     }
 
     public void seeOpenProjects() {
@@ -447,6 +469,9 @@ public class ProjectController {
         closedProjecsForm.setRendered(false);
         if (projectsForevaluate != null) {
             projectsForevaluate.setRendered(false);
+        }
+        if (projEvaluatedForm != null) {
+            projEvaluatedForm.setRendered(false);
         }
     }
 
@@ -458,12 +483,27 @@ public class ProjectController {
         if (projectsForevaluate != null) {
             projectsForevaluate.setRendered(false);
         }
+        if (projEvaluatedForm != null) {
+            projEvaluatedForm.setRendered(false);
+        }
     }
 
     public void seeProjForEvaluate() {
 
         closedProjecsForm.setRendered(false);
         projectsForevaluate.setRendered(true);
+
+        projEvaluatedForm.setRendered(false);
+
+    }
+
+    public void seeProjEvaluated() {
+
+        closedProjecsForm.setRendered(false);
+        projectsForevaluate.setRendered(false);
+
+        projEvaluatedForm.setRendered(true);
+
     }
 
     public void goToAddStudents(Project project) {
@@ -514,6 +554,12 @@ public class ProjectController {
 
         return "evaluation";
 
+    }
+
+    public String seeGradesinProjectStudent() {
+        loggedUserEJB.setActiveProject(selectedClosedProject);
+
+        return "seeProjectStudent";
     }
 
     public String confirm() {

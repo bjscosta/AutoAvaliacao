@@ -25,6 +25,7 @@ import pt.uc.dei.aor.grupod.proj5.entities.Project;
 import pt.uc.dei.aor.grupod.proj5.entities.Student;
 import pt.uc.dei.aor.grupod.proj5.entities.User;
 import pt.uc.dei.aor.grupod.proj5.exceptions.CreateProjectAbortedException;
+import pt.uc.dei.aor.grupod.proj5.exceptions.ProjEvaluationException;
 import pt.uc.dei.aor.grupod.proj5.facades.ProjEvaluationFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.ProjectFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.StudentFacade;
@@ -334,6 +335,12 @@ public class ProjectController {
         }
     }
 
+    public void actualiaProjEv() {
+        peListStudent = projEvaluationFacade
+                .evaluationsOfStudentAndProject((Student) loggedUserEJB.getLoggedUser(),
+                        selectedOpenedProject);
+    }
+
     /**
      * method to get the closed projects from the database
      */
@@ -511,13 +518,13 @@ public class ProjectController {
     }
 
     public String confirm() {
-//        try {
-//            projEvaluationFacade.confirm(peListStudent, loggedUserEJB.getActiveEdition(), loggedUserEJB.getActiveProject(), (Student) loggedUserEJB.getLoggedUser());
-//
-//        } catch (ProjEvaluationException ex) {
-//
-//            Logger.getLogger(ProjectController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            projEvaluationFacade.confirm(peListStudent);
+
+        } catch (ProjEvaluationException ex) {
+
+            Logger.getLogger(ProjectController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return "openProjectStudent";
 
     }

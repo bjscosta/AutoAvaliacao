@@ -236,6 +236,9 @@ public class ReportsController {
             edition = projEvaluationFacade.averageCriteriaEdition(edition);
             createEditionGraph(edition);
             editionReport.setRendered(true);
+            projectReport.setRendered(false);
+            studentReport.setRendered(false);
+            project = null;
         } catch (NoResultQueryException ex) {
             Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
             addMessage(ex.getMessage());
@@ -249,7 +252,7 @@ public class ReportsController {
             projectAverage = projEvaluationFacade.averageProject(project);
             edition = projEvaluationFacade.averageCriteriaProject(edition, project);
             createProjGraph(edition);
-
+            studentReport.setRendered(false);
             editionReport.setRendered(false);
             projectReport.setRendered(true);
         } catch (NoResultQueryException ex) {
@@ -278,6 +281,7 @@ public class ReportsController {
     }
 
     public void createEditionGraph(Edition edition) {
+        editionGraph = new CartesianChartModel();
         ChartSeries criteria = new ChartSeries();
 
         for (Criteria c : edition.getCriteriaList()) {
@@ -287,6 +291,8 @@ public class ReportsController {
     }
 
     public void createProjGraph(Edition edition) {
+        
+        projectGraph = new CartesianChartModel();
         ChartSeries criteria = new ChartSeries();
 
         for (Criteria c : edition.getCriteriaList()) {
@@ -296,6 +302,8 @@ public class ReportsController {
     }
 
     public void createStudentGraph(Edition edition) {
+        
+        studentGraph = new CartesianChartModel();
         ChartSeries criteria = new ChartSeries();
 
         for (Criteria c : edition.getCriteriaList()) {

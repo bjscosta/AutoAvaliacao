@@ -110,18 +110,15 @@
                                         </td>
                                         <td>
 
-                                            <p:barChart id="editionHorizontal" value="#{reportsController.editionGraph}"
-                                                        legendPosition="se" style="height:300px"
-                                                        title="Médias da Edição" orientation="horizontal"
-                                                        min="#{reportsController.edition.minValueScale}"
-                                                        max="#{reportsController.edition.maxValueScale}"/>
+
 
 
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-
+                            <p:lineChart id="category" value="#{reportsController.editionGraph}" legendPosition="e"
+                                         title="Category Chart" minY="0" maxY="200" style="height:300px;margin-top:20px"/>
 
                         </h:panelGroup>
 

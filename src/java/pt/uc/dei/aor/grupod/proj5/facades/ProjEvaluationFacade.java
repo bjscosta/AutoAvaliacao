@@ -95,7 +95,7 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
     public double averageEdition(Edition edition) throws NoResultQueryException {
         try {
             return (double) em.createNamedQuery("ProjEvaluation.avgOfAnEdition").setParameter("editionId", edition.getEditionId()).getSingleResult();
-        } catch (NoResultException e) {
+        } catch (NullPointerException | NoResultException e) {
             throw new NoResultQueryException();
         }
     }
@@ -116,7 +116,7 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
     public double averageProject(Project p) throws NoResultQueryException {
         try {
             return (double) em.createNamedQuery("ProjEvaluation.avgProj").setParameter("projectId", p.getId()).getSingleResult();
-        } catch (NoResultException e) {
+        } catch (NullPointerException | NoResultException e) {
             throw new NoResultQueryException();
         }
     }

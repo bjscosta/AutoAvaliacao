@@ -88,7 +88,7 @@
 
                                 <tbody>
                                     <tr>
-                                        <td>
+                                        <td  align="left">
                                             <p:dataTable  id="editionReport" var="criteria"
                                                           value="#{reportsController.edition.criteriaList}" rowKey="#{criteria.criteriaId}"
                                                           >
@@ -108,28 +108,35 @@
 
                                             </p:dataTable>
                                         </td>
-                                        <td>
+                                        <td width="400px" align="center">
+
+                                            <p:barChart id="editionHorizontal" value="#{reportsController.editionGraph}"
+                                                        legendPosition="se" style="height:300px"
+                                                        title="Médias da Edição" orientation="horizontal"
+                                                        yaxisLabel="Critérios" xaxisLabel="Escala"
+                                                        min="#{reportsController.edition.minValueScale}"
+                                                        max="#{reportsController.edition.maxValueScale}"/>
 
 
-
+                                        </td>
+                                        <td width="400px" >
 
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <p:lineChart id="category" value="#{reportsController.editionGraph}" legendPosition="e"
-                                         title="Category Chart" minY="0" maxY="200" style="height:300px;margin-top:20px"/>
+
 
                         </h:panelGroup>
 
                         <h:panelGroup rendered="false" binding="#{reportsController.projectReport}">
                             <div align="center"><h2>Relatório do Projeto #{reportsController.project.name}</h2></div>
 
-                            <table width="100%" border="0" cellpadding="5">
+                            <table border="0" width="100%" cellpadding="5">
 
                                 <tbody>
                                     <tr>
-                                        <td>
+                                        <td align="left">
                                             <p:dataTable  id="projectReport" var="criteria"
                                                           value="#{reportsController.edition.criteriaList}" rowKey="#{criteria.criteriaId}"
                                                           >
@@ -149,13 +156,21 @@
 
                                             </p:dataTable>
                                         </td>
-                                        <td>
+                                        <td width="400px" align="center">
 
                                             <p:barChart id="projectHorizontal" value="#{reportsController.projectGraph}"
                                                         legendPosition="se" style="height:300px"
-                                                        title="Médias da Edição" orientation="horizontal"
+                                                        title="Médias do Projecto" orientation="horizontal"
+                                                        yaxisLabel="Critérios" xaxisLabel="Escala"
                                                         min="#{reportsController.edition.minValueScale}"
                                                         max="#{reportsController.edition.maxValueScale}"/>
+                                        </td>
+
+                                        <td width="400px" align="right">
+
+                                            <p:barChart id="stacked" value="#{reportsController.studentsProjectGraph}" legendPosition="ne" style="height:300px"
+                                                        title="Avaliações de todos os alunos no projeto #{reportsController.project.name}" stacked="true" barMargin="50"
+                                                        min="0" max="100"/>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -171,7 +186,7 @@
 
                                 <tbody>
                                     <tr>
-                                        <td>
+                                        <td align="left">
                                             <p:dataTable  id="studentReport" var="criteria"
                                                           value="#{reportsController.edition.criteriaList}" rowKey="#{criteria.criteriaId}"
                                                           >
@@ -191,13 +206,18 @@
 
                                             </p:dataTable>
                                         </td>
-                                        <td>
+                                        <td width="400px" align="center">
 
                                             <p:barChart id="studentHorizontal" value="#{reportsController.studentGraph}"
                                                         legendPosition="se" style="height:300px"
-                                                        title="Médias da Edição" orientation="horizontal"
+                                                        title="Médias do Estudante" orientation="horizontal"
+                                                        yaxisLabel="Critérios" xaxisLabel="Escala"
                                                         min="#{reportsController.edition.minValueScale}"
                                                         max="#{reportsController.edition.maxValueScale}"/>
+                                        </td>
+
+                                        <td width="400px">
+
                                         </td>
                                     </tr>
                                 </tbody>

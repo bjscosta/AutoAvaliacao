@@ -59,6 +59,7 @@ public class ReportsController {
     private CartesianChartModel studentGraph;
     private double studentAverage;
     private List<Double> criteriaAvgStudent;
+    private CartesianChartModel studentsProjectGraph;
 
     @PostConstruct
     public void init() {
@@ -66,6 +67,7 @@ public class ReportsController {
         editionGraph = new CartesianChartModel();
         projectGraph = new CartesianChartModel();
         studentGraph = new CartesianChartModel();
+        studentsProjectGraph = new CartesianChartModel();
     }
 
     public Edition getEdition() {
@@ -228,6 +230,16 @@ public class ReportsController {
         this.criteriaAvgStudent = criteriaAvgStudent;
     }
 
+    public CartesianChartModel getStudentsProjectGraph() {
+        return studentsProjectGraph;
+    }
+
+    public void setStudentsProjectGraph(CartesianChartModel studentsProjectGraph) {
+        this.studentsProjectGraph = studentsProjectGraph;
+    }
+    
+    
+
     public void confirmEdition() {
         try {
             projectsList = edition.getProjectList();
@@ -252,6 +264,7 @@ public class ReportsController {
             projectAverage = projEvaluationFacade.averageProject(project);
             edition = projEvaluationFacade.averageCriteriaProject(edition, project);
             createProjGraph(edition);
+            createStudentsProjectChart(project, edition);
             studentReport.setRendered(false);
             editionReport.setRendered(false);
             projectReport.setRendered(true);
@@ -283,6 +296,8 @@ public class ReportsController {
     public void createEditionGraph(Edition edition) {
         editionGraph = new CartesianChartModel();
         ChartSeries criteria = new ChartSeries();
+        criteria.setLabel("Media por Critério");
+
 
         for (Criteria c : edition.getCriteriaList()) {
             criteria.set(c.getCriteriaName(), c.getAvgValue());
@@ -294,6 +309,8 @@ public class ReportsController {
         
         projectGraph = new CartesianChartModel();
         ChartSeries criteria = new ChartSeries();
+        criteria.setLabel("Media por Critério");
+
 
         for (Criteria c : edition.getCriteriaList()) {
             criteria.set(c.getCriteriaName(), c.getAvgValue());
@@ -305,12 +322,32 @@ public class ReportsController {
         
         studentGraph = new CartesianChartModel();
         ChartSeries criteria = new ChartSeries();
+        criteria.setLabel("Media por Critério");
 
         for (Criteria c : edition.getCriteriaList()) {
             criteria.set(c.getCriteriaName(), c.getAvgValue());
         }
         studentGraph.addSeries(criteria);
     }
+    
+    public void createStudentsProjectChart(Project p, Edition e){
+        studentsProjectGraph = new CartesianChartModel();
+        
+        for(Criteria c : e.getCriteriaList()){
+        
+            ChartSeries a = new ChartSeries();
+            for(Student s : p.getStudents()){
+                try {
+                    a.set(s.getName(), projEvaluationFacade.evaluationCriteriaStudentProject(project, c, s));
+                } catch (NoResultQueryException ex) {
+                    Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
+                    addMessage(ex.getMessage());
+                }
+                a.setLabel(c.getCriteriaName());
+            }
+            studentsProjectGraph.addSeries(a);
+        }
+    }    
 
     public void addMessage(String summary) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);

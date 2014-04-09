@@ -173,4 +173,14 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
         return edition;
 
     }
+
+    public double evaluationCriteriaStudentProject(Project p, Criteria c, Student s) throws NoResultQueryException {
+
+        try {
+            return (double) em.createNamedQuery("ProjEvaluation.evStudentProjectCriteria").setParameter("studentId", s.getStudentID()).setParameter("projectId", p.getId()).setParameter("criteriaId", c.getCriteriaId()).getSingleResult();
+        } catch (NullPointerException | NoResultException e) {
+            throw new NoResultQueryException();
+        }
+
+    }
 }

@@ -5,6 +5,7 @@
  */
 package pt.uc.dei.aor.grupod.proj5.facades;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -60,11 +61,17 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
 
     public void confirm(List<ProjEvaluation> pelist) throws ProjEvaluationException {
         Edition e = pelist.get(0).getProject().getEdition();
+        Project p = pelist.get(0).getProject();
+        Student s = pelist.get(0).getStudent();
         try {
             for (ProjEvaluation pe : pelist) {
                 if (pe.getCriteriaValue() >= e.getMinValueScale() && pe.getCriteriaValue() <= e.getMaxValueScale()) {
-                    em.merge(pe);
-                    em.merge(pe.getStudent());
+                    em.persist(pe);
+                    p.getProjAvaliations().add(pe);
+                    s.getProjEvaluations().add(pe);
+                    em.merge(s);
+                    em.merge(p);
+
                 } else {
                     ProjEvaluationException ex = new ProjEvaluationException();
 
@@ -77,19 +84,18 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
         }
     }
 
-    public void createProj(Project p, Student s) {
+    public List<ProjEvaluation> createProjEvaluation(Project p, Student s) {
+        List<ProjEvaluation> projE = new ArrayList();
         for (Criteria c : s.getEdition().getCriteriaList()) {
             ProjEvaluation pe = new ProjEvaluation();
             pe.setCriteria(c);
             pe.setProject(p);
             pe.setStudent(s);
-            em.persist(pe);
-            p.getProjAvaliations().add(pe);
-            s.getProjEvaluations().add(pe);
-            em.merge(s);
-            em.merge(p);
+            projE.add(pe);
+//
 
         }
+        return projE;
     }
 
     public double averageEdition(Edition edition) throws NoResultQueryException {
@@ -141,8 +147,7 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
             throw new NoResultQueryException();
         }
     }
-    
-    
+
     public Edition averageStudentProject(Edition edition, Student student, Project project) throws NoResultQueryException {
 
         for (Criteria c : edition.getCriteriaList()) {
@@ -155,7 +160,7 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
         return edition;
 
     }
-    
+
     public Edition averageCriteriaStudent(Edition edition, Student student) throws NoResultQueryException {
 
         for (Criteria c : edition.getCriteriaList()) {

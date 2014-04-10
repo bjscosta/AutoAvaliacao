@@ -18,7 +18,7 @@
 
     </h:head>
     <h:body onload="loadDialogIfError()">
-
+        <p:growl showDetail="true" id="index"/>
         <h:form binding="#{userController.login}" rendered="true">
             <div align="right">
                 <h:commandButton value ="Novo Utilizador" action="#{userController.goToNewRegistration()}"/>
@@ -60,6 +60,27 @@
             <div align="center">
                 <h:commandButton value="Entrar" action="#{userController.verifyStudent}"/>
             </div>
+        </h:form>
+
+        <h:form binding="#{userController.loginEdition}" rendered="false">
+            <p:dataTable rowKey="#{edition.editionId}" selectionMode="single"
+                         selection="#{userController.edition}" value="#{editionController.availableEditions}"
+                         var="edition" paginator="true" rows="10" paginatorPosition="bottom"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15">
+
+                <p:ajax event="rowSelect" listener="#{userController.updateEdition(edition)}"/>
+                <p:column headerText="Nome">
+                    #{edition.editionName}
+                </p:column>
+                <p:column headerText="Ano">
+                    #{edition.yearEdition}
+                </p:column>
+
+            </p:dataTable>
+            <br />
+
+
         </h:form>
 
         <h:form binding="#{userController.adminLogin}" rendered="false">

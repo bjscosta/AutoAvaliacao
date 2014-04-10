@@ -234,25 +234,49 @@ public class StudentFacade extends AbstractFacade<Student> {
     public Student login(String loginEmail, String loginPassword) throws UserNotFoundException, PasswordNotCorrectException {
 
         Student s = findStudentsByEmail(loginEmail);
-        if (s.getEdition() != null) {
 
-            String pass = EncriptMD5.cryptWithMD5(loginPassword);
+        String pass = EncriptMD5.cryptWithMD5(loginPassword);
 
-            if (s != null && s.getPassword().equals(pass)) {
+        if (s != null && s.getPassword().equals(pass)) {
 
-                return s;
-            } else {
-                if (s == null) {
-                    throw new UserNotFoundException();
-                } else if (!s.getPassword().equals(pass)) {
-                    throw new PasswordNotCorrectException();
-                }
-                return null;
-            }
+            return s;
         } else {
-            MessagesForUser.addMessage("A sua Edição foi eliminada precisa de escolher");
+            if (s == null) {
+                throw new UserNotFoundException();
+            } else if (!s.getPassword().equals(pass)) {
+                throw new PasswordNotCorrectException();
+            }
             return null;
         }
+
+    }
+
+    public Student loginWithoutEdition(String loginEmail, String loginPassword, Edition e) throws UserNotFoundException, PasswordNotCorrectException {
+
+        Student s = findStudentsByEmail(loginEmail);
+
+        String pass = EncriptMD5.cryptWithMD5(loginPassword);
+
+        if (s != null && s.getPassword().equals(pass)) {
+            try {
+                s.setEdition(e);
+                e.getStudents().add(s);
+                em.merge(s);
+                em.merge(e);
+            } catch (Exception ex) {
+                MessagesForUser.addMessage("Tente mais tarde fazer o login");
+            }
+
+            return s;
+        } else {
+            if (s == null) {
+                throw new UserNotFoundException();
+            } else if (!s.getPassword().equals(pass)) {
+                throw new PasswordNotCorrectException();
+            }
+            return null;
+        }
+
     }
 
     /**

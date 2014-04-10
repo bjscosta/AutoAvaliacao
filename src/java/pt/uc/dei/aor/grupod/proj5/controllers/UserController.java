@@ -65,6 +65,7 @@ public class UserController {
     private String insertEdition;
     private String password1;
     private String password2;
+    private UIForm loginEdition;
 
     @PostConstruct
     public void init() {
@@ -76,6 +77,14 @@ public class UserController {
             admin = (Administrator) loggedUserEJB.getLoggedUser();
         }
 
+    }
+
+    public UIForm getLoginEdition() {
+        return loginEdition;
+    }
+
+    public void setLoginEdition(UIForm loginEdition) {
+        this.loginEdition = loginEdition;
     }
 
     public User getUser() {
@@ -289,12 +298,36 @@ public class UserController {
      */
     public String verifyStudent() {
         try {
-            Student s = studentFacade.login(studentEmail, studentPassword);
-            if (s != null) {
-                loggedUserEJB.setLoggedUser(s);
-                return "openProjectStudent";
+            if (edition == null) {
+                Student s = studentFacade.login(studentEmail, studentPassword);
+                if (s != null) {
+                    if (s.getEdition() != null) {
+                        loggedUserEJB.setLoggedUser(s);
+                        return "openProjectStudent";
+                    } else {
+                        loginEdition.setRendered(true);
+                        MessagesForUser.addMessage("A sua Edição foi eliminada precisa de escolher"
+                                + "selecione uma e volte a fazer login");
+                        return null;
+                    }
+                } else {
+                    return null;
+                }
             } else {
-                return null;
+                Student s = studentFacade.loginWithoutEdition(studentEmail, studentPassword, edition);
+                if (s != null) {
+                    if (s.getEdition() != null) {
+                        loggedUserEJB.setLoggedUser(s);
+                        return "openProjectStudent";
+                    } else {
+                        loginEdition.setRendered(true);
+                        MessagesForUser.addMessage("A sua Edição foi eliminada precisa de escolher"
+                                + "selecione uma e volte a fazer login");
+                        return null;
+                    }
+                } else {
+                    return null;
+                }
             }
         } catch (PasswordNotCorrectException e) {
             passNotCorrect = e.getMessage();
@@ -458,6 +491,10 @@ public class UserController {
             }
         }
 
+    }
+
+    public void updateEdition(Edition e) {
+        edition = e;
     }
 
 }

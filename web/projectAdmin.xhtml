@@ -23,7 +23,7 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <h:commandLink value="Projectos Fechados" action="#{projectController.seeClosedProjects}"/>
                     </div>
-                    <div align="right"><h:commandButton value="Criar Projecto" action="#{projectController.goToCreateProject}"/> </div>
+                    <div align="right"><p:commandButton rendered="#{!empty projectController.allEditions}" ajax="false" value="Criar Projecto" action="#{projectController.goToCreateProject}"/> </div>
                 </h:form>
 
 
@@ -118,9 +118,9 @@
                         </p:column>
                         <p:column binding="#{projectController.columnSendEmail}">
                             <div align="center">
-                                <p:commandButton rendered="#{empty projectController.listProjEvaluation(student)}" ajax="false" value="Enviar Email"
-                                                 actionListener="#{mailController.sendEmailToStudent(student)}"/>
-                                <p:outputLabel rendered="#{!empty projectController.listProjEvaluation(student)}" value="Avaliou"/></div>
+                                <p:commandLink rendered="#{empty projectController.listProjEvaluation(student)}" ajax="false" value="Enviar Email"
+                                               action="#{mailController.sendEmailToStudent(student)}"/>
+                                <p:commandLink rendered="#{!empty projectController.listProjEvaluation(student)}" value="Avaliou"/></div>
                         </p:column>
 
 

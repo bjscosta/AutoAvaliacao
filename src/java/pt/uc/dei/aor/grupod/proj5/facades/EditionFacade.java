@@ -19,10 +19,13 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import pt.uc.dei.aor.grupod.proj5.entities.Criteria;
 import pt.uc.dei.aor.grupod.proj5.entities.Edition;
+import pt.uc.dei.aor.grupod.proj5.entities.ProjEvaluation;
 import pt.uc.dei.aor.grupod.proj5.entities.Project;
+import pt.uc.dei.aor.grupod.proj5.entities.Student;
 import pt.uc.dei.aor.grupod.proj5.exceptions.CreateEditionAbortedException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.CriteriaNotFoundException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.OperationEditionAborted;
+import pt.uc.dei.aor.grupod.proj5.exceptions.RatingScaleException;
 
 /**
  *
@@ -154,8 +157,10 @@ public class EditionFacade extends AbstractFacade<Edition> {
      * @return
      * @throws CreateEditionAbortedException
      */
-    public Edition createsEdition(Edition e) throws CreateEditionAbortedException {
-
+    public Edition createsEdition(Edition e) throws CreateEditionAbortedException, RatingScaleException {
+        if (e.getMinValueScale() >= e.getMaxValueScale()) {
+            throw new RatingScaleException();
+        }
         try {
 
             create(e);
@@ -199,10 +204,36 @@ public class EditionFacade extends AbstractFacade<Edition> {
 
         try {
             checksEvaluationsOnEdition(e);
-            remove(e);
+            List<Student> listStudent = e.getStudents();
+            for (int i = listStudent.size() - 1; i >= 0; i--) {
+                cleanStudent(e, listStudent.get(i));
+            }
+
+            em.remove(em.merge(e));
         } catch (Exception ex) {
             throw new OperationEditionAborted();
         }
+
+    }
+
+    public void cleanStudent(Edition e, Student s) {
+        for (Project p : e.getProjectList()) {
+            s.getProjects().remove(p);
+            p.getStudents().remove(s);
+            em.merge(s);
+            em.merge(p);
+            em.merge(e);
+        }
+        List<ProjEvaluation> list = s.getProjEvaluations();
+        for (int i = list.size() - 1; i >= 0; i--) {
+            list.remove(list.get(i));
+            em.remove(list.get(i));
+            em.merge(s);
+            em.merge(e);
+        }
+        e.getStudents().remove(s);
+        s.setEdition(null);
+        em.merge(s);
 
     }
 
@@ -282,8 +313,8 @@ public class EditionFacade extends AbstractFacade<Edition> {
 
         }
     }
-    
-    public void delete(Edition edition) throws OperationEditionAborted{
+
+    public void delete(Edition edition) throws OperationEditionAborted {
         try {
             checksEvaluationsOnEdition(edition);
             remove(em.merge(edition));
@@ -291,7 +322,7 @@ public class EditionFacade extends AbstractFacade<Edition> {
             Logger.getLogger(EditionFacade.class.getName()).log(Level.SEVERE, null, ex);
             throw new OperationEditionAborted();
         }
-        
+
     }
 
 }

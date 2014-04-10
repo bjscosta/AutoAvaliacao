@@ -26,6 +26,7 @@ import pt.uc.dei.aor.grupod.proj5.entities.Student;
 import pt.uc.dei.aor.grupod.proj5.entities.User;
 import pt.uc.dei.aor.grupod.proj5.exceptions.CreateProjectAbortedException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.ProjEvaluationException;
+import pt.uc.dei.aor.grupod.proj5.facades.EditionFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.ProjEvaluationFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.ProjectFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.StudentFacade;
@@ -33,6 +34,9 @@ import pt.uc.dei.aor.grupod.proj5.facades.StudentFacade;
 @Named
 @RequestScoped
 public class ProjectController {
+
+    @Inject
+    private EditionFacade editionFacade;
 
     @Inject
     private ProjectFacade projectFacade;
@@ -533,6 +537,10 @@ public class ProjectController {
         } else if (closeProjects != null && closeProjects.contains(project)) {
             columnSendEmail.setRendered(false);
         }
+    }
+
+    public List<Edition> getAllEditions() {
+        return editionFacade.findAll();
     }
 
     public void deleteStudentsFromProject() {

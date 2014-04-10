@@ -85,16 +85,30 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <h:outputLabel value="Escala"/>
+                                    <h:outputLabel value="Escala de Avaliação:"/>
+
+
                                 </td>
                                 <td align="right">
-                                    <h:panelGrid columns="1" style="margin-bottom:10px">
-                                        <h:outputText id="displayRange" value="Entre #{editionController.edition.minValueScale} e #{editionController.edition.maxValueScale}"/>
-                                        <p:slider for="min,max" display="displayRange" style="width:200px" range="true"
-                                                  displayTemplate="Entre {min} e {max}"/>
-                                    </h:panelGrid>
-                                    <h:inputHidden id="min" value="#{editionController.edition.minValueScale}" />
-                                    <h:inputHidden id="max" value="#{editionController.edition.maxValueScale}" />
+                                    <h:outputLabel value="Limite Minimo:"/>
+                                    <br/>
+                                    <p:spinner id="min"
+                                               value="#{editionController.edition.minValueScale}"
+                                               min="0"
+                                               max="99">
+                                    </p:spinner>
+                                </td>
+                                <td align="right">
+                                    <h:outputLabel value="Limite Maximo:"/>
+                                    <br/>
+                                    <p:spinner id="max"
+                                               value="#{editionController.edition.maxValueScale}"
+                                               min="0"
+                                               max="100" >
+                                    </p:spinner>
+
+
+
                                 </td>
                                 <td>
 
@@ -109,7 +123,8 @@
                     <br />
                     <br />
                     <div align="center">
-                        <p:commandButton ajax="false" actionListener="#{editionController.saveEdition()}" value="Confirmar"/>
+                        <p:commandButton ajax="false" actionListener="#{editionController.saveEdition()}"
+                                         value="Confirmar"/>
                     </div>
                 </h:form>
 
@@ -157,6 +172,7 @@
 
                                                 </td>
                                                 <td align="center">
+                                                    <p:growl showDetail="true" id="edition"/>
                                                     <h:commandButton value="Inserir" action="#{editionController.createsCriteriaForEdition()}"/>
                                                 </td>
                                                 <td>

@@ -6,6 +6,8 @@
 package pt.uc.dei.aor.grupod.proj5.EJB;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Properties;
 import javax.ejb.Stateless;
 import javax.mail.Message;
@@ -68,9 +70,14 @@ public class MailEJB {
                     InternetAddress.parse(destinationEmail));
             message.setSubject("Aviso");
             // Instead of simple text, a .html template should be added here!
+            GregorianCalendar gc = new GregorianCalendar();
+            gc.setTime(p.getFinishingSelfEvaluationDate());
+            gc.add(Calendar.DAY_OF_MONTH, 1);
+            String data = new SimpleDateFormat().format(gc.getTime());
+
             message.setText("Este email é para lembrar que ainda não avaliou o projecto " + p.getName()
                     + ".\nA availiação a este projecto está aberta "
-                    + "até à data " + new SimpleDateFormat().format(p.getFinishingSelfEvaluationDate()));
+                    + "até à data " + data);
 
             Transport transport = session.getTransport("smtp");
             transport.connect(host, port, serviceUsername, servicePassword);

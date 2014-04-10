@@ -42,7 +42,7 @@ public class Student extends User implements Serializable {
     @Column(name = "YEAR_OF_REGISTRATION", nullable = false)
     private int yearOfRegistration;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     private Edition edition;
 
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "student", orphanRemoval = true)

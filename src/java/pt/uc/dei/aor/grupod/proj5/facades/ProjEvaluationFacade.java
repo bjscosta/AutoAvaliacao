@@ -246,20 +246,20 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
         return p;
     }
     
-    public double evaProjectCriteria(Project p, Criteria c) throws NoResultQueryException {
+    public double evaProjectCriteria(Project p, Criteria c, Student s) throws NoResultQueryException {
 
         try {
-            return (double) em.createNamedQuery("ProjEvaluation.evaProjectCriteria").setParameter("criteriaId", c.getCriteriaId()).setParameter("projectId", p.getId()).getSingleResult();
+            return (double) em.createNamedQuery("ProjEvaluation.evaProjectCriteria").setParameter("criteriaId", c.getCriteriaId()).setParameter("projectId", p.getId()).setParameter("studentId", s.getStudentID()).getSingleResult();
         } catch (NoResultException e) {
             throw new NoResultQueryException();
         }
 
     }
     
-    public double evaEditionCriteria(Criteria c) throws NoResultQueryException {
+    public double evaEditionCriteria(Criteria c, Student s) throws NoResultQueryException {
 
         try {
-            return (double) em.createNamedQuery("ProjEvaluation.evaEditionCriteria").setParameter("criteriaId", c.getCriteriaId()).getSingleResult();
+            return (double) em.createNamedQuery("ProjEvaluation.evaEditionCriteria").setParameter("criteriaId", c.getCriteriaId()).setParameter("studentId", s.getStudentID()).getSingleResult();
         } catch (NoResultException e) {
             throw new NoResultQueryException();
         }

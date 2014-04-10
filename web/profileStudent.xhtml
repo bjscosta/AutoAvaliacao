@@ -6,7 +6,9 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <f:event type="preRenderView" listener="#{userController.verifyAdmin()}" />
+        <f:event type="preRenderView" listener="#{userController.verifyStudent()}" />
+        <title>Perfil de #{loggedUserEJB.loggedUser.name}</title>
 
     </h:head>
     <h:body>

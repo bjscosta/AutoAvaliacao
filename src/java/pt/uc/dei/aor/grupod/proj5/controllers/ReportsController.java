@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.model.chart.CartesianChartModel;
 import org.primefaces.model.chart.ChartSeries;
+import pt.uc.dei.aor.grupod.proj5.EJB.LoggedUserEJB;
 import pt.uc.dei.aor.grupod.proj5.entities.Criteria;
 import pt.uc.dei.aor.grupod.proj5.entities.Edition;
 import pt.uc.dei.aor.grupod.proj5.entities.Project;
@@ -41,6 +42,9 @@ public class ReportsController {
 
     @Inject
     private ProjEvaluationFacade projEvaluationFacade;
+    
+    @Inject
+    private LoggedUserEJB loggedUserEJB;
 
     private Edition edition;
     private Project project;
@@ -93,6 +97,9 @@ public class ReportsController {
         studentProjectCriteriaGraph = new CartesianChartModel();
         avgProjectStudent = new CartesianChartModel();
         bestCriteriaStudent = new CartesianChartModel();
+        bestCriteriaEditionAdmin = new CartesianChartModel();
+        bestCriteriaProjectAdmin = new CartesianChartModel();
+        bestCriteriaStudentAdmin = new CartesianChartModel();
     }
 
     public Edition getEdition() {
@@ -442,12 +449,12 @@ public class ReportsController {
                 edition = projEvaluationFacade.averageCriteriaStudent(edition, student);
                 nameGraphStrudent = "Médias das Avaliações do Estudante";
                 createStudentEvolutionProjects();
+                createBestCriteriaStudentAdmin(edition);
             } else {
-                
                 edition = projEvaluationFacade.averageStudentProject(edition, student, project);
                 nameGraphStrudent = "Avaliações do Estudante";
             }
-            createBestCriteriaStudentAdmin(edition);
+            
             createStudentGraph(edition);
             projectReport.setRendered(false);
             studentReport.setRendered(true);
@@ -489,7 +496,7 @@ public class ReportsController {
 
         studentGraph = new CartesianChartModel();
         ChartSeries criteria = new ChartSeries();
-        criteria.setLabel("Media por Critério");
+        criteria.setLabel("Valor do Critério");
 
         for (Criteria c : edition.getCriteriaList()) {
             criteria.set(c.getCriteriaName(), c.getAvgValue());
@@ -677,7 +684,7 @@ public class ReportsController {
             
             for (Criteria c : e.getCriteriaList()) {
                 try {
-                    cs.set(c.getCriteriaName(), projEvaluationFacade.evaEditionCriteria(c));
+                    cs.set(c.getCriteriaName(), projEvaluationFacade.evaEditionCriteria(c, s));
                 } catch (NoResultQueryException ex) {
                     Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
                     MessagesForUser.addMessage(ex.getMessage());
@@ -697,7 +704,7 @@ public class ReportsController {
             
             for (Criteria c : e.getCriteriaList()) {
                 try {
-                    cs.set(c.getCriteriaName(), projEvaluationFacade.evaProjectCriteria(project, c));
+                    cs.set(c.getCriteriaName(), projEvaluationFacade.evaProjectCriteria(project, c, s));
                 } catch (NoResultQueryException ex) {
                     Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
                     MessagesForUser.addMessage(ex.getMessage());
@@ -727,5 +734,6 @@ public class ReportsController {
             bestCriteriaStudentAdmin.addSeries(cs);
         }
     }
+    
     
 }

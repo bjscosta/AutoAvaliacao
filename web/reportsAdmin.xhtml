@@ -120,7 +120,10 @@
 
                                         </td>
                                         <td width="400px" >
-
+                                            <p:barChart id="avgStudent" value="#{reportsController.studentsEditionGraph}" legendPosition="ne" style="height:300px"
+                                                        title="Média de todos os alunos na Edição #{reportsController.edition.editionName}" barMargin="50"
+                                                        yaxisLabel="Escala" xaxisLabel="Alunos"
+                                                        min="0" max="#{reportsController.edition.maxValueScale}"/>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -169,8 +172,9 @@
                                         <td width="400px" align="right">
 
                                             <p:barChart id="stacked" value="#{reportsController.studentsProjectGraph}" legendPosition="ne" style="height:300px"
-                                                        title="Avaliações de todos os alunos no projeto #{reportsController.project.name}" stacked="true" barMargin="50"
-                                                        min="0" max="100"/>
+                                                        title="Avaliações de todos os alunos no Projeto #{reportsController.project.name}"  stacked="true" barMargin="50"
+                                                        xaxisLabel="Alunos"
+                                                        min="0" max="#{reportsController.edition.maxValueScale*reportsController.edition.criteriaList.size()}"/>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -210,14 +214,16 @@
 
                                             <p:barChart id="studentHorizontal" value="#{reportsController.studentGraph}"
                                                         legendPosition="se" style="height:300px"
-                                                        title="Médias do Estudante" orientation="horizontal"
+                                                        title="#{reportsController.nameGraphStrudent}" orientation="horizontal"
                                                         yaxisLabel="Critérios" xaxisLabel="Escala"
                                                         min="#{reportsController.edition.minValueScale}"
                                                         max="#{reportsController.edition.maxValueScale}"/>
                                         </td>
 
                                         <td width="400px">
-
+                                            <p:lineChart id="linear" value="#{reportsController.studentsEvolutionProjectGraph}" legendPosition="e"
+                                                         title="Evolução do Estudante na Edição" minY="#{reportsController.edition.minValueScale}"
+                                                         maxY="#{reportsController.edition.maxValueScale}" style="height:300px"/>
                                         </td>
                                     </tr>
                                 </tbody>

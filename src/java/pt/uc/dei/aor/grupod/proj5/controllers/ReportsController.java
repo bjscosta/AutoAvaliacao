@@ -9,9 +9,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -25,6 +23,7 @@ import pt.uc.dei.aor.grupod.proj5.exceptions.NoResultQueryException;
 import pt.uc.dei.aor.grupod.proj5.facades.EditionFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.ProjEvaluationFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.ProjectFacade;
+import pt.uc.dei.aor.grupod.proj5.utilities.MessagesForUser;
 
 @Named
 @ViewScoped
@@ -60,6 +59,9 @@ public class ReportsController {
     private double studentAverage;
     private List<Double> criteriaAvgStudent;
     private CartesianChartModel studentsProjectGraph;
+    private CartesianChartModel studentsEditionGraph;
+    private String nameGraphStrudent;
+    private CartesianChartModel studentsEvolutionProjectGraph;
 
     @PostConstruct
     public void init() {
@@ -68,6 +70,8 @@ public class ReportsController {
         projectGraph = new CartesianChartModel();
         studentGraph = new CartesianChartModel();
         studentsProjectGraph = new CartesianChartModel();
+        studentsEditionGraph = new CartesianChartModel();
+        studentsEvolutionProjectGraph = new CartesianChartModel();
     }
 
     public Edition getEdition() {
@@ -237,50 +241,90 @@ public class ReportsController {
     public void setStudentsProjectGraph(CartesianChartModel studentsProjectGraph) {
         this.studentsProjectGraph = studentsProjectGraph;
     }
+
+    public CartesianChartModel getStudentsEditionGraph() {
+        return studentsEditionGraph;
+    }
+
+    public void setStudentsEditionGraph(CartesianChartModel studentsEditionGraph) {
+        this.studentsEditionGraph = studentsEditionGraph;
+    }
+
+    public String getNameGraphStrudent() {
+        return nameGraphStrudent;
+    }
+
+    public void setNameGraphStrudent(String nameGraphStrudent) {
+        this.nameGraphStrudent = nameGraphStrudent;
+    }
+
+    public CartesianChartModel getStudentsEvolutionProjectGraph() {
+        return studentsEvolutionProjectGraph;
+    }
+
+    public void setStudentsEvolutionProjectGraph(CartesianChartModel studentsEvolutionProjectGraph) {
+        this.studentsEvolutionProjectGraph = studentsEvolutionProjectGraph;
+    }
     
     
 
     public void confirmEdition() {
-        try {
-            projectsList = edition.getProjectList();
-            studentsList = edition.getStudents();
-            editionAverage = projEvaluationFacade.averageEdition(edition);
-            edition = projEvaluationFacade.averageCriteriaEdition(edition);
-            createEditionGraph(edition);
-            editionReport.setRendered(true);
-            projectReport.setRendered(false);
-            studentReport.setRendered(false);
-            project = null;
-        } catch (NoResultQueryException ex) {
-            Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
-            addMessage(ex.getMessage());
+        if (edition != null) {
+
+            try {
+                projectsList = edition.getProjectList();
+                studentsList = edition.getStudents();
+                editionAverage = projEvaluationFacade.averageEdition(edition);
+                edition = projEvaluationFacade.averageCriteriaEdition(edition);
+                createEditionGraph(edition);
+                createStudentsEditionChart(edition);
+                editionReport.setRendered(true);
+                projectReport.setRendered(false);
+                studentReport.setRendered(false);
+                project = null;
+            } catch (NoResultQueryException ex) {
+                Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
+                MessagesForUser.addMessage(ex.getMessage());
+            }
+        } else {
+            MessagesForUser.addMessage("Selecione uma Edição");
         }
 
     }
 
     public void confirmProject() {
-        try {
-            studentsList = projectFacade.studentsInProject(project);
-            projectAverage = projEvaluationFacade.averageProject(project);
-            edition = projEvaluationFacade.averageCriteriaProject(edition, project);
-            createProjGraph(edition);
-            createStudentsProjectChart(project, edition);
-            studentReport.setRendered(false);
-            editionReport.setRendered(false);
-            projectReport.setRendered(true);
-        } catch (NoResultQueryException ex) {
-            Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
-            addMessage(ex.getMessage());
+
+        if (project != null) {
+            try {
+                studentsList = projectFacade.studentsInProject(project);
+                projectAverage = projEvaluationFacade.averageProject(project);
+                edition = projEvaluationFacade.averageCriteriaProject(edition, project);
+                createProjGraph(edition);
+                createStudentsProjectChart(project, edition);
+                studentReport.setRendered(false);
+                editionReport.setRendered(false);
+                projectReport.setRendered(true);
+            } catch (NoResultQueryException ex) {
+                Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
+                MessagesForUser.addMessage(ex.getMessage());
+            }
+        } else {
+            MessagesForUser.addMessage("Selecione um Projecto");
         }
     }
 
     public void confirmStudents() {
+        
+        if(student != null){
         try {
             studentAverage = projEvaluationFacade.averageStudent(student);
             if (project == null) {
                 edition = projEvaluationFacade.averageCriteriaStudent(edition, student);
+                nameGraphStrudent = "Médias das Avaliações do Estudante";
+                createStudentEvolutionProjects(edition);
             } else {
                 edition = projEvaluationFacade.averageStudentProject(edition, student, project);
+                nameGraphStrudent = "Avaliações do Estudante";
             }
             createStudentGraph(edition);
             projectReport.setRendered(false);
@@ -288,16 +332,18 @@ public class ReportsController {
             editionReport.setRendered(false);
         } catch (NoResultQueryException ex) {
             Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
-            addMessage(ex.getMessage());
+            MessagesForUser.addMessage(ex.getMessage());
         }
-
+        }
+        else{
+            MessagesForUser.addMessage("Selecione um Estudante");
+        }
     }
 
     public void createEditionGraph(Edition edition) {
         editionGraph = new CartesianChartModel();
         ChartSeries criteria = new ChartSeries();
         criteria.setLabel("Media por Critério");
-
 
         for (Criteria c : edition.getCriteriaList()) {
             criteria.set(c.getCriteriaName(), c.getAvgValue());
@@ -306,11 +352,10 @@ public class ReportsController {
     }
 
     public void createProjGraph(Edition edition) {
-        
+
         projectGraph = new CartesianChartModel();
         ChartSeries criteria = new ChartSeries();
         criteria.setLabel("Media por Critério");
-
 
         for (Criteria c : edition.getCriteriaList()) {
             criteria.set(c.getCriteriaName(), c.getAvgValue());
@@ -319,7 +364,7 @@ public class ReportsController {
     }
 
     public void createStudentGraph(Edition edition) {
-        
+
         studentGraph = new CartesianChartModel();
         ChartSeries criteria = new ChartSeries();
         criteria.setLabel("Media por Critério");
@@ -329,28 +374,57 @@ public class ReportsController {
         }
         studentGraph.addSeries(criteria);
     }
-    
-    public void createStudentsProjectChart(Project p, Edition e){
+
+    public void createStudentsProjectChart(Project p, Edition e) {
         studentsProjectGraph = new CartesianChartModel();
-        
-        for(Criteria c : e.getCriteriaList()){
-        
+
+        for (Criteria c : e.getCriteriaList()) {
+
             ChartSeries a = new ChartSeries();
-            for(Student s : p.getStudents()){
+            for (Student s : p.getStudents()) {
                 try {
                     a.set(s.getName(), projEvaluationFacade.evaluationCriteriaStudentProject(project, c, s));
                 } catch (NoResultQueryException ex) {
                     Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
-                    addMessage(ex.getMessage());
+                    MessagesForUser.addMessage(ex.getMessage());
                 }
                 a.setLabel(c.getCriteriaName());
             }
             studentsProjectGraph.addSeries(a);
         }
-    }    
-
-    public void addMessage(String summary) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
-        FacesContext.getCurrentInstance().addMessage(null, message);
     }
+
+    public void createStudentsEditionChart(Edition e) {
+        studentsEditionGraph = new CartesianChartModel();
+
+        ChartSeries criteria = new ChartSeries();
+        criteria.setLabel("Media por Aluno");
+
+        for (Student s : e.getStudents()) {
+            try {
+                criteria.set(s.getName(), projEvaluationFacade.averageStudent(s));
+            } catch (NoResultQueryException ex) {
+                Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
+                MessagesForUser.addMessage(ex.getMessage());
+            }
+        }
+        studentsEditionGraph.addSeries(criteria);
+
+    }
+    
+    public void createStudentEvolutionProjects(Edition e){
+        studentsEvolutionProjectGraph = new CartesianChartModel();
+        ChartSeries evo = new ChartSeries();
+        
+        for(Project p : e.getProjectList()){
+            try {
+                evo.set(p.getName(), projEvaluationFacade.evoStudentProject(p, student));
+            } catch (NoResultQueryException ex) {
+                Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
+                MessagesForUser.addMessage(ex.getMessage());
+            }
+        }
+        studentsEvolutionProjectGraph.addSeries(evo);
+    }
+
 }

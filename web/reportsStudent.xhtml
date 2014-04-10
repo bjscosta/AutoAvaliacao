@@ -15,11 +15,9 @@
 
 
 
-                <h:form id="cenas">
+                <h:form>
 
-                    <h:commandButton value="Print" type="button">
-                        <p:printer target="cenas" />
-                    </h:commandButton>
+
 
                     <p:growl id="growl" showDetail="true"/>
                     <h:panelGrid columns="1" width="100%">
@@ -93,7 +91,7 @@
 
 
                                         </td>
-
+                                    </tr>
 
                                 </tbody>
                             </table>
@@ -149,7 +147,7 @@
 
 
                                     <tr>
-                                        <td width="50%" align="center">
+                                        <td width="30%" align="center">
 
                                             <p:lineChart id="mediasProj" value="#{reportsController.avgProjectStudent}" legendPosition="e"
                                                          title="Media por Projeto" minY="#{reportsController.edition.minValueScale}"
@@ -157,8 +155,10 @@
                                                          maxY="#{reportsController.edition.maxValueScale}" style="height:300px"/>
                                         </td>
 
-                                        <td  width="50%" align="center">
-
+                                        <td  width="70%" align="center">
+                                            <p:barChart id="critStudent" value="#{reportsController.bestCriteriaStudent}" legendPosition="ne" style="height:300px"
+                                                        title="Soma Critérios por Projeto"  barMargin="50" stacked="true" xaxisLabel="Criterios"
+                                                        min="0" max="#{reportsController.edition.maxValueScale*reportsController.edition.criteriaList.size()}"/>
                                         </td>
                                     </tr>
 

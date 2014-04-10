@@ -127,7 +127,7 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
 
     public double averageEdition(Edition edition) throws NoResultQueryException {
         try {
-            return Math.round ((double) em.createNamedQuery("ProjEvaluation.avgOfAnEdition").setParameter("editionId", edition.getEditionId()).getSingleResult());
+            return (double) em.createNamedQuery("ProjEvaluation.avgOfAnEdition").setParameter("editionId", edition.getEditionId()).getSingleResult();
         } catch (NullPointerException | NoResultException e) {
             throw new NoResultQueryException();
         }
@@ -137,7 +137,7 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
 
         for (Criteria c : edition.getCriteriaList()) {
             try {
-                c.setAvgValue(Math.round((double) em.createNamedQuery("ProjEvaluation.avgOfACriteriaEdition").setParameter("criteriaId", c.getCriteriaId()).getSingleResult()));
+                c.setAvgValue((double) em.createNamedQuery("ProjEvaluation.avgOfACriteriaEdition").setParameter("criteriaId", c.getCriteriaId()).getSingleResult());
             } catch (NoResultException e) {
                 throw new NoResultQueryException();
             }
@@ -148,7 +148,7 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
 
     public double averageProject(Project p) throws NoResultQueryException {
         try {
-            return Math.round((double) em.createNamedQuery("ProjEvaluation.avgProj").setParameter("projectId", p.getId()).getSingleResult());
+            return (double) em.createNamedQuery("ProjEvaluation.avgProj").setParameter("projectId", p.getId()).getSingleResult();
         } catch (NullPointerException | NoResultException e) {
             throw new NoResultQueryException();
         }
@@ -158,7 +158,7 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
 
         for (Criteria c : edition.getCriteriaList()) {
             try {
-                c.setAvgValue(Math.round((double) em.createNamedQuery("ProjEvaluation.avgOfACriteriaProject").setParameter("projectId", project.getId()).setParameter("criteriaId", c.getCriteriaId()).getSingleResult()));
+                c.setAvgValue((double) em.createNamedQuery("ProjEvaluation.avgOfACriteriaProject").setParameter("projectId", project.getId()).setParameter("criteriaId", c.getCriteriaId()).getSingleResult());
             } catch (NoResultException e) {
                 throw new NoResultQueryException();
             }
@@ -169,7 +169,7 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
 
     public double averageStudent(Student s) throws NoResultQueryException {
         try {
-            return Math.round( (double) em.createNamedQuery("ProjEvaluation.avgStudent").setParameter("studentId", s.getStudentID()).getSingleResult());
+            return (double) em.createNamedQuery("ProjEvaluation.avgStudent").setParameter("studentId", s.getStudentID()).getSingleResult();
         } catch (NullPointerException | NoResultException e) {
             throw new NoResultQueryException();
         }
@@ -179,7 +179,7 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
 
         for (Criteria c : edition.getCriteriaList()) {
             try {
-                c.setAvgValue(Math.round((double) em.createNamedQuery("ProjEvaluation.avgStudentProjectCriteria").setParameter("studentId", student.getStudentID()).setParameter("projectId", project.getId()).setParameter("criteriaId", c.getCriteriaId()).getSingleResult()));
+                c.setAvgValue((double) em.createNamedQuery("ProjEvaluation.avgStudentProjectCriteria").setParameter("studentId", student.getStudentID()).setParameter("projectId", project.getId()).setParameter("criteriaId", c.getCriteriaId()).getSingleResult());
             } catch (NoResultException e) {
                 throw new NoResultQueryException();
             }
@@ -192,9 +192,9 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
 
         try {
 
-            return Math.round((double) em.createNamedQuery("ProjEvaluation.avgProjStudent")
+            return (double) em.createNamedQuery("ProjEvaluation.avgProjStudent")
                     .setParameter("studentID", studentID).setParameter("projectId", projectID)
-                    .getSingleResult());
+                    .getSingleResult();
         } catch (NoResultException ex) {
             throw new NoResultQueryException();
         }
@@ -205,7 +205,7 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
 
         for (Criteria c : edition.getCriteriaList()) {
             try {
-                c.setAvgValue(Math.round((Double) em.createNamedQuery("ProjEvaluation.avgOfCriteriaStudent").setParameter("studentId", student.getStudentID()).setParameter("criteriaId", c.getCriteriaId()).getSingleResult()));
+                c.setAvgValue((Double) em.createNamedQuery("ProjEvaluation.avgOfCriteriaStudent").setParameter("studentId", student.getStudentID()).setParameter("criteriaId", c.getCriteriaId()).getSingleResult());
 
             } catch (NoResultException e) {
                 throw new NoResultQueryException();
@@ -218,7 +218,7 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
     public double evaluationCriteriaStudentProject(Project p, Criteria c, Student s) throws NoResultQueryException {
 
         try {
-            return Math.round((double) em.createNamedQuery("ProjEvaluation.evStudentProjectCriteria").setParameter("studentId", s.getStudentID()).setParameter("projectId", p.getId()).setParameter("criteriaId", c.getCriteriaId()).getSingleResult());
+            return (double) em.createNamedQuery("ProjEvaluation.evStudentProjectCriteria").setParameter("studentId", s.getStudentID()).setParameter("projectId", p.getId()).setParameter("criteriaId", c.getCriteriaId()).getSingleResult();
         } catch (NoResultException e) {
             throw new NoResultQueryException();
         }
@@ -228,7 +228,7 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
     public double evoStudentProject(Project p, Student s) throws NoResultQueryException {
 
         try {
-            return Math.round((double) em.createNamedQuery("ProjEvaluation.avgStudentProject").setParameter("studentId", s.getStudentID()).setParameter("projectId", p.getId()).getSingleResult());
+            return (double) em.createNamedQuery("ProjEvaluation.avgStudentProject").setParameter("studentId", s.getStudentID()).setParameter("projectId", p.getId()).getSingleResult();
         } catch (NoResultException e) {
             throw new NoResultQueryException();
         }
@@ -239,11 +239,31 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
         List<Project> p = new ArrayList<>();
         
         for(Project pt : pl){
-            pt.setAvgProject(Math.round((double)em.createNamedQuery("ProjEvaluation.avgStudentProject").setParameter("studentId", s.getStudentID()).setParameter("projectId", pt.getId()).getSingleResult()));
+            pt.setAvgProject((double)em.createNamedQuery("ProjEvaluation.avgStudentProject").setParameter("studentId", s.getStudentID()).setParameter("projectId", pt.getId()).getSingleResult());
             p.add(pt);
         }
         
         return p;
+    }
+    
+    public double evaProjectCriteria(Project p, Criteria c) throws NoResultQueryException {
+
+        try {
+            return (double) em.createNamedQuery("ProjEvaluation.evaProjectCriteria").setParameter("criteriaId", c.getCriteriaId()).setParameter("projectId", p.getId()).getSingleResult();
+        } catch (NoResultException e) {
+            throw new NoResultQueryException();
+        }
+
+    }
+    
+    public double evaEditionCriteria(Criteria c) throws NoResultQueryException {
+
+        try {
+            return (double) em.createNamedQuery("ProjEvaluation.evaEditionCriteria").setParameter("criteriaId", c.getCriteriaId()).getSingleResult();
+        } catch (NoResultException e) {
+            throw new NoResultQueryException();
+        }
+
     }
 
 }

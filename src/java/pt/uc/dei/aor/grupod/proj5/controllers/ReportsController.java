@@ -74,6 +74,10 @@ public class ReportsController {
     private CartesianChartModel studentProjectCriteriaGraph;
     private CartesianChartModel avgProjectStudent;
     private List<Project> newProjects;
+    private CartesianChartModel bestCriteriaStudent;
+    private CartesianChartModel bestCriteriaStudentAdmin;
+    private CartesianChartModel bestCriteriaProjectAdmin;
+    private CartesianChartModel bestCriteriaEditionAdmin;
 
     @PostConstruct
     public void init() {
@@ -88,6 +92,7 @@ public class ReportsController {
         studentProjGraphS = new CartesianChartModel();
         studentProjectCriteriaGraph = new CartesianChartModel();
         avgProjectStudent = new CartesianChartModel();
+        bestCriteriaStudent = new CartesianChartModel();
     }
 
     public Edition getEdition() {
@@ -345,6 +350,38 @@ public class ReportsController {
     public void setNewProjects(List<Project> newProjects) {
         this.newProjects = newProjects;
     }
+
+    public CartesianChartModel getBestCriteriaStudent() {
+        return bestCriteriaStudent;
+    }
+
+    public void setBestCriteriaStudent(CartesianChartModel bestCriteriaStudent) {
+        this.bestCriteriaStudent = bestCriteriaStudent;
+    }
+
+    public CartesianChartModel getBestCriteriaStudentAdmin() {
+        return bestCriteriaStudentAdmin;
+    }
+
+    public void setBestCriteriaStudentAdmin(CartesianChartModel bestCriteriaStudentAdmin) {
+        this.bestCriteriaStudentAdmin = bestCriteriaStudentAdmin;
+    }
+
+    public CartesianChartModel getBestCriteriaProjectAdmin() {
+        return bestCriteriaProjectAdmin;
+    }
+
+    public void setBestCriteriaProjectAdmin(CartesianChartModel bestCriteriaProjectAdmin) {
+        this.bestCriteriaProjectAdmin = bestCriteriaProjectAdmin;
+    }
+
+    public CartesianChartModel getBestCriteriaEditionAdmin() {
+        return bestCriteriaEditionAdmin;
+    }
+
+    public void setBestCriteriaEditionAdmin(CartesianChartModel bestCriteriaEditionAdmin) {
+        this.bestCriteriaEditionAdmin = bestCriteriaEditionAdmin;
+    }
     
     
     
@@ -357,6 +394,7 @@ public class ReportsController {
                 studentsList = projEvaluationFacade.studentsWithAvaliationsEdition(edition);
                 editionAverage = projEvaluationFacade.averageEdition(edition);
                 edition = projEvaluationFacade.averageCriteriaEdition(edition);
+                createBestCriteriaEditionAdmin(edition);
                 createEditionGraph(edition);
                 createStudentsEditionChart(edition);
                 editionReport.setRendered(true);
@@ -380,6 +418,7 @@ public class ReportsController {
                 studentsList = projEvaluationFacade.studentsWithAvaliationsProject(project);
                 projectAverage = projEvaluationFacade.averageProject(project);
                 edition = projEvaluationFacade.averageCriteriaProject(edition, project);
+                createBestCriteriaProjectAdmin(edition);
                 createProjGraph(edition);
                 createStudentsProjectChart(project, edition);
                 studentReport.setRendered(false);
@@ -404,9 +443,11 @@ public class ReportsController {
                 nameGraphStrudent = "Médias das Avaliações do Estudante";
                 createStudentEvolutionProjects();
             } else {
+                
                 edition = projEvaluationFacade.averageStudentProject(edition, student, project);
                 nameGraphStrudent = "Avaliações do Estudante";
             }
+            createBestCriteriaStudentAdmin(edition);
             createStudentGraph(edition);
             projectReport.setRendered(false);
             studentReport.setRendered(true);
@@ -531,6 +572,7 @@ public class ReportsController {
             try {
                 editionAverage = projEvaluationFacade.averageStudent(studentLogged);
                 newProjects = projEvaluationFacade.insertAvgProject(selectedProjects, studentLogged);
+                createBestCriteriaStudentGraph(edition);
                 createAvgProjStudent(edition);
                 createStudentProjectCriteriaGraph(edition);
                 oneProjectStudent.setRendered(false);
@@ -605,5 +647,85 @@ public class ReportsController {
         
     }
     
+    public void createBestCriteriaStudentGraph(Edition e){
+      bestCriteriaStudent = new CartesianChartModel();
+      
+      for (Project p : selectedProjects) {
+
+            ChartSeries cs = new ChartSeries();
+            
+            for (Criteria c : e.getCriteriaList()) {
+                try {
+                    cs.set(c.getCriteriaName(), projEvaluationFacade.evaluationCriteriaStudentProject(p, c, studentLogged));
+                } catch (NoResultQueryException ex) {
+                    Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
+                    MessagesForUser.addMessage(ex.getMessage());
+                }
+                cs.setLabel(p.getName());
+            }
+            bestCriteriaStudent.addSeries(cs);
+        }
+    }
+    
+    
+    public void createBestCriteriaEditionAdmin(Edition e){
+        bestCriteriaEditionAdmin = new CartesianChartModel();
+      
+      for (Student s : studentsList) {
+
+            ChartSeries cs = new ChartSeries();
+            
+            for (Criteria c : e.getCriteriaList()) {
+                try {
+                    cs.set(c.getCriteriaName(), projEvaluationFacade.evaEditionCriteria(c));
+                } catch (NoResultQueryException ex) {
+                    Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
+                    MessagesForUser.addMessage(ex.getMessage());
+                }
+                cs.setLabel(s.getName());
+            }
+            bestCriteriaEditionAdmin.addSeries(cs);
+        }
+    }
+    
+    public void createBestCriteriaProjectAdmin(Edition e){
+        bestCriteriaProjectAdmin = new CartesianChartModel();
+      
+      for (Student s : studentsList) {
+
+            ChartSeries cs = new ChartSeries();
+            
+            for (Criteria c : e.getCriteriaList()) {
+                try {
+                    cs.set(c.getCriteriaName(), projEvaluationFacade.evaProjectCriteria(project, c));
+                } catch (NoResultQueryException ex) {
+                    Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
+                    MessagesForUser.addMessage(ex.getMessage());
+                }
+                cs.setLabel(s.getName());
+            }
+            bestCriteriaProjectAdmin.addSeries(cs);
+        }
+    }
+    
+    public void createBestCriteriaStudentAdmin(Edition e){
+        bestCriteriaStudentAdmin = new CartesianChartModel();
+      
+      for (Project p : projectsList) {
+
+            ChartSeries cs = new ChartSeries();
+            
+            for (Criteria c : e.getCriteriaList()) {
+                try {
+                    cs.set(c.getCriteriaName(), projEvaluationFacade.evaluationCriteriaStudentProject(p, c, student));
+                } catch (NoResultQueryException ex) {
+                    Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
+                    MessagesForUser.addMessage(ex.getMessage());
+                }
+                cs.setLabel(p.getName());
+            }
+            bestCriteriaStudentAdmin.addSeries(cs);
+        }
+    }
     
 }

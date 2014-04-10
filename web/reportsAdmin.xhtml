@@ -88,7 +88,7 @@
 
                                 <tbody>
                                     <tr>
-                                        <td width="20%"  align="left">
+                                        <td width="30%"  align="left">
                                             <p:dataTable  id="editionReport" var="criteria"
                                                           value="#{reportsController.edition.criteriaList}" rowKey="#{criteria.criteriaId}"
                                                           >
@@ -113,6 +113,16 @@
 
                                             </p:dataTable>
                                         </td>
+
+                                        <td width="70%" >
+                                            <p:barChart id="avgStudent" value="#{reportsController.studentsEditionGraph}" legendPosition="ne" style="height:300px"
+                                                        title="Média de todos os alunos na Edição #{reportsController.edition.editionName}" barMargin="50"
+                                                        yaxisLabel="Escala" xaxisLabel="Alunos"
+                                                        min="0" max="#{reportsController.edition.maxValueScale}"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
                                         <td width="30%" align="center">
 
                                             <p:barChart id="editionHorizontal" value="#{reportsController.editionGraph}"
@@ -124,11 +134,11 @@
 
 
                                         </td>
-                                        <td width="50%" >
-                                            <p:barChart id="avgStudent" value="#{reportsController.studentsEditionGraph}" legendPosition="ne" style="height:300px"
-                                                        title="Média de todos os alunos na Edição #{reportsController.edition.editionName}" barMargin="50"
-                                                        yaxisLabel="Escala" xaxisLabel="Alunos"
-                                                        min="0" max="#{reportsController.edition.maxValueScale}"/>
+                                        <td width="70%">
+
+                                            <p:barChart id="critEdition" value="#{reportsController.bestCriteriaEditionAdmin}" legendPosition="ne" style="height:300px"
+                                                        title="Soma Critérios por Aluno"  barMargin="50" stacked="true" xaxisLabel="Criterios"
+                                                        min="0" max="#{reportsController.edition.maxValueScale*reportsController.edition.criteriaList.size()}"/>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -144,7 +154,7 @@
 
                                 <tbody>
                                     <tr>
-                                        <td width="20%" align="left">
+                                        <td width="30%" align="left">
                                             <p:dataTable  id="projectReport" var="criteria"
                                                           value="#{reportsController.edition.criteriaList}" rowKey="#{criteria.criteriaId}"
                                                           >
@@ -170,6 +180,18 @@
 
                                             </p:dataTable>
                                         </td>
+
+
+                                        <td width="70%" align="right">
+
+                                            <p:barChart id="stacked" value="#{reportsController.studentsProjectGraph}" legendPosition="ne" style="height:300px"
+                                                        title="Avaliações de todos os alunos no Projeto #{reportsController.project.name}"  stacked="true" barMargin="50"
+                                                        xaxisLabel="Alunos"
+                                                        min="0" max="#{reportsController.edition.maxValueScale*reportsController.edition.criteriaList.size()}"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
                                         <td width="30%" align="center">
 
                                             <p:barChart id="projectHorizontal" value="#{reportsController.projectGraph}"
@@ -179,15 +201,14 @@
                                                         min="#{reportsController.edition.minValueScale}"
                                                         max="#{reportsController.edition.maxValueScale}"/>
                                         </td>
+                                        <td width="70%">
 
-                                        <td width="50%" align="right">
-
-                                            <p:barChart id="stacked" value="#{reportsController.studentsProjectGraph}" legendPosition="ne" style="height:300px"
-                                                        title="Avaliações de todos os alunos no Projeto #{reportsController.project.name}"  stacked="true" barMargin="50"
-                                                        xaxisLabel="Alunos"
+                                            <p:barChart id="critProject" value="#{reportsController.bestCriteriaProjectAdmin}" legendPosition="ne" style="height:300px"
+                                                        title="Soma Critérios por Aluno"  barMargin="50" stacked="true" xaxisLabel="Criterios"
                                                         min="0" max="#{reportsController.edition.maxValueScale*reportsController.edition.criteriaList.size()}"/>
                                         </td>
                                     </tr>
+
                                 </tbody>
                             </table>
 
@@ -201,7 +222,7 @@
 
                                 <tbody>
                                     <tr>
-                                        <td width="20%" align="left">
+                                        <td width="30%" align="left">
                                             <p:dataTable  id="studentReport" var="criteria"
                                                           value="#{reportsController.edition.criteriaList}" rowKey="#{criteria.criteriaId}"
                                                           >
@@ -226,6 +247,16 @@
 
                                             </p:dataTable>
                                         </td>
+
+
+                                        <td width="70%">
+                                            <p:lineChart id="linear" value="#{reportsController.studentsEvolutionProjectGraph}" legendPosition="e"
+                                                         title="Evolução do Estudante na Edição" minY="#{reportsController.edition.minValueScale}"
+                                                         yaxisLabel="Escala" xaxisLabel="Projetos"
+                                                         maxY="#{reportsController.edition.maxValueScale}" style="height:300px"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td width="30%" align="center">
 
                                             <p:barChart id="studentHorizontal" value="#{reportsController.studentGraph}"
@@ -235,12 +266,11 @@
                                                         min="#{reportsController.edition.minValueScale}"
                                                         max="#{reportsController.edition.maxValueScale}"/>
                                         </td>
+                                        <td width="70%">
 
-                                        <td width="50%">
-                                            <p:lineChart id="linear" value="#{reportsController.studentsEvolutionProjectGraph}" legendPosition="e"
-                                                         title="Evolução do Estudante na Edição" minY="#{reportsController.edition.minValueScale}"
-                                                         yaxisLabel="Escala" xaxisLabel="Projetos"
-                                                         maxY="#{reportsController.edition.maxValueScale}" style="height:300px"/>
+                                            <p:barChart id="critEditionA" value="#{reportsController.bestCriteriaStudentAdmin}" legendPosition="ne" style="height:300px"
+                                                        title="Soma Critérios por Aluno"  barMargin="50" stacked="true" xaxisLabel="Criterios"
+                                                        min="0" max="#{reportsController.edition.maxValueScale*reportsController.edition.criteriaList.size()}"/>
                                         </td>
                                     </tr>
                                 </tbody>

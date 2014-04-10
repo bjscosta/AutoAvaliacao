@@ -30,7 +30,9 @@ import javax.persistence.Table;
     @NamedQuery(name = "ProjEvaluation.avgStudent", query = "SELECT avg(e.criteriaValue) FROM ProjEvaluation e WHERE e.student.studentID = :studentId"),
     @NamedQuery(name = "ProjEvaluation.avgStudentProjectCriteria", query = "SELECT avg(e.criteriaValue) FROM ProjEvaluation e WHERE e.student.studentID = :studentId AND e.project.id = :projectId AND e.criteria.criteriaId = :criteriaId"),
     @NamedQuery(name = "ProjEvaluation.evStudentProjectCriteria", query = "SELECT e.criteriaValue FROM ProjEvaluation e WHERE e.student.studentID = :studentId AND e.project.id = :projectId AND e.criteria.criteriaId = :criteriaId"),
-    @NamedQuery(name = "ProjEvaluation.avgStudentProject", query = "SELECT avg(e.criteriaValue) FROM ProjEvaluation e WHERE e.student.studentID = :studentId AND e.project.id =:projectId")
+    @NamedQuery(name = "ProjEvaluation.avgStudentProject", query = "SELECT avg(e.criteriaValue) FROM ProjEvaluation e WHERE e.student.studentID = :studentId AND e.project.id =:projectId"),
+    @NamedQuery(name = "ProjEvaluation.evaEditionCriteria", query = "SELECT avg(e.criteriaValue) FROM ProjEvaluation e WHERE e.criteria.criteriaId = :criteriaId"),
+    @NamedQuery(name = "ProjEvaluation.evaProjectCriteria", query = "SELECT avg(e.criteriaValue) FROM ProjEvaluation e WHERE e.criteria.criteriaId = :criteriaId AND e.project.id = :projectId")
 })
 public class ProjEvaluation implements Serializable {
 

@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Relatórios</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="./mainTemplateStudent.xhtml">
+            <ui:define name ="content">
+                <h:form>
+                    <p:growl id="growl" showDetail="true"/>
+                    <h:panelGrid columns="3" width="100%">
+
+
+                        <h:panelGroup id="pts">
+                            <div align="center"><h2>Escolha um Projecto</h2></div>
+                            <p:dataTable  id="projectReportTable" var="project"
+                                          value="#{reportsController.listProjEvaStudent()}" rowKey="#{project.id}"
+                                          selection="#{reportsController.selectedProjects}" selectionMode="multiple">
+
+                                <p:column selectionMode="multiple">
+
+                                </p:column>
+                                <p:column sortFunction="true"  headerText="Nome" sortBy="#{project.name}">
+                                    #{project.name}
+                                </p:column>
+
+
+                                <f:facet name="footer">
+                                    <h:commandButton value="Selecionar" action="#{reportsController.confirmProjectStudent()}"/>
+                                </f:facet>
+                            </p:dataTable>
+                        </h:panelGroup>
+
+
+
+                    </h:panelGrid>
+
+                    <h:panelGrid>
+                        <h:panelGroup rendered="false" binding="#{reportsController.oneProjectStudent}">
+                            <div align="center"><h2>Relatório do Projeto</h2></div>
+
+                            <table width="100%" border="0" cellpadding="5">
+
+                                <tbody>
+                                    <tr>
+                                        <td  align="left">
+                                            <p:dataTable  id="editionReport" var="criteria"
+                                                          value="#{reportsController.edition.criteriaList}" rowKey="#{criteria.criteriaId}"
+                                                          >
+
+                                                <p:column headerText="Nome do Critério">
+                                                    #{criteria.criteriaName}
+                                                </p:column>
+
+                                                <p:column headerText="Média" >
+                                                    #{criteria.avgValue}
+
+                                                </p:column>
+
+                                                <f:facet name="footer">
+                                                    Média da Edição = #{reportsController.editionAverage}
+                                                </f:facet>
+
+                                            </p:dataTable>
+                                        </td>
+                                        <td width="400px" align="center">
+
+                                            <p:barChart id="editionHorizontal" value="#{reportsController.editionGraph}"
+                                                        legendPosition="se" style="height:300px"
+                                                        title="Médias da Edição" orientation="horizontal"
+                                                        yaxisLabel="Critérios" xaxisLabel="Escala"
+                                                        min="#{reportsController.edition.minValueScale}"
+                                                        max="#{reportsController.edition.maxValueScale}"/>
+
+
+                                        </td>
+                                        <td width="400px" >
+                                            <p:barChart id="avgStudent" value="#{reportsController.studentsEditionGraph}" legendPosition="ne" style="height:300px"
+                                                        title="Média de todos os alunos na Edição #{reportsController.edition.editionName}" barMargin="50"
+                                                        yaxisLabel="Escala" xaxisLabel="Alunos"
+                                                        min="0" max="#{reportsController.edition.maxValueScale}"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                        </h:panelGroup>
+
+                        <h:panelGroup rendered="false" binding="#{reportsController.variousProjectsStudent}">
+                            <div align="center"><h2>Relatório do Projeto #{reportsController.project.name}</h2></div>
+
+                            <table border="0" width="100%" cellpadding="5">
+
+                                <tbody>
+                                    <tr>
+                                        <td align="left">
+                                            <p:dataTable  id="projectReport" var="criteria"
+                                                          value="#{reportsController.edition.criteriaList}" rowKey="#{criteria.criteriaId}"
+                                                          >
+
+                                                <p:column headerText="Nome do Critério">
+                                                    #{criteria.criteriaName}
+                                                </p:column>
+
+                                                <p:column headerText="Média" >
+                                                    #{criteria.avgValue}
+
+                                                </p:column>
+
+                                                <f:facet name="footer">
+                                                    Média do Projecto = #{reportsController.projectAverage}
+                                                </f:facet>
+
+                                            </p:dataTable>
+                                        </td>
+                                        <td width="400px" align="center">
+
+                                            <p:barChart id="projectHorizontal" value="#{reportsController.projectGraph}"
+                                                        legendPosition="se" style="height:300px"
+                                                        title="Médias do Projecto" orientation="horizontal"
+                                                        yaxisLabel="Critérios" xaxisLabel="Escala"
+                                                        min="#{reportsController.edition.minValueScale}"
+                                                        max="#{reportsController.edition.maxValueScale}"/>
+                                        </td>
+
+                                        <td width="400px" align="right">
+
+                                            <p:barChart id="stacked" value="#{reportsController.studentsProjectGraph}" legendPosition="ne" style="height:300px"
+                                                        title="Avaliações de todos os alunos no Projeto #{reportsController.project.name}"  stacked="true" barMargin="50"
+                                                        xaxisLabel="Alunos"
+                                                        min="0" max="#{reportsController.edition.maxValueScale*reportsController.edition.criteriaList.size()}"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                        </h:panelGroup>
+
+
+
+                    </h:panelGrid>
+
+
+
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

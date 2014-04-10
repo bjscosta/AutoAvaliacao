@@ -28,6 +28,9 @@ import pt.uc.dei.aor.grupod.proj5.utilities.MessagesForUser;
 @Named
 @ViewScoped
 public class ReportsController {
+    
+    @Inject
+    private UserController userController;
 
     @Inject
     private EditionFacade editionFacade;
@@ -62,6 +65,9 @@ public class ReportsController {
     private CartesianChartModel studentsEditionGraph;
     private String nameGraphStrudent;
     private CartesianChartModel studentsEvolutionProjectGraph;
+    private List<Project> selectedProjects;
+    private UIComponent oneProjectStudent;
+    private UIComponent variousProjectsStudent;
 
     @PostConstruct
     public void init() {
@@ -265,6 +271,31 @@ public class ReportsController {
     public void setStudentsEvolutionProjectGraph(CartesianChartModel studentsEvolutionProjectGraph) {
         this.studentsEvolutionProjectGraph = studentsEvolutionProjectGraph;
     }
+
+    public List<Project> getSelectedProjects() {
+        return selectedProjects;
+    }
+
+    public void setSelectedProjects(List<Project> selectedProjects) {
+        this.selectedProjects = selectedProjects;
+    }
+
+    public UIComponent getOneProjectStudent() {
+        return oneProjectStudent;
+    }
+
+    public void setOneProjectStudent(UIComponent oneProjectStudent) {
+        this.oneProjectStudent = oneProjectStudent;
+    }
+
+    public UIComponent getVariousProjectsStudent() {
+        return variousProjectsStudent;
+    }
+
+    public void setVariousProjectsStudent(UIComponent variousProjectsStudent) {
+        this.variousProjectsStudent = variousProjectsStudent;
+    }
+    
     
     
 
@@ -426,6 +457,30 @@ public class ReportsController {
             }
         }
         studentsEvolutionProjectGraph.addSeries(evo);
+    }
+    
+    public void confirmProjectStudent(){
+        if (selectedProjects.isEmpty()){
+            MessagesForUser.addMessage("Selecione projectos");
+        }
+        else if(selectedProjects.size() == 1){
+            variousProjectsStudent.setRendered(true);
+            oneProjectStudent.setRendered(true);
+        }
+        else{
+            oneProjectStudent.setRendered(true);
+            variousProjectsStudent.setRendered(true);
+        }
+    }
+    
+    
+//    public List<Criteria> listCriteriaForStudent(){
+//        
+//    }
+    
+    public  List<Project> listProjEvaStudent(){
+        List <Project> lp = projEvaluationFacade.projWithEva(userController.getStudent());
+        return lp;
     }
 
 }

@@ -63,6 +63,18 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
         return withAvaliations;
 
     }
+    
+    public List<Project> projWithEva(Student s){
+        
+        List<Project> pwe = new ArrayList<>();
+            for(Project p : s.getProjects()){
+                if (!em.createNamedQuery("ProjEvaluation.userEvaluation")
+                    .setParameter("student", s).setParameter("project", p).getResultList().isEmpty()) {
+                pwe.add(p);
+                }
+            }
+            return pwe;
+    }
 
     public List<ProjEvaluation> getListProjEvaluation(Student s, Project p) {
         return em.createNamedQuery("ProjEvaluation.userEvaluation")

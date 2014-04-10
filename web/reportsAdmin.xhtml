@@ -6,8 +6,8 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <f:event type="preRenderView" listener="#{userController.verifyAdmin()}" />
-        <f:event type="preRenderView" listener="#{userController.verifyStudent()}" />
+        <f:event type="preRenderView" listener="#{userController.verifyAdministrators()}" />
+        <f:event type="preRenderView" listener="#{userController.verifyStudents()}" />
         <title>Relatórios</title>
 
     </h:head>

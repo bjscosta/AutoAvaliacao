@@ -6,7 +6,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.component.UIForm;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import pt.uc.dei.aor.grupod.proj5.EJB.LoggedUserEJB;
@@ -425,6 +427,37 @@ public class UserController {
      */
     public void veryfyAdministrator() {
         loggedUserEJB.verifyAdministrators();
+    }
+
+    public void verifyStudents() {
+
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) fc.getApplication().getNavigationHandler();
+        if (loggedUserEJB.getLoggedUser() == null) {
+            nav.performNavigation("index");
+        } else {
+            if (!(loggedUserEJB.getLoggedUser() instanceof Student)) {
+                nav.performNavigation("index");
+            }
+        }
+
+    }
+
+    /**
+     * redirect to protect the administrators's views
+     */
+    public void verifyAdministrators() {
+
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) fc.getApplication().getNavigationHandler();
+        if (loggedUserEJB.getLoggedUser() == null) {
+            nav.performNavigation("index");
+        } else {
+            if (!(loggedUserEJB.getLoggedUser() instanceof Administrator)) {
+                nav.performNavigation("index");
+            }
+        }
+
     }
 
 }

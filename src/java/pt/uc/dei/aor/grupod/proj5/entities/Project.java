@@ -15,6 +15,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -60,6 +61,9 @@ public class Project implements Serializable {
 
     @OneToMany(mappedBy = "project")
     private List<ProjEvaluation> projAvaliations;
+    
+    @Transient
+    private double avgProject;
 
     @ManyToMany
     private List<Student> students;
@@ -136,6 +140,15 @@ public class Project implements Serializable {
         this.id = id;
     }
 
+    public double getAvgProject() {
+        return avgProject;
+    }
+
+    public void setAvgProject(double avgProject) {
+        this.avgProject = avgProject;
+    }
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

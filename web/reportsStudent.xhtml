@@ -11,22 +11,31 @@
     <h:body>
         <ui:composition template="./mainTemplateStudent.xhtml">
             <ui:define name ="content">
-                <h:form>
+
+
+
+
+                <h:form id="cenas">
+
+                    <h:commandButton value="Print" type="button">
+                        <p:printer target="cenas" />
+                    </h:commandButton>
+
                     <p:growl id="growl" showDetail="true"/>
-                    <h:panelGrid columns="3" width="100%">
+                    <h:panelGrid columns="1" width="100%">
 
 
                         <h:panelGroup id="pts">
                             <div align="center"><h2>Escolha um Projecto</h2></div>
                             <p:dataTable  id="projectReportTable" var="project"
                                           value="#{reportsController.listProjEvaStudent()}" rowKey="#{project.id}"
-                                          selection="#{reportsController.selectedProjects}" selectionMode="multiple">
+                                          selection="#{reportsController.selectedProjects}">
 
                                 <p:column selectionMode="multiple">
 
                                 </p:column>
                                 <p:column sortFunction="true"  headerText="Nome" sortBy="#{project.name}">
-                                    #{project.name}
+                                    <div align="center">#{project.name}</div>
                                 </p:column>
 
 
@@ -40,15 +49,15 @@
 
                     </h:panelGrid>
 
-                    <h:panelGrid>
+                    <h:panelGrid columns="1" width="100%">
                         <h:panelGroup rendered="false" binding="#{reportsController.oneProjectStudent}">
                             <div align="center"><h2>Relatório do Projeto</h2></div>
 
-                            <table width="100%" border="0" cellpadding="5">
+                            <table width="100%" align="center" border="0" cellpadding="30">
 
                                 <tbody>
                                     <tr>
-                                        <td  align="left">
+                                        <td width="40%"  align="center">
                                             <p:dataTable  id="editionReport" var="criteria"
                                                           value="#{reportsController.edition.criteriaList}" rowKey="#{criteria.criteriaId}"
                                                           >
@@ -57,34 +66,34 @@
                                                     #{criteria.criteriaName}
                                                 </p:column>
 
-                                                <p:column headerText="Média" >
-                                                    #{criteria.avgValue}
+                                                <p:column headerText="Avaliação" >
+                                                    <h:outputLabel value="#{criteria.avgValue}">
+                                                        <f:convertNumber maxFractionDigits="2"></f:convertNumber>
+                                                    </h:outputLabel>
 
                                                 </p:column>
 
                                                 <f:facet name="footer">
-                                                    Média da Edição = #{reportsController.editionAverage}
+                                                    <h:outputLabel value="Média do Projecto = #{reportsController.projectAverage}">
+                                                        <f:convertNumber maxFractionDigits="2"></f:convertNumber>
+                                                    </h:outputLabel>
+
                                                 </f:facet>
 
                                             </p:dataTable>
                                         </td>
-                                        <td width="400px" align="center">
+                                        <td width="60%" align="center">
 
-                                            <p:barChart id="editionHorizontal" value="#{reportsController.editionGraph}"
+                                            <p:barChart id="editionHorizontal" value="#{reportsController.studentProjGraphS}"
                                                         legendPosition="se" style="height:300px"
-                                                        title="Médias da Edição" orientation="horizontal"
+                                                        title="Avaliações do projeto" orientation="horizontal"
                                                         yaxisLabel="Critérios" xaxisLabel="Escala"
                                                         min="#{reportsController.edition.minValueScale}"
                                                         max="#{reportsController.edition.maxValueScale}"/>
 
 
                                         </td>
-                                        <td width="400px" >
-                                            <p:barChart id="avgStudent" value="#{reportsController.studentsEditionGraph}" legendPosition="ne" style="height:300px"
-                                                        title="Média de todos os alunos na Edição #{reportsController.edition.editionName}" barMargin="50"
-                                                        yaxisLabel="Escala" xaxisLabel="Alunos"
-                                                        min="0" max="#{reportsController.edition.maxValueScale}"/>
-                                        </td>
+
                                     </tr>
                                 </tbody>
                             </table>
@@ -93,48 +102,53 @@
                         </h:panelGroup>
 
                         <h:panelGroup rendered="false" binding="#{reportsController.variousProjectsStudent}">
-                            <div align="center"><h2>Relatório do Projeto #{reportsController.project.name}</h2></div>
+                            <div align="center"><h2>Relatório Comparativo</h2></div>
 
-                            <table border="0" width="100%" cellpadding="5">
+                            <table border="0" width="100%" cellpadding="30">
 
                                 <tbody>
                                     <tr>
-                                        <td align="left">
-                                            <p:dataTable  id="projectReport" var="criteria"
-                                                          value="#{reportsController.edition.criteriaList}" rowKey="#{criteria.criteriaId}"
+                                        <td width="20%" align="left">
+                                            <p:dataTable  id="projectsReportS" var="project"
+                                                          value="#{reportsController.newProjects}" rowKey="#{project.id}"
                                                           >
 
-                                                <p:column headerText="Nome do Critério">
-                                                    #{criteria.criteriaName}
+                                                <p:column headerText="Nome do Projecto">
+                                                    #{project.name}
                                                 </p:column>
 
                                                 <p:column headerText="Média" >
-                                                    #{criteria.avgValue}
+
+                                                    <h:outputLabel value="#{project.avgProject}">
+                                                        <f:convertNumber maxFractionDigits="2"></f:convertNumber>
+                                                    </h:outputLabel>
+
 
                                                 </p:column>
 
                                                 <f:facet name="footer">
-                                                    Média do Projecto = #{reportsController.projectAverage}
+                                                    <h:outputLabel value="Média da Edição = #{reportsController.editionAverage}">
+                                                        <f:convertNumber maxFractionDigits="2"></f:convertNumber>
+                                                    </h:outputLabel>
+
                                                 </f:facet>
 
                                             </p:dataTable>
                                         </td>
-                                        <td width="400px" align="center">
+                                        <td width="30%" align="center">
 
-                                            <p:barChart id="projectHorizontal" value="#{reportsController.projectGraph}"
-                                                        legendPosition="se" style="height:300px"
-                                                        title="Médias do Projecto" orientation="horizontal"
-                                                        yaxisLabel="Critérios" xaxisLabel="Escala"
-                                                        min="#{reportsController.edition.minValueScale}"
-                                                        max="#{reportsController.edition.maxValueScale}"/>
+                                            <p:lineChart id="mediasProj" value="#{reportsController.avgProjectStudent}" legendPosition="e"
+                                                         title="Media por Projeto" minY="#{reportsController.edition.minValueScale}"
+                                                         yaxisLabel="Escala" xaxisLabel="Projetos"
+                                                         maxY="#{reportsController.edition.maxValueScale}" style="height:300px"/>
                                         </td>
 
-                                        <td width="400px" align="right">
+                                        <td width="50%" align="right">
 
-                                            <p:barChart id="stacked" value="#{reportsController.studentsProjectGraph}" legendPosition="ne" style="height:300px"
-                                                        title="Avaliações de todos os alunos no Projeto #{reportsController.project.name}"  stacked="true" barMargin="50"
-                                                        xaxisLabel="Alunos"
-                                                        min="0" max="#{reportsController.edition.maxValueScale*reportsController.edition.criteriaList.size()}"/>
+                                            <p:barChart id="critProj" value="#{reportsController.studentProjectCriteriaGraph}" legendPosition="ne" style="height:300px"
+                                                        title="Avaliações dos Critérios por Projeto" barMargin="50"
+                                                        xaxisLabel="Projetos" yaxisLabel="Escala"
+                                                        min="0" max="#{reportsController.edition.maxValueScale}"/>
                                         </td>
                                     </tr>
                                 </tbody>

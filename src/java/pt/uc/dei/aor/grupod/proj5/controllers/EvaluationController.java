@@ -55,7 +55,7 @@ public class EvaluationController {
         try {
             Student s = (Student) loggedUserEJB.getLoggedUser();
             Project p = loggedUserEJB.getActiveProject();
-
+            
             avgStudentProject = projEvaluationFacade.avgStudentProject(s.getStudentID(), p.getId());
 
         } catch (NoResultQueryException ex) {

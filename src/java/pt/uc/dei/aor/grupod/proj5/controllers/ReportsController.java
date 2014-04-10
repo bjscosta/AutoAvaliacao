@@ -25,6 +25,7 @@ import pt.uc.dei.aor.grupod.proj5.facades.ProjEvaluationFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.ProjectFacade;
 import pt.uc.dei.aor.grupod.proj5.utilities.MessagesForUser;
 
+
 @Named
 @ViewScoped
 public class ReportsController {
@@ -68,6 +69,11 @@ public class ReportsController {
     private List<Project> selectedProjects;
     private UIComponent oneProjectStudent;
     private UIComponent variousProjectsStudent;
+    private Student studentLogged;
+    private CartesianChartModel studentProjGraphS;
+    private CartesianChartModel studentProjectCriteriaGraph;
+    private CartesianChartModel avgProjectStudent;
+    private List<Project> newProjects;
 
     @PostConstruct
     public void init() {
@@ -78,6 +84,10 @@ public class ReportsController {
         studentsProjectGraph = new CartesianChartModel();
         studentsEditionGraph = new CartesianChartModel();
         studentsEvolutionProjectGraph = new CartesianChartModel();
+        studentLogged = userController.getStudent();
+        studentProjGraphS = new CartesianChartModel();
+        studentProjectCriteriaGraph = new CartesianChartModel();
+        avgProjectStudent = new CartesianChartModel();
     }
 
     public Edition getEdition() {
@@ -295,6 +305,46 @@ public class ReportsController {
     public void setVariousProjectsStudent(UIComponent variousProjectsStudent) {
         this.variousProjectsStudent = variousProjectsStudent;
     }
+
+    public Student getStudentLogged() {
+        return studentLogged;
+    }
+
+    public void setStudentLogged(Student studentLogged) {
+        this.studentLogged = studentLogged;
+    }
+
+    public CartesianChartModel getStudentProjGraphS() {
+        return studentProjGraphS;
+    }
+
+    public void setStudentProjGraphS(CartesianChartModel studentProjGraphS) {
+        this.studentProjGraphS = studentProjGraphS;
+    }
+
+    public CartesianChartModel getStudentProjectCriteriaGraph() {
+        return studentProjectCriteriaGraph;
+    }
+
+    public void setStudentProjectCriteriaGraph(CartesianChartModel studentProjectCriteriaGraph) {
+        this.studentProjectCriteriaGraph = studentProjectCriteriaGraph;
+    }
+
+    public CartesianChartModel getAvgProjectStudent() {
+        return avgProjectStudent;
+    }
+
+    public void setAvgProjectStudent(CartesianChartModel avgProjectStudent) {
+        this.avgProjectStudent = avgProjectStudent;
+    }
+
+    public List<Project> getNewProjects() {
+        return newProjects;
+    }
+
+    public void setNewProjects(List<Project> newProjects) {
+        this.newProjects = newProjects;
+    }
     
     
     
@@ -460,27 +510,100 @@ public class ReportsController {
     }
     
     public void confirmProjectStudent(){
+        edition = userController.getStudent().getEdition();
         if (selectedProjects.isEmpty()){
             MessagesForUser.addMessage("Selecione projectos");
         }
         else if(selectedProjects.size() == 1){
-            variousProjectsStudent.setRendered(true);
-            oneProjectStudent.setRendered(true);
+            try {
+                projectAverage = projEvaluationFacade.evoStudentProject(selectedProjects.get(0), studentLogged);
+                edition = projEvaluationFacade.averageStudentProject(edition, studentLogged, selectedProjects.get(0));
+                createStudentProjGraphS(edition);
+                variousProjectsStudent.setRendered(false);
+                oneProjectStudent.setRendered(true);
+            } catch (NoResultQueryException ex) {
+                Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
+                 MessagesForUser.addMessage(ex.getMessage());
+            }
+            
         }
         else{
-            oneProjectStudent.setRendered(true);
-            variousProjectsStudent.setRendered(true);
+            try {
+                editionAverage = projEvaluationFacade.averageStudent(studentLogged);
+                newProjects = projEvaluationFacade.insertAvgProject(selectedProjects, studentLogged);
+                createAvgProjStudent(edition);
+                createStudentProjectCriteriaGraph(edition);
+                oneProjectStudent.setRendered(false);
+                variousProjectsStudent.setRendered(true);
+            } catch (NoResultQueryException ex) {
+                Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
+                MessagesForUser.addMessage(ex.getMessage());
+            }
         }
     }
     
     
-//    public List<Criteria> listCriteriaForStudent(){
-//        
-//    }
+
     
     public  List<Project> listProjEvaStudent(){
-        List <Project> lp = projEvaluationFacade.projWithEva(userController.getStudent());
+        List <Project> lp = projEvaluationFacade.projWithEva(studentLogged);
         return lp;
     }
+    
+    public void createStudentProjGraphS(Edition e){
+        studentProjGraphS = new CartesianChartModel();
+        
+        ChartSeries pc = new ChartSeries();
+        pc.setLabel("Avaliações dos Critérios");
+        
+        for(Criteria c : e.getCriteriaList()){
+            pc.set(c.getCriteriaName(), c.getAvgValue());
+        }
+        
+        studentProjGraphS.addSeries(pc);
+    }
+    
+    
+    
+    public void createStudentProjectCriteriaGraph(Edition e){
+        studentProjectCriteriaGraph = new CartesianChartModel();
+        
+        for (Criteria c : e.getCriteriaList()) {
 
+            ChartSeries cs = new ChartSeries();
+            
+            for (Project p : selectedProjects) {
+                try {
+                    cs.set(p.getName(), projEvaluationFacade.evaluationCriteriaStudentProject(p, c, studentLogged));
+                } catch (NoResultQueryException ex) {
+                    Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
+                    MessagesForUser.addMessage(ex.getMessage());
+                }
+                cs.setLabel(c.getCriteriaName());
+            }
+            studentProjectCriteriaGraph.addSeries(cs);
+        }
+        
+        
+        
+    }
+    
+    public void createAvgProjStudent(Edition e){
+        avgProjectStudent = new CartesianChartModel();
+        
+        ChartSeries cs = new ChartSeries();
+        cs.setLabel("Média do Projeto");
+        
+        for(Project p : selectedProjects){
+            try {
+                cs.set(p.getName(), projEvaluationFacade.evoStudentProject(p, studentLogged));
+            } catch (NoResultQueryException ex) {
+                Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        avgProjectStudent.addSeries(cs);
+        
+    }
+    
+    
 }

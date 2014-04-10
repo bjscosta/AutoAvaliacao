@@ -80,15 +80,15 @@
                 </h:form>
                 <div align="center">
 
-                    <h:panelGrid>
+                    <h:panelGrid columns="1" width="100%">
                         <h:panelGroup rendered="false" binding="#{reportsController.editionReport}">
                             <div align="center"><h2>Relatório da Edição #{reportsController.edition.editionName}</h2></div>
 
-                            <table width="100%" border="0" cellpadding="5">
+                            <table width="100%" border="0" cellpadding="30">
 
                                 <tbody>
                                     <tr>
-                                        <td  align="left">
+                                        <td width="20%"  align="left">
                                             <p:dataTable  id="editionReport" var="criteria"
                                                           value="#{reportsController.edition.criteriaList}" rowKey="#{criteria.criteriaId}"
                                                           >
@@ -98,17 +98,22 @@
                                                 </p:column>
 
                                                 <p:column headerText="Média" >
-                                                    #{criteria.avgValue}
+                                                    <h:outputLabel value="#{criteria.avgValue}">
+                                                        <f:convertNumber maxFractionDigits="2"></f:convertNumber>
+                                                    </h:outputLabel>
 
                                                 </p:column>
 
                                                 <f:facet name="footer">
-                                                    Média da Edição = #{reportsController.editionAverage}
+                                                    <h:outputLabel value="Média da Edição = #{reportsController.editionAverage}">
+                                                        <f:convertNumber maxFractionDigits="2"></f:convertNumber>
+                                                    </h:outputLabel>
+
                                                 </f:facet>
 
                                             </p:dataTable>
                                         </td>
-                                        <td width="400px" align="center">
+                                        <td width="30%" align="center">
 
                                             <p:barChart id="editionHorizontal" value="#{reportsController.editionGraph}"
                                                         legendPosition="se" style="height:300px"
@@ -119,7 +124,7 @@
 
 
                                         </td>
-                                        <td width="400px" >
+                                        <td width="50%" >
                                             <p:barChart id="avgStudent" value="#{reportsController.studentsEditionGraph}" legendPosition="ne" style="height:300px"
                                                         title="Média de todos os alunos na Edição #{reportsController.edition.editionName}" barMargin="50"
                                                         yaxisLabel="Escala" xaxisLabel="Alunos"
@@ -135,11 +140,11 @@
                         <h:panelGroup rendered="false" binding="#{reportsController.projectReport}">
                             <div align="center"><h2>Relatório do Projeto #{reportsController.project.name}</h2></div>
 
-                            <table border="0" width="100%" cellpadding="5">
+                            <table border="0" width="100%" cellpadding="30">
 
                                 <tbody>
                                     <tr>
-                                        <td align="left">
+                                        <td width="20%" align="left">
                                             <p:dataTable  id="projectReport" var="criteria"
                                                           value="#{reportsController.edition.criteriaList}" rowKey="#{criteria.criteriaId}"
                                                           >
@@ -149,17 +154,23 @@
                                                 </p:column>
 
                                                 <p:column headerText="Média" >
-                                                    #{criteria.avgValue}
+                                                    <h:outputLabel value="#{criteria.avgValue}">
+                                                        <f:convertNumber maxFractionDigits="2"></f:convertNumber>
+                                                    </h:outputLabel>
+
 
                                                 </p:column>
 
                                                 <f:facet name="footer">
-                                                    Média do Projecto = #{reportsController.projectAverage}
+                                                    <h:outputLabel value="Média do Projecto = #{reportsController.projectAverage}">
+                                                        <f:convertNumber maxFractionDigits="2"></f:convertNumber>
+                                                    </h:outputLabel>
+
                                                 </f:facet>
 
                                             </p:dataTable>
                                         </td>
-                                        <td width="400px" align="center">
+                                        <td width="30%" align="center">
 
                                             <p:barChart id="projectHorizontal" value="#{reportsController.projectGraph}"
                                                         legendPosition="se" style="height:300px"
@@ -169,7 +180,7 @@
                                                         max="#{reportsController.edition.maxValueScale}"/>
                                         </td>
 
-                                        <td width="400px" align="right">
+                                        <td width="50%" align="right">
 
                                             <p:barChart id="stacked" value="#{reportsController.studentsProjectGraph}" legendPosition="ne" style="height:300px"
                                                         title="Avaliações de todos os alunos no Projeto #{reportsController.project.name}"  stacked="true" barMargin="50"
@@ -186,11 +197,11 @@
                         <h:panelGroup rendered="false" binding="#{reportsController.studentReport}">
                             <div align="center"><h2>Relatório do Estudante #{reportsController.student.name} </h2></div>
 
-                            <table width="100%" border="0" cellpadding="5">
+                            <table width="100%" border="0" cellpadding="30">
 
                                 <tbody>
                                     <tr>
-                                        <td align="left">
+                                        <td width="20%" align="left">
                                             <p:dataTable  id="studentReport" var="criteria"
                                                           value="#{reportsController.edition.criteriaList}" rowKey="#{criteria.criteriaId}"
                                                           >
@@ -200,17 +211,22 @@
                                                 </p:column>
 
                                                 <p:column headerText="Média" >
-                                                    #{criteria.avgValue}
+                                                    <h:outputLabel value="#{criteria.avgValue}">
+                                                        <f:convertNumber maxFractionDigits="2"></f:convertNumber>
+                                                    </h:outputLabel>
 
                                                 </p:column>
 
                                                 <f:facet name="footer">
-                                                    Média do Estudante = #{reportsController.studentAverage}
+                                                    <h:outputLabel value="Média do Estudante = #{reportsController.studentAverage}">
+                                                        <f:convertNumber maxFractionDigits="2"></f:convertNumber>
+                                                    </h:outputLabel>
+
                                                 </f:facet>
 
                                             </p:dataTable>
                                         </td>
-                                        <td width="400px" align="center">
+                                        <td width="30%" align="center">
 
                                             <p:barChart id="studentHorizontal" value="#{reportsController.studentGraph}"
                                                         legendPosition="se" style="height:300px"
@@ -220,7 +236,7 @@
                                                         max="#{reportsController.edition.maxValueScale}"/>
                                         </td>
 
-                                        <td width="400px">
+                                        <td width="50%">
                                             <p:lineChart id="linear" value="#{reportsController.studentsEvolutionProjectGraph}" legendPosition="e"
                                                          title="Evolução do Estudante na Edição" minY="#{reportsController.edition.minValueScale}"
                                                          yaxisLabel="Escala" xaxisLabel="Projetos"

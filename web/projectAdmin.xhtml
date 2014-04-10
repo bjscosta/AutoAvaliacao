@@ -118,9 +118,11 @@
                         </p:column>
                         <p:column binding="#{projectController.columnSendEmail}">
                             <div align="center">
-                                <p:commandButton ajax="false" value="Enviar Email"
-                                                 actionListener="#{mailController.sendEmailToStudent(student)}"/></div>
+                                <p:commandButton rendered="#{empty projectController.listProjEvaluation(student)}" ajax="false" value="Enviar Email"
+                                                 actionListener="#{mailController.sendEmailToStudent(student)}"/>
+                                <p:outputLabel rendered="#{!empty projectController.listProjEvaluation(student)}" value="Avaliou"/></div>
                         </p:column>
+
 
 
 

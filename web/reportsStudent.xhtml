@@ -94,7 +94,7 @@
 
                                         </td>
 
-                                    </tr>
+
                                 </tbody>
                             </table>
 
@@ -108,7 +108,7 @@
 
                                 <tbody>
                                     <tr>
-                                        <td width="20%" align="left">
+                                        <td width="30%" align="left">
                                             <p:dataTable  id="projectsReportS" var="project"
                                                           value="#{reportsController.newProjects}" rowKey="#{project.id}"
                                                           >
@@ -135,15 +135,9 @@
 
                                             </p:dataTable>
                                         </td>
-                                        <td width="30%" align="center">
 
-                                            <p:lineChart id="mediasProj" value="#{reportsController.avgProjectStudent}" legendPosition="e"
-                                                         title="Media por Projeto" minY="#{reportsController.edition.minValueScale}"
-                                                         yaxisLabel="Escala" xaxisLabel="Projetos"
-                                                         maxY="#{reportsController.edition.maxValueScale}" style="height:300px"/>
-                                        </td>
 
-                                        <td width="50%" align="right">
+                                        <td width="70%" align="right">
 
                                             <p:barChart id="critProj" value="#{reportsController.studentProjectCriteriaGraph}" legendPosition="ne" style="height:300px"
                                                         title="Avaliações dos Critérios por Projeto" barMargin="50"
@@ -151,6 +145,23 @@
                                                         min="0" max="#{reportsController.edition.maxValueScale}"/>
                                         </td>
                                     </tr>
+
+
+
+                                    <tr>
+                                        <td width="50%" align="center">
+
+                                            <p:lineChart id="mediasProj" value="#{reportsController.avgProjectStudent}" legendPosition="e"
+                                                         title="Media por Projeto" minY="#{reportsController.edition.minValueScale}"
+                                                         yaxisLabel="Escala" xaxisLabel="Projetos"
+                                                         maxY="#{reportsController.edition.maxValueScale}" style="height:300px"/>
+                                        </td>
+
+                                        <td width="50%" align="center">
+
+                                        </td>
+                                    </tr>
+
                                 </tbody>
                             </table>
 

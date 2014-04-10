@@ -363,6 +363,10 @@ public class ProjectController {
         }
     }
 
+    public List<ProjEvaluation> listProjEvaluation(Student s) {
+        return projEvaluationFacade.evaluationsOfStudentAndProject(s, loggedUserEJB.getActiveProject());
+    }
+
     public void updateProjEv() {
         peListStudent = projEvaluationFacade
                 .evaluationsOfStudentAndProject((Student) loggedUserEJB.getLoggedUser(),

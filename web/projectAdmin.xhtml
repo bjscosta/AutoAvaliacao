@@ -111,14 +111,17 @@
 
 
                         <p:column headerText="Nome" sortBy="#{student.name}">
-                            #{student.name}
+                            <div align="center">#{student.name}</div>
                         </p:column>
                         <p:column headerText="E-mail" sortBy="#{student.email}">
-                            #{student.email}
+                            <div align="center">#{student.email}</div>
                         </p:column>
-                        <p:column>
-                            <p:commandButton ajax="false" value="Mandar Email" actionListener="#{mailController.sendEmailToStudent(student)}"/>
+                        <p:column binding="#{projectController.columnSendEmail}">
+                            <div align="center">
+                                <p:commandButton ajax="false" value="Enviar Email"
+                                                 actionListener="#{mailController.sendEmailToStudent(student)}"/></div>
                         </p:column>
+
 
 
                         <f:facet name="footer">
@@ -144,14 +147,14 @@
 
                         <p:column selectionMode="multiple" />
                         <p:column filterBy="name" filterMatchMode="contains" headerText="Nome" sortBy="#{student.name}">
-                            #{student.name}
+                            <div align="center">#{student.name}</div>
                         </p:column>
                         <p:column filterBy="email" filterMatchMode="contains" headerText="E-mail" sortBy="#{student.email}">
-                            #{student.email}
+                            <div align="center">#{student.email}</div>
                         </p:column>
 
                         <f:facet name="footer">
-                            <p:commandButton ajax="false"  value="Adicionar selecionados" actionListener="#{projectController.insertStudentsProject}"/>
+                            <div align="center"> <p:commandButton ajax="false"  value="Adicionar selecionados" actionListener="#{projectController.insertStudentsProject}"/></div>
                         </f:facet>
 
                     </p:dataTable>
@@ -171,24 +174,26 @@
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15" resizableColumns="false">
                         <p:column headerText="Nome" sortBy="name">
-                            #{project1.name}
+                            <div align="center">#{project1.name}</div>
                         </p:column>
                         <p:column headerText="Data de Inicio" sortBy="startingSelfEvaluationDate">
-                            <h:outputLabel value="#{project1.startingSelfEvaluationDate}">
-                                <f:convertDateTime locale="Europe/Lisbon"/>
-                            </h:outputLabel>
+                            <div align="center"><h:outputLabel value="#{project1.startingSelfEvaluationDate}">
+                                    <f:convertDateTime locale="Europe/Lisbon"/>
+                                </h:outputLabel></div>
                         </p:column>
                         <p:column headerText="Data de Fim" sortBy="finishingSelfEvaluationDate">
-                            <h:outputLabel value="#{project1.finishingSelfEvaluationDate}">
-                                <f:convertDateTime locale="Europe/Lisbon"/>
-                            </h:outputLabel>
+                            <div align="center"><h:outputLabel value="#{project1.finishingSelfEvaluationDate}">
+                                    <f:convertDateTime locale="Europe/Lisbon"/>
+                                </h:outputLabel></div>
                         </p:column>
                         <p:column headerText="Nome da Edição" sortBy="edition">
-                            #{project1.edition.editionName}
+                            <div align="center">#{project1.edition.editionName}</div>
                         </p:column>
 
                         <p:column>
-                            <h:commandLink value="Abrir Projecto" action="#{projectController.goToAddStudents(project1)}"/>
+                            <div align="center"><h:commandLink value="Abrir Projecto"
+                                                               action="#{projectController.goToAddStudents(project1)}"/>
+                            </div>
                         </p:column>
 
                     </p:dataTable>

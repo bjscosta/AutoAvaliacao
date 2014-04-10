@@ -63,6 +63,7 @@ public class MailEJB {
             // From: is our service
             message.setFrom(new InternetAddress(from));
             // To: destination given
+
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(destinationEmail));
             message.setSubject("Aviso");

@@ -15,7 +15,7 @@ import javax.faces.context.FacesContext;
 public class MessagesForUser {
 
     public static void addMessage(String m) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, m, null);
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", m);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 }

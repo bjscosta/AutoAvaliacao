@@ -5,12 +5,17 @@
  */
 package pt.uc.dei.aor.grupod.proj5.controllers;
 
+import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import pt.uc.dei.aor.grupod.proj5.EJB.LoggedUserEJB;
 import pt.uc.dei.aor.grupod.proj5.EJB.MailEJB;
+import pt.uc.dei.aor.grupod.proj5.entities.ProjEvaluation;
+import pt.uc.dei.aor.grupod.proj5.entities.Project;
 import pt.uc.dei.aor.grupod.proj5.entities.Student;
+import pt.uc.dei.aor.grupod.proj5.facades.ProjEvaluationFacade;
+import pt.uc.dei.aor.grupod.proj5.utilities.MessagesForUser;
 
 /**
  *
@@ -24,9 +29,18 @@ public class MailController {
     private LoggedUserEJB loggedUserEJB;
 
     @Inject
+    private ProjEvaluationFacade projEvaluationFacade;
+
+    @Inject
     private MailEJB mailEJB;
 
     public void sendEmailToStudent(Student s) {
-        mailEJB.sendEmailRemember(s.getEmail(), loggedUserEJB.getActiveProject());
+        Project p = loggedUserEJB.getActiveProject();
+        List<ProjEvaluation> list = projEvaluationFacade.evaluationsOfStudentAndProject(s, p);
+        if (list.isEmpty()) {
+            mailEJB.sendEmailRemember(s.getEmail(), loggedUserEJB.getActiveProject());
+        } else {
+            MessagesForUser.addMessage("Este estudante já avaliou o projecto");
+        }
     }
 }

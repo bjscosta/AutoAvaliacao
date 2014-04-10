@@ -74,6 +74,7 @@ public class ProjectController {
     private List<ProjEvaluation> peListStudent;
     private List<Project> projectsAlreadyEvaluated;
     private UIForm projEvaluatedForm;
+    private UIComponent columnSendEmail;
 
     @PostConstruct
     public void init() {
@@ -324,12 +325,12 @@ public class ProjectController {
         this.peListStudent = peListStudent;
     }
 
-    public void actualizeStudentEvaluateProje() {
-        User u = loggedUserEJB.getLoggedUser();
-        if (u instanceof Student) {
-            studentProjectEvaluate = projectFacade.
-                    openProjectsToEvaluateStudent((Student) u);
-        }
+    public UIComponent getColumnSendEmail() {
+        return columnSendEmail;
+    }
+
+    public void setColumnSendEmail(UIComponent columnSendEmail) {
+        this.columnSendEmail = columnSendEmail;
     }
 
     public List<Student> getFilterStudent() {
@@ -338,6 +339,14 @@ public class ProjectController {
 
     public void setFilterStudent(List<Student> filterStudent) {
         this.filterStudent = filterStudent;
+    }
+
+    public void actualizeStudentEvaluateProje() {
+        User u = loggedUserEJB.getLoggedUser();
+        if (u instanceof Student) {
+            studentProjectEvaluate = projectFacade.
+                    openProjectsToEvaluateStudent((Student) u);
+        }
     }
 
     /**
@@ -513,6 +522,13 @@ public class ProjectController {
         closedProjecsForm.setRendered(false);
         addStudentForm.setRendered(true);
         header.setRendered(false);
+
+        if (openProjects != null && openProjects.contains(project)) {
+            columnSendEmail.setRendered(true);
+
+        } else if (closeProjects != null && closeProjects.contains(project)) {
+            columnSendEmail.setRendered(false);
+        }
     }
 
     public void deleteStudentsFromProject() {
@@ -541,10 +557,6 @@ public class ProjectController {
     public List<Student> listStudentEdition() {
 
         return projectFacade.studentsInProject(loggedUserEJB.getActiveProject());
-
-    }
-
-    private void makeSearch() {
 
     }
 

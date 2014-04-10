@@ -23,12 +23,13 @@ import javax.persistence.Table;
     @NamedQuery(name = "ProjEvaluation.userEvaluation", query = "SELECT pe FROM ProjEvaluation pe WHERE pe.project = :project AND pe.student = :student"),
     @NamedQuery(name = "ProjEvaluation.avgOfAnEdition", query = "SELECT avg(e.criteriaValue) FROM ProjEvaluation e GROUP BY e.project.edition.editionId HAVING e.project.edition.editionId = :editionId"),
     @NamedQuery(name = "ProjEvaluation.avgProj", query = "SELECT AVG(u.criteriaValue) FROM ProjEvaluation u WHERE u.project.id = :projectId"),
+    @NamedQuery(name = "ProjEvaluation.avgProjStudent", query = "SELECT AVG(u.criteriaValue) FROM ProjEvaluation u WHERE u.project.id = :projectId AND u.student.studentID = :studentID"),
     @NamedQuery(name = "ProjEvaluation.avgOfACriteriaProject", query = "SELECT avg(e.criteriaValue) FROM ProjEvaluation e WHERE e.project.id = :projectId AND e.criteria.criteriaId = :criteriaId"),
     @NamedQuery(name = "ProjEvaluation.avgOfACriteriaEdition", query = "SELECT avg(e.criteriaValue) FROM ProjEvaluation e WHERE e.criteria.criteriaId = :criteriaId"),
     @NamedQuery(name = "ProjEvaluation.avgOfCriteriaStudent", query = "SELECT avg(e.criteriaValue) FROM ProjEvaluation e WHERE e.student.studentID = :studentId AND e.criteria.criteriaId = :criteriaId"),
     @NamedQuery(name = "ProjEvaluation.avgStudent", query = "SELECT avg(e.criteriaValue) FROM ProjEvaluation e WHERE e.student.studentID = :studentId"),
     @NamedQuery(name = "ProjEvaluation.avgStudentProject", query = "SELECT avg(e.criteriaValue) FROM ProjEvaluation e WHERE e.student.studentID = :studentId AND e.project.id = :projectId AND e.criteria.criteriaId = :criteriaId"),
-    @NamedQuery(name = "ProjEvaluation.evStudentProjectCriteria", query = "SELECT e.criteriaValue FROM ProjEvaluation e WHERE e.student.studentID = :studentId AND e.project.id = :projectId AND e.criteria.criteriaId = :criteriaId")    
+    @NamedQuery(name = "ProjEvaluation.evStudentProjectCriteria", query = "SELECT e.criteriaValue FROM ProjEvaluation e WHERE e.student.studentID = :studentId AND e.project.id = :projectId AND e.criteria.criteriaId = :criteriaId")
 })
 public class ProjEvaluation implements Serializable {
 
@@ -89,8 +90,6 @@ public class ProjEvaluation implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    
-    
 
     @Override
     public int hashCode() {

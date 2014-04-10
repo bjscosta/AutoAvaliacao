@@ -161,11 +161,26 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
 
     }
 
+    public Double avgStudentProject(Long studentID, Long projectID) throws NoResultQueryException {
+        Student s = em.find(Student.class, studentID);
+
+        try {
+
+            return (Double) em.createNamedQuery("ProjEvaluation.avgProjStudent")
+                    .setParameter("studentID", studentID).setParameter("projectId", projectID)
+                    .getSingleResult();
+        } catch (NoResultException ex) {
+            throw new NoResultQueryException();
+        }
+
+    }
+
     public Edition averageCriteriaStudent(Edition edition, Student student) throws NoResultQueryException {
 
         for (Criteria c : edition.getCriteriaList()) {
             try {
                 c.setAvgValue((Double) em.createNamedQuery("ProjEvaluation.avgOfCriteriaStudent").setParameter("studentId", student.getStudentID()).setParameter("criteriaId", c.getCriteriaId()).getSingleResult());
+
             } catch (NoResultException e) {
                 throw new NoResultQueryException();
             }

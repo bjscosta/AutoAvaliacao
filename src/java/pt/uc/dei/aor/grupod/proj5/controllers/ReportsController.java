@@ -273,7 +273,7 @@ public class ReportsController {
 
             try {
                 projectsList = edition.getProjectList();
-                studentsList = edition.getStudents();
+                studentsList = projEvaluationFacade.studentsWithAvaliationsEdition(edition);
                 editionAverage = projEvaluationFacade.averageEdition(edition);
                 edition = projEvaluationFacade.averageCriteriaEdition(edition);
                 createEditionGraph(edition);
@@ -296,7 +296,7 @@ public class ReportsController {
 
         if (project != null) {
             try {
-                studentsList = projectFacade.studentsInProject(project);
+                studentsList = projEvaluationFacade.studentsWithAvaliationsProject(project);
                 projectAverage = projEvaluationFacade.averageProject(project);
                 edition = projEvaluationFacade.averageCriteriaProject(edition, project);
                 createProjGraph(edition);
@@ -321,7 +321,7 @@ public class ReportsController {
             if (project == null) {
                 edition = projEvaluationFacade.averageCriteriaStudent(edition, student);
                 nameGraphStrudent = "Médias das Avaliações do Estudante";
-                createStudentEvolutionProjects(edition);
+                createStudentEvolutionProjects();
             } else {
                 edition = projEvaluationFacade.averageStudentProject(edition, student, project);
                 nameGraphStrudent = "Avaliações do Estudante";
@@ -381,7 +381,7 @@ public class ReportsController {
         for (Criteria c : e.getCriteriaList()) {
 
             ChartSeries a = new ChartSeries();
-            for (Student s : p.getStudents()) {
+            for (Student s : projEvaluationFacade.studentsWithAvaliationsProject(p)) {
                 try {
                     a.set(s.getName(), projEvaluationFacade.evaluationCriteriaStudentProject(project, c, s));
                 } catch (NoResultQueryException ex) {
@@ -400,7 +400,7 @@ public class ReportsController {
         ChartSeries criteria = new ChartSeries();
         criteria.setLabel("Media por Aluno");
 
-        for (Student s : e.getStudents()) {
+        for (Student s : projEvaluationFacade.studentsWithAvaliationsEdition(e)) {
             try {
                 criteria.set(s.getName(), projEvaluationFacade.averageStudent(s));
             } catch (NoResultQueryException ex) {
@@ -412,11 +412,12 @@ public class ReportsController {
 
     }
     
-    public void createStudentEvolutionProjects(Edition e){
+    public void createStudentEvolutionProjects(){
         studentsEvolutionProjectGraph = new CartesianChartModel();
         ChartSeries evo = new ChartSeries();
+        evo.setLabel("Média por Projeto");
         
-        for(Project p : e.getProjectList()){
+        for(Project p : student.getProjects()){
             try {
                 evo.set(p.getName(), projEvaluationFacade.evoStudentProject(p, student));
             } catch (NoResultQueryException ex) {

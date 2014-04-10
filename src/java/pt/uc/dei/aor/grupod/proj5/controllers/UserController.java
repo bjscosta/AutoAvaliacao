@@ -23,6 +23,7 @@ import pt.uc.dei.aor.grupod.proj5.facades.AdministratorFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.EditionFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.LogFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.StudentFacade;
+import pt.uc.dei.aor.grupod.proj5.utilities.MessagesForUser;
 
 @Named
 @RequestScoped
@@ -262,6 +263,9 @@ public class UserController {
             } catch (PassDontMatchException ex) {
                 passDontMatch = ex.getMessage();
                 return null;
+            } catch (Exception e) {
+                MessagesForUser.addMessage("Neste momento não é possivel registar-se tente mais tarde");
+                return null;
             }
         } else {
             insertEdition = "Necessita de selecionar uma Edição";
@@ -283,8 +287,13 @@ public class UserController {
      */
     public String verifyStudent() {
         try {
-            loggedUserEJB.setLoggedUser(studentFacade.login(studentEmail, studentPassword));
-            return "openProjectStudent";
+            Student s = studentFacade.login(studentEmail, studentPassword);
+            if (s != null) {
+                loggedUserEJB.setLoggedUser(s);
+                return "openProjectStudent";
+            } else {
+                return null;
+            }
         } catch (PasswordNotCorrectException e) {
             passNotCorrect = e.getMessage();
             return null;

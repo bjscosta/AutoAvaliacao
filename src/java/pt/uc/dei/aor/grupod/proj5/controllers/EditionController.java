@@ -5,10 +5,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import pt.uc.dei.aor.grupod.proj5.EJB.LoggedUserEJB;
@@ -16,8 +14,10 @@ import pt.uc.dei.aor.grupod.proj5.entities.Criteria;
 import pt.uc.dei.aor.grupod.proj5.entities.Edition;
 import pt.uc.dei.aor.grupod.proj5.exceptions.CreateEditionAbortedException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.OperationEditionAborted;
+import pt.uc.dei.aor.grupod.proj5.exceptions.RatingScaleException;
 import pt.uc.dei.aor.grupod.proj5.facades.CriteriaFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.EditionFacade;
+import pt.uc.dei.aor.grupod.proj5.utilities.MessagesForUser;
 
 @Named
 @RequestScoped
@@ -230,7 +230,7 @@ public class EditionController {
      * @throws
      * pt.uc.dei.aor.grupod.proj5.exceptions.CreateEditionAbortedException
      */
-    public void createEdition(Edition e) throws CreateEditionAbortedException {
+    public void createEdition(Edition e) throws CreateEditionAbortedException, RatingScaleException {
 
         try {
 
@@ -241,6 +241,10 @@ public class EditionController {
             errorCreate = ex.getMessage();
             throw new CreateEditionAbortedException();
 
+        } catch (RatingScaleException ex) {
+            Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
+            errorCreate = ex.getMessage();
+            throw new RatingScaleException();
         }
 
     }
@@ -275,7 +279,7 @@ public class EditionController {
             opensCreateCriteria();
             createEdition(edition);
 
-        } catch (CreateEditionAbortedException ex) {
+        } catch (CreateEditionAbortedException | RatingScaleException ex) {
             errorCreate = ex.getMessage();
             Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
 
@@ -321,21 +325,25 @@ public class EditionController {
      *
      */
     public void saveEdition() {
+        boolean save = true;
         if (loggedUserEJB.getActiveEdition() == null) {
             try {
                 createEdition(edition);
 
-            } catch (CreateEditionAbortedException ex) {
+            } catch (CreateEditionAbortedException | RatingScaleException ex) {
                 errorCreate = ex.getMessage();
                 Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
+                save = false;
+                MessagesForUser.addMessage(ex.getMessage());
 
             }
         }
-
-        editionFacade.edit(loggedUserEJB.getActiveEdition());
-        createCriteria.setRendered(false);
-        newEdition.setRendered(false);
-        createCriteria.setRendered(true);
+        if (save) {
+            editionFacade.edit(loggedUserEJB.getActiveEdition());
+            createCriteria.setRendered(false);
+            newEdition.setRendered(false);
+            createCriteria.setRendered(true);
+        }
 
     }
 
@@ -355,14 +363,10 @@ public class EditionController {
             if (selectedEdition == null) {
                 selectedEdition = loggedUserEJB.getActiveEdition();
             }
-            editionFacade.delete(selectedEdition);
+            editionFacade.removesEdition(selectedEdition);
         } catch (OperationEditionAborted ex) {
             Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
-            FacesMessage msg = new FacesMessage(ex.getMessage());
-
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_WARN,
-                            msg.getSummary(), null));
+            MessagesForUser.addMessage(ex.getMessage());
         }
         return "edition";
     }

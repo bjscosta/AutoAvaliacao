@@ -24,6 +24,7 @@ import pt.uc.dei.aor.grupod.proj5.exceptions.PassDontMatchException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.PasswordNotCorrectException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.UserNotFoundException;
 import pt.uc.dei.aor.grupod.proj5.utilities.EncriptMD5;
+import pt.uc.dei.aor.grupod.proj5.utilities.MessagesForUser;
 
 /**
  *
@@ -233,18 +234,23 @@ public class StudentFacade extends AbstractFacade<Student> {
     public Student login(String loginEmail, String loginPassword) throws UserNotFoundException, PasswordNotCorrectException {
 
         Student s = findStudentsByEmail(loginEmail);
+        if (s.getEdition() != null) {
 
-        String pass = EncriptMD5.cryptWithMD5(loginPassword);
+            String pass = EncriptMD5.cryptWithMD5(loginPassword);
 
-        if (s != null && s.getPassword().equals(pass)) {
+            if (s != null && s.getPassword().equals(pass)) {
 
-            return s;
-        } else {
-            if (s == null) {
-                throw new UserNotFoundException();
-            } else if (!s.getPassword().equals(pass)) {
-                throw new PasswordNotCorrectException();
+                return s;
+            } else {
+                if (s == null) {
+                    throw new UserNotFoundException();
+                } else if (!s.getPassword().equals(pass)) {
+                    throw new PasswordNotCorrectException();
+                }
+                return null;
             }
+        } else {
+            MessagesForUser.addMessage("A sua Edição foi eliminada precisa de escolher");
             return null;
         }
     }
@@ -430,7 +436,5 @@ public class StudentFacade extends AbstractFacade<Student> {
             throw new PassDontMatchException();
         }
     }
-    
-    
 
 }

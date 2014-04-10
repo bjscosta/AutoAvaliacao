@@ -5,6 +5,7 @@
  */
 package pt.uc.dei.aor.grupod.proj5.EJB;
 
+import java.text.SimpleDateFormat;
 import java.util.Properties;
 import javax.ejb.Stateless;
 import javax.mail.Message;
@@ -14,6 +15,8 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import pt.uc.dei.aor.grupod.proj5.entities.Project;
+import pt.uc.dei.aor.grupod.proj5.utilities.MessagesForUser;
 
 /**
  *
@@ -22,16 +25,12 @@ import javax.mail.internet.MimeMessage;
 @Stateless(name = "ejbs/EmailServiceEJB")
 public class MailEJB {
 
-    private final String email = "xxxxxxx@gmail.com";
-    private final String password = "xxxxxxx";
-
-    public void sendAccountActivationLinkToBuyer(String destinationEmail,
-            String name) {
+    public void sendEmailRemember(String destinationEmail, Project p) {
         // OUR EMAIL SETTINGS
         String host = "smtp.gmail.com";// Gmail
         int port = 465;
-        String serviceUsername = "xxxxxxx@gmail.com";
-        String servicePassword = "xxxxxxx";// Our Gmail password
+        final String serviceUsername = "autoavaliacaoaorgrupod@gmail.com";
+        final String servicePassword = "autoavaliacao";// Our Gmail password
 
         Properties props = System.getProperties();
         props.put("mail.smtp.user", serviceUsername);
@@ -46,8 +45,7 @@ public class MailEJB {
         props.put("mail.smtp.socketFactory.fallback", "false");
 
         // Destination of the email
-        String to = destinationEmail;
-        String from = "xxxxxxx@gmail.com";
+        String from = serviceUsername;
 
         // Creating a javax.Session with the our properties
         Session session;
@@ -55,7 +53,7 @@ public class MailEJB {
                 new javax.mail.Authenticator() {
                     @Override
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(email, password);
+                        return new PasswordAuthentication(serviceUsername, servicePassword);
                     }
                 });
 
@@ -66,17 +64,21 @@ public class MailEJB {
             message.setFrom(new InternetAddress(from));
             // To: destination given
             message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(to));
-            message.setSubject("Comfirm your account");
+                    InternetAddress.parse(destinationEmail));
+            message.setSubject("Aviso");
             // Instead of simple text, a .html template should be added here!
-            message.setText("Welcome....... ");
+            message.setText("Este email é para lembrar que ainda não avaliou o projecto " + p.getName()
+                    + ".\nA availiação a este projecto está aberta "
+                    + "até à data " + new SimpleDateFormat().format(p.getFinishingSelfEvaluationDate()));
 
             Transport transport = session.getTransport("smtp");
             transport.connect(host, port, serviceUsername, servicePassword);
             Transport.send(message, message.getAllRecipients());
             transport.close();
+            MessagesForUser.addMessage("Email enviado a " + destinationEmail);
 
         } catch (MessagingException e) {
+            MessagesForUser.addMessage("Não foi possivel mandar email a " + destinationEmail);
             throw new RuntimeException(e);
         }
 

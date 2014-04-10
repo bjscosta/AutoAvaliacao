@@ -99,6 +99,7 @@
 
                     </div>
 
+
                     <div><h3>Estudantes inscritos no projeto</h3></div>
                     <p:dataTable id="StudentsIn" value="#{projectController.listStudentEdition()}" var="student" rowKey="#{student.studentID}"
                                  selection="#{projectController.studentsToDelete}"
@@ -115,10 +116,15 @@
                         <p:column headerText="E-mail" sortBy="#{student.email}">
                             #{student.email}
                         </p:column>
+                        <p:column>
+                            <p:commandButton ajax="false" value="Mandar Email" actionListener="#{mailController.sendEmailToStudent(student)}"/>
+                        </p:column>
+
 
                         <f:facet name="footer">
                             <p:growl showDetail="true" id="deleteStudents"/>
                             <p:commandButton ajax="false" value="Apagar selecionados" actionListener="#{projectController.deleteStudentsFromProject}"/>
+                            <br/>
 
                         </f:facet>
 

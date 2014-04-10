@@ -13,6 +13,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import pt.uc.dei.aor.grupod.proj5.EJB.LoggedUserEJB;
+import pt.uc.dei.aor.grupod.proj5.EJB.MailEJB;
 import pt.uc.dei.aor.grupod.proj5.entities.Edition;
 import pt.uc.dei.aor.grupod.proj5.entities.ProjEvaluation;
 import pt.uc.dei.aor.grupod.proj5.entities.Project;
@@ -35,6 +36,9 @@ public class EvaluationController {
 
     @Inject
     private LoggedUserEJB loggedUserEJB;
+
+    @Inject
+    private MailEJB mailEJB;
 
     private List<ProjEvaluation> list;
 

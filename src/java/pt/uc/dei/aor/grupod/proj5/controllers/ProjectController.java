@@ -574,15 +574,4 @@ public class ProjectController {
 
     }
 
-//    public void createEvaluation() {
-//        FacesContext context = FacesContext.getCurrentInstance();
-//        try {
-//            evaluationFacade.makeEvaluation(autoEvaluationsList, lg.getLoggedUser().getEdition().getCriterias(), currentProject.getCurrentProject().getProjectId(), lg.getLoggedUser().getUserId());
-//            context.addMessage(null, new FacesMessage("Successful submited", "The Average mark for this project is " + avg()));
-//        } catch (AutoEvaluationException ex) {
-//            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), "Error"));
-//            Logger.getLogger(UserEvaluationBean.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//    }
 }

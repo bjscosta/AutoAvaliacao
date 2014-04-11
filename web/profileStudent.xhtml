@@ -77,8 +77,8 @@
 
                                     <p:dialog header="Confirmar" widgetVar="ds" modal="true" height="100">
                                         <div align="center"><h5>Confirma que deseja apagar o seu registo?</h5></div>
-                                        <p:commandButton ajax="false" value="Sim" action="#{userController.deleteStudent()}"/>
-                                        <p:commandButton value="Não" onclick="PF('ds').close()"/>
+                                        <div align="center"><p:commandButton ajax="false" value="Sim" action="#{userController.deleteStudent()}"/>
+                                            <p:commandButton value="Não" onclick="PF('ds').close()"/></div>
                                     </p:dialog>
                                 </td>
                             </tr>

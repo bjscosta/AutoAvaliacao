@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Administração</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="./mainTemplateAdmin.xhtml">
+
+            <ui:define name ="content">
+
+                <div align="center">
+                    <h2>Painel de Administração</h2>
+                </div>
+                <h:form>
+                    <h:panelGrid width="100%" columns="2">
+                        <h:panelGroup>
+
+                            <div align="center">
+                                <h3>Lista de Administradores</h3>
+                            </div>
+
+                            <p:dataTable rowKey="#{administrator.administratorID}" selectionMode="single"
+                                         selection="#{userController.selectedAdmin}" value="#{userController.adminList}"
+                                         var="administrator" paginator="true" rows="10" paginatorPosition="bottom"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="5,10,15">
+
+                                <p:column selectionMode="multiple">
+
+                                </p:column>
+                                <p:column headerText="Nome">
+                                    #{administrator.name}
+                                </p:column>
+                                <p:column headerText="Email">
+                                    #{administrator.email}
+                                </p:column>
+
+                                <f:facet name="footer">
+                                    <p:commandButton ajax="false" id="deleteAdmin" value="Apagar Selecionados" action="#{userController.deleteAdminList()}"/>
+                                </f:facet>
+
+                            </p:dataTable>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <div align="center">
+                                <h3>Adicionar Administrador</h3>
+                            </div>
+                            <table align="center" border="0" cellpadding="10">
+
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <h5>
+                                                <h:outputLabel value="Nome"/>
+                                            </h5>
+                                        </td>
+                                        <td>
+                                            <p:inputText value="#{userController.newAdmin.name}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h5>
+                                                <h:outputLabel value="Email"/>
+                                            </h5>
+                                        </td>
+                                        <td>
+                                            <p:inputText value="#{userController.newAdmin.email}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h:outputLabel value="Password"/>
+                                        </td>
+                                        <td>
+                                            <p:inputText value="#{userController.newAdmin.password}"/>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <br />
+                            <br />
+                            <div align="center">
+                                <p:commandButton ajax="false" value="Adicionar" action="#{userController.saveNewAdmin()}"/>
+                            </div>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

@@ -2,6 +2,7 @@ package pt.uc.dei.aor.grupod.proj5.controllers;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -67,11 +68,13 @@ public class UserController {
     private UIForm login;
     private UIForm newRegistration;
     private UIForm adminLogin;
-
+    private Administrator newAdmin;
     private Edition edition;
     private String password1;
     private String password2;
     private UIComponent loginEdition;
+    private List<Administrator> adminList;
+    private List<Administrator> selectedAdmin;
 
     /**
      * this method initializes some variables of the userController
@@ -85,7 +88,9 @@ public class UserController {
         } else if (loggedUserEJB.getLoggedUser() instanceof Administrator) {
             admin = (Administrator) loggedUserEJB.getLoggedUser();
         }
-
+        newAdmin = new Administrator();
+        adminList = administratorFacade.findAllAdministrators();
+        
     }
 
     /**
@@ -359,6 +364,48 @@ public class UserController {
     public void setPassword2(String password2) {
         this.password2 = password2;
     }
+
+    /**
+     *
+     * @return
+     */
+    public Administrator getNewAdmin() {
+        return newAdmin;
+    }
+
+    /**
+     *
+     * @param newAdmin
+     */
+    public void setNewAdmin(Administrator newAdmin) {
+        this.newAdmin = newAdmin;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public List<Administrator> getAdminList() {
+        return adminList;
+    }
+
+    /**
+     *
+     * @param adminList
+     */
+    public void setAdminList(List<Administrator> adminList) {
+        this.adminList = adminList;
+    }
+
+    public List<Administrator> getSelectedAdmin() {
+        return selectedAdmin;
+    }
+
+    public void setSelectedAdmin(List<Administrator> selectedAdmin) {
+        this.selectedAdmin = selectedAdmin;
+    }
+    
+    
 
     /**
      * Creates a new student
@@ -657,5 +704,21 @@ public class UserController {
     public void updateEvaStudent() {
         projEvaluationFacade.studentsWithAvaliationsEdition(((Student) loggedUserEJB.getLoggedUser()).getEdition());
     }
+    
+    /**
+     *
+     */
+    public void saveNewAdmin(){
+        administratorFacade.saveAdministrator(newAdmin);
+    }
+    
+    public String deleteAdminList(){
+        for(Administrator a : selectedAdmin){
+            administratorFacade.remove(a);
+        }
+        return "adminPage";
+    }
+    
+    
 
 }

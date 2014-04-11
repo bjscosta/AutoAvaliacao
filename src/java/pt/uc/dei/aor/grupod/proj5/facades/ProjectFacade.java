@@ -12,8 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -30,7 +28,8 @@ import pt.uc.dei.aor.grupod.proj5.utilities.MessagesForUser;
 
 /**
  *
- * @author
+ * @author Bruno Costa
+ * @author Pedro Pamplona
  */
 @Stateless
 public class ProjectFacade extends AbstractFacade<Project> {
@@ -38,6 +37,10 @@ public class ProjectFacade extends AbstractFacade<Project> {
     @PersistenceContext(unitName = "AutoAvaliacaoPU")
     private EntityManager em;
 
+    /**
+     *
+     * @return
+     */
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -46,6 +49,9 @@ public class ProjectFacade extends AbstractFacade<Project> {
     @Inject
     private StudentFacade studentFacade;
 
+    /**
+     *
+     */
     public ProjectFacade() {
         super(Project.class);
     }
@@ -70,6 +76,12 @@ public class ProjectFacade extends AbstractFacade<Project> {
         }
     }
 
+    /**
+     * list od the projects evaluated
+     *
+     * @param s
+     * @return projects
+     */
     public List<Project> projectsEvaluated(Student s) {
         List<ProjEvaluation> list = em.createNamedQuery("ProjEvaluation.findByStudent")
                 .setParameter("student", s).getResultList();
@@ -203,11 +215,24 @@ public class ProjectFacade extends AbstractFacade<Project> {
         return projects;
     }
 
+    /**
+     * method to find all the projevaluations of a student
+     *
+     * @param s
+     * @return the result of the named query
+     * ProjEvaluation.findByProject_Student
+     */
     public List<ProjEvaluation> getProjEvaluationByStudent(Student s) {
         return em.createNamedQuery("ProjEvaluation.findByProject_Student")
                 .setParameter("student", s).getResultList();
     }
 
+    /**
+     * method to delete students from a project
+     *
+     * @param project
+     * @param selectedStudents
+     */
     public void deleteStudents(Project project, List<Student> selectedStudents) {
         Query q = em.createNamedQuery("ProjEvaluation.userEvaluation").setParameter("project", project);
         List<ProjEvaluation> pe;
@@ -220,17 +245,18 @@ public class ProjectFacade extends AbstractFacade<Project> {
                 em.merge(s);
                 em.merge(project);
             } else {
-                addMessage("Estudante " + s.getName() + " não pode ser eliminado");
+                MessagesForUser.addMessageError("Estudante " + s.getName() + " não pode ser eliminado");
             }
 
         }
     }
 
-    public void addMessage(String summary) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-
+    /**
+     * method to find the student not in the project
+     *
+     * @param p
+     * @return students
+     */
     public List<Student> studentsNotInProject(Project p) {
 
         List<Student> lS = em.createNamedQuery("Student.findStudentByEdition")
@@ -248,6 +274,12 @@ public class ProjectFacade extends AbstractFacade<Project> {
         return students;
     }
 
+    /**
+     * method to add a list of student to a project
+     *
+     * @param p
+     * @param sl
+     */
     public void addStudentsProject(Project p, List<Student> sl) {
 
         for (Student s : sl) {
@@ -259,11 +291,12 @@ public class ProjectFacade extends AbstractFacade<Project> {
 
     }
 
-    public List<Student> studentsInProject(Project p) {
-
-        return p.getStudents();
-    }
-
+    /**
+     * method to see the open Projects of a student
+     *
+     * @param s
+     * @return openProjects
+     */
     public List<Project> openProjectsToEvaluateStudent(Student s) {
         List<Project> openProjects = new ArrayList();
 
@@ -292,6 +325,11 @@ public class ProjectFacade extends AbstractFacade<Project> {
         return openProjects;
     }
 
+    /**
+     * method to remove a list of projects
+     *
+     * @param pl
+     */
     public void removeProjectList(List<Project> pl) {
         for (Project pr : pl) {
             if (pr.getProjAvaliations().isEmpty()) {
@@ -306,6 +344,11 @@ public class ProjectFacade extends AbstractFacade<Project> {
         }
     }
 
+    /**
+     * method to remove a project
+     *
+     * @param p
+     */
     public void removeProject(Project p) {
 
         if (p.getProjAvaliations().isEmpty()) {

@@ -404,7 +404,7 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
     }
 
     /**
-     * method insert the
+     * method insert the avg of the project into the project
      *
      * @param pl
      * @param s
@@ -422,11 +422,12 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
     }
 
     /**
+     * method to see the average of a student in a criteria in a project
      *
      * @param p
      * @param c
      * @param s
-     * @return
+     * @return the result of the named query ProjEvaluation.evaProjectCriteria
      * @throws NoResultQueryException
      */
     public double evaProjectCriteria(Project p, Criteria c, Student s) throws NoResultQueryException {
@@ -440,10 +441,11 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
     }
 
     /**
+     * method see evaluation of a criteria of a student
      *
      * @param c
      * @param s
-     * @return
+     * @return the result of the named query ProjEvaluation.evaEditionCriteria
      * @throws NoResultQueryException
      */
     public double evaEditionCriteria(Criteria c, Student s) throws NoResultQueryException {

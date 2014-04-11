@@ -28,7 +28,8 @@ import pt.uc.dei.aor.grupod.proj5.utilities.MessagesForUser;
 
 /**
  *
- *
+ * @author Bruno Costa
+ * @author Pedro Pamplona
  */
 @Stateless
 public class StudentFacade extends AbstractFacade<Student> {
@@ -46,7 +47,7 @@ public class StudentFacade extends AbstractFacade<Student> {
 
     /**
      *
-     * @return
+     * @return em
      */
     @Override
     protected EntityManager getEntityManager() {
@@ -60,34 +61,66 @@ public class StudentFacade extends AbstractFacade<Student> {
         super(Student.class);
     }
 
+    /**
+     *
+     * @return em
+     */
     public EntityManager getEm() {
         return em;
     }
 
+    /**
+     *
+     * @param em
+     */
     public void setEm(EntityManager em) {
         this.em = em;
     }
 
+    /**
+     *
+     * @return emailExists
+     */
     public String getEmailExists() {
         return emailExists;
     }
 
+    /**
+     *
+     * @param emailExists
+     */
     public void setEmailExists(String emailExists) {
         this.emailExists = emailExists;
     }
 
+    /**
+     *
+     * @return passMissmatch
+     */
     public String getPassMissmatch() {
         return passMissmatch;
     }
 
+    /**
+     *
+     * @param passMissmatch
+     */
     public void setPassMissmatch(String passMissmatch) {
         this.passMissmatch = passMissmatch;
     }
 
+    /**
+     *
+     * @return transactionError
+     */
     public String getTransactionError() {
         return transactionError;
     }
 
+    /**
+     *
+     * @param transactionError
+     */
     public void setTransactionError(String transactionError) {
         this.transactionError = transactionError;
     }
@@ -251,6 +284,16 @@ public class StudentFacade extends AbstractFacade<Student> {
 
     }
 
+    /**
+     * method for a student to login without edition
+     *
+     * @param loginEmail
+     * @param loginPassword
+     * @param e
+     * @return s if login is successful
+     * @throws UserNotFoundException
+     * @throws PasswordNotCorrectException
+     */
     public Student loginWithoutEdition(String loginEmail, String loginPassword, Edition e) throws UserNotFoundException, PasswordNotCorrectException {
 
         Student s = findStudentsByEmail(loginEmail);
@@ -298,7 +341,7 @@ public class StudentFacade extends AbstractFacade<Student> {
      *
      * @param student
      * @param password2
-     * @return
+     * @return student
      * @throws DuplicateEmailException
      * @throws PassDontMatchException
      */
@@ -328,7 +371,7 @@ public class StudentFacade extends AbstractFacade<Student> {
      * @param student
      * @param confirmPassword
      * @param edition
-     * @return
+     * @return student
      * @throws DuplicateEmailException
      * @throws PassDontMatchException
      */
@@ -355,7 +398,7 @@ public class StudentFacade extends AbstractFacade<Student> {
      * @param student
      * @param password1
      * @param password2
-     * @return
+     * @return the result of editStudent(student)
      */
     public Student updateStudent(Student logedStudent, Student student,
             String password1, String password2) {
@@ -381,7 +424,7 @@ public class StudentFacade extends AbstractFacade<Student> {
      * edits the student
      *
      * @param student
-     * @return
+     * @return student
      */
     public Student editStudent(Student student) {
         try {

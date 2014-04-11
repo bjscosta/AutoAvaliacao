@@ -705,10 +705,10 @@ public class ProjectController {
     public void deleteProjectListFromEdition() {
         projectFacade.removeProjectList(projectList);
     }
-    
+
     public String deleteProjectFromEdition() {
         projectFacade.removeProject(loggedUserEJB.getActiveProject());
-        
+
         return "projectAdmin.xhtml?faces-redirect=true";
     }
 
@@ -720,7 +720,7 @@ public class ProjectController {
     }
 
     /**
-     *
+     * method to open the make project menu in the edit edition view
      */
     public void editEditionMakeProject() {
         edition = loggedUserEJB.getActiveEdition();
@@ -728,14 +728,14 @@ public class ProjectController {
     }
 
     /**
-     *
+     * method to close the make project menu
      */
     public void cancelMakeProject() {
         editEditionProject.setRendered(false);
     }
 
     /**
-     *
+     * method to see all forms of lists of projects
      */
     public void seeAll() {
         closedProjecsForm.setRendered(true);
@@ -751,7 +751,7 @@ public class ProjectController {
     }
 
     /**
-     *
+     * method to see the open projects form
      */
     public void seeOpenProjects() {
         if (openProjectsForm != null) {
@@ -767,7 +767,7 @@ public class ProjectController {
     }
 
     /**
-     *
+     * method to see the close projects form
      */
     public void seeClosedProjects() {
         if (openProjectsForm != null) {
@@ -783,7 +783,7 @@ public class ProjectController {
     }
 
     /**
-     *
+     * method to see the projects to evaluate form
      */
     public void seeProjForEvaluate() {
 
@@ -795,7 +795,7 @@ public class ProjectController {
     }
 
     /**
-     *
+     * method to see the projects evaluated form
      */
     public void seeProjEvaluated() {
 
@@ -807,6 +807,7 @@ public class ProjectController {
     }
 
     /**
+     * method to see the add students menu
      *
      * @param project
      */
@@ -828,14 +829,14 @@ public class ProjectController {
 
     /**
      *
-     * @return
+     * @return editionFacade.findAll()
      */
     public List<Edition> getAllEditions() {
         return editionFacade.findAll();
     }
 
     /**
-     *
+     * method to delete students from project
      */
     public void deleteStudentsFromProject() {
 
@@ -843,8 +844,9 @@ public class ProjectController {
     }
 
     /**
+     * to see the students not in the saved project
      *
-     * @return
+     * @return the valu of the method of projectFacade studentsNotInProject
      */
     public List<Student> listNotInProject() {
 
@@ -852,7 +854,7 @@ public class ProjectController {
     }
 
     /**
-     *
+     * method to insert students into a project
      */
     public void insertStudentsProject() {
         Project p = loggedUserEJB.getActiveProject();
@@ -877,17 +879,19 @@ public class ProjectController {
 
     /**
      *
-     * @return
+     * @return loggedUserEJB.getActiveProject().getStudents()
      */
     public List<Student> listStudentEdition() {
 
-        return projectFacade.studentsInProject(loggedUserEJB.getActiveProject());
+        return loggedUserEJB.getActiveProject().getStudents();
 
     }
 
     /**
+     * this method navigates to the evaluation page and sets the project in the
+     * loggedUserEJB as selectedOpenProject
      *
-     * @return
+     * @return the page evaluation
      */
     public String evaluate() {
 
@@ -898,8 +902,10 @@ public class ProjectController {
     }
 
     /**
+     * this method navigates to the seeProjectStudent page and sets the project
+     * in the loggedUserEJB as selectedClosedProject
      *
-     * @return
+     * @return the page seeProjectStudent
      */
     public String seeGradesinProjectStudent() {
         loggedUserEJB.setActiveProject(selectedClosedProject);
@@ -908,8 +914,9 @@ public class ProjectController {
     }
 
     /**
+     * method to confirm the evaluations made by the student
      *
-     * @return
+     * @return openProjectStudent
      */
     public String confirm() {
         try {
@@ -924,7 +931,8 @@ public class ProjectController {
     }
 
     /**
-     *
+     * method that sees if the student selected the project before navigating to
+     * the evaluation page
      */
     public void listenerSelectedOpenedProjectEvaluationPage() {
         FacesContext fc = FacesContext.getCurrentInstance();

@@ -41,7 +41,7 @@ public class EvaluationController {
 
     @Inject
     private MailEJB mailEJB;
-    
+
     @Inject
     private LogFacade logFacade;
 
@@ -57,17 +57,6 @@ public class EvaluationController {
                 (Student) loggedUserEJB.getLoggedUser());
         evaluations = projEvaluationFacade.getListProjEvaluation(
                 (Student) loggedUserEJB.getLoggedUser(), loggedUserEJB.getActiveProject());
-        try {
-            Student s = (Student) loggedUserEJB.getLoggedUser();
-            Project p = loggedUserEJB.getActiveProject();
-            
-            avgStudentProject = projEvaluationFacade.avgStudentProject(s.getStudentID(), p.getId());
-
-        } catch (NoResultQueryException ex) {
-            Logger.getLogger(EvaluationController.class.getName()).log(Level.SEVERE, null, ex);
-            MessagesForUser.addMessageError(ex.getMessage());
-
-        }
 
     }
 
@@ -89,9 +78,23 @@ public class EvaluationController {
     }
 
     public Double getAvgStudentProject() {
-
+        avgStudentProj();
         return avgStudentProject;
 
+    }
+
+    public void avgStudentProj() {
+        try {
+            Student s = (Student) loggedUserEJB.getLoggedUser();
+            Project p = loggedUserEJB.getActiveProject();
+
+            avgStudentProject = projEvaluationFacade.avgStudentProject(s.getStudentID(), p.getId());
+
+        } catch (NoResultQueryException ex) {
+            Logger.getLogger(EvaluationController.class.getName()).log(Level.SEVERE, null, ex);
+            MessagesForUser.addMessageError(ex.getMessage());
+
+        }
     }
 
     public void updateEditionEvaluations() {
@@ -128,9 +131,7 @@ public class EvaluationController {
     public void setAvgStudentProject(Double avgStudentProject) {
         this.avgStudentProject = avgStudentProject;
     }
-    
-    
-    
+
     public void updateProjEv() {
         list = projEvaluationFacade.createProjEvaluation(loggedUserEJB.getActiveProject(),
                 (Student) loggedUserEJB.getLoggedUser());
@@ -138,11 +139,11 @@ public class EvaluationController {
 
     /**
      * Submits the evaluation of a student
+     *
      * @return the string that leads to the xhtml page
      */
-
     public String confirmbutton() {
-        
+
         try {
             projEvaluationFacade.confirm(list);
             MessagesForUser.addMessageInfo("Avaliação submetida com sucesso");
@@ -150,19 +151,19 @@ public class EvaluationController {
         } catch (ProjEvaluationException ex) {
             MessagesForUser.addMessageError(ex.getMessage());
             try {
-            logFacade.createLog("Submit Evaluation Failed", (Student)loggedUserEJB.getLoggedUser());
+                logFacade.createLog("Submit Evaluation Failed", (Student) loggedUserEJB.getLoggedUser());
             } catch (LogException e) {
-            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, e);
-        }
+                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, e);
+            }
             Logger.getLogger(ProjectController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         try {
-            logFacade.createLog("Submit Evaluation Successful", (Student)loggedUserEJB.getLoggedUser());
+            logFacade.createLog("Submit Evaluation Successful", (Student) loggedUserEJB.getLoggedUser());
         } catch (LogException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return "openProjectStudent";
     }
 

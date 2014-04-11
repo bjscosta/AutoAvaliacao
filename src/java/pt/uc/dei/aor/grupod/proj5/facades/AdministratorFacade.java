@@ -103,7 +103,10 @@ public class AdministratorFacade extends AbstractFacade<Administrator> {
      * @return the result of the named query Administrator.findAllAdministrators
      */
     public List<Administrator> findAllAdministrators() {
-        return em.createNamedQuery("Administrator.findAllAdministrators").getResultList();
+        List<Administrator> list = em.createNamedQuery("Administrator.findAllAdministrators").getResultList();
+        Administrator a = find(1);
+        list.remove(a);
+        return list;
     }
 
     /**
@@ -131,6 +134,8 @@ public class AdministratorFacade extends AbstractFacade<Administrator> {
     public Administrator saveAdministrator(Administrator a) {
         try {
             checksEmail(a);
+
+            a.setPassword(EncriptMD5.cryptWithMD5(a.getPassword()));
             em.persist(a);
             return a;
         } catch (DuplicateEmailException ex) {

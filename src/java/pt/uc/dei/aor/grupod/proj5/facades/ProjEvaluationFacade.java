@@ -70,6 +70,7 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
     public List<Student> studentsWithAvaliationsEdition(Edition e) {
         List<Student> withAvaliations = new ArrayList<>();
         for(Project p : e.getProjectList()){
+            
             List<Student> ls = studentsWithAvaliationsProject(p);
             for(Student s : ls){
                 if(!withAvaliations.contains(s)){

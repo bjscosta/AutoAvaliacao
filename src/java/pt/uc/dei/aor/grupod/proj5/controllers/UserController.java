@@ -25,6 +25,7 @@ import pt.uc.dei.aor.grupod.proj5.exceptions.UserNotFoundException;
 import pt.uc.dei.aor.grupod.proj5.facades.AdministratorFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.EditionFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.LogFacade;
+import pt.uc.dei.aor.grupod.proj5.facades.ProjEvaluationFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.StudentFacade;
 import pt.uc.dei.aor.grupod.proj5.utilities.MessagesForUser;
 
@@ -51,6 +52,9 @@ public class UserController {
 
     @Inject
     private LogFacade logFacade;
+    
+    @Inject
+    private ProjEvaluationFacade projEvaluationFacade;
 
     private User user;
     private Student student;
@@ -702,6 +706,10 @@ public class UserController {
                 Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+    
+    public void updateEvaStudent(){
+        projEvaluationFacade.studentsWithAvaliationsEdition(((Student)loggedUserEJB.getLoggedUser()).getEdition());
     }
 
 }

@@ -26,6 +26,7 @@ import pt.uc.dei.aor.grupod.proj5.entities.Project;
 import pt.uc.dei.aor.grupod.proj5.entities.Student;
 import pt.uc.dei.aor.grupod.proj5.exceptions.CreateProjectAbortedException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.ProjectListException;
+import pt.uc.dei.aor.grupod.proj5.utilities.MessagesForUser;
 
 /**
  *
@@ -289,6 +290,21 @@ public class ProjectFacade extends AbstractFacade<Project> {
         }
 
         return openProjects;
+    }
+    
+    public void removeProject(List<Project> pl){
+        for (Project pr : pl) {
+            if(pr.getProjAvaliations().isEmpty()){
+            pr.getEdition().getProjectList().remove(pr);
+            for(Student s : pr.getStudents()){
+                s.getProjects().remove(pr);
+            }
+            remove(pr);
+            }
+            else{
+                MessagesForUser.addMessageInfo("Não pode apagar o projeto "+pr.getName()+".");
+            }
+        }
     }
 
 }

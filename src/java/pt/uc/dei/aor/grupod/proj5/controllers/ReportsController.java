@@ -735,9 +735,7 @@ public class ReportsController {
         }
     }
     
-    public void updateEvaStudent(){
-        projEvaluationFacade.studentsWithAvaliationsEdition(((Student)loggedUserEJB.getLoggedUser()).getEdition());
-    }
+    
     
     
 }

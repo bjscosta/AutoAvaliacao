@@ -289,7 +289,15 @@
                     <div align="center">
 
                         <p:commandButton ajax="false" value="Confirmar Alterações" action="#{editionController.editEdition}"/>
-                        <p:commandButton ajax="false" value="Eliminar Edição" action="#{editionController.deleteEdition()}"/>
+                        <p:commandButton value="Eliminar Edição" oncomplete="PF('e').show()"/>
+                        <p:dialog header="Confirmar" widgetVar="e" modal="true" height="100">
+                            <div align="center"><h5>Apagar a edição #{loggedUserEJB.activeEdition.editionName}</h5></div>
+                            <p:commandButton ajax="false" value="Sim" action="#{editionController.deleteEdition()}"/>
+                            <p:commandButton value="Não" onclick="PF('e').close()"/>
+                        </p:dialog>
+
+
+
                     </div>
                 </h:form>
             </ui:define>

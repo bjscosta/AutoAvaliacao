@@ -12,7 +12,7 @@
         <ui:composition template="./mainTemplateAdmin.xhtml">
 
             <ui:define name ="content">
-
+                <p:growl id="admin" showDetail="true"/>
                 <div align="center">
                     <h2>Painel de Administração</h2>
                 </div>
@@ -24,7 +24,7 @@
                                 <h3>Lista de Administradores</h3>
                             </div>
 
-                            <p:dataTable rowKey="#{administrator.administratorID}" selectionMode="single"
+                            <p:dataTable rowKey="#{administrator.administratorID}"
                                          selection="#{userController.selectedAdmin}" value="#{userController.adminList}"
                                          var="administrator" paginator="true" rows="10" paginatorPosition="bottom"
                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"

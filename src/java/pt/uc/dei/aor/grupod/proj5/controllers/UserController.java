@@ -75,6 +75,7 @@ public class UserController {
     private UIComponent loginEdition;
     private List<Administrator> adminList;
     private List<Administrator> selectedAdmin;
+    private boolean isBoss;
 
     /**
      * this method initializes some variables of the userController
@@ -405,6 +406,17 @@ public class UserController {
         this.selectedAdmin = selectedAdmin;
     }
 
+    public boolean isIsBoss() {
+        seeIfIsBoss();
+        return isBoss;
+    }
+
+    public void setIsBoss(boolean isBoss) {
+        this.isBoss = isBoss;
+    }
+    
+    
+
     /**
      * Creates a new student
      *
@@ -716,6 +728,15 @@ public class UserController {
             administratorFacade.remove(a);
         }
         return "adminPage.xhtml?faces-redirect=true";
+    }
+    
+    public void seeIfIsBoss(){
+        if(admin.getAdministratorID() == 1){
+            isBoss = true;
+        }
+        else{
+            isBoss = false;
+        }
     }
 
 }

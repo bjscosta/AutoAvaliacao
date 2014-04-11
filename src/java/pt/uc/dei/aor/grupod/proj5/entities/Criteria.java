@@ -174,7 +174,7 @@ public class Criteria implements Serializable {
      */
     @Override
     public String toString() {
-        return criteriaId + " " + criteriaName;
+        return criteriaName;
     }
 
 }

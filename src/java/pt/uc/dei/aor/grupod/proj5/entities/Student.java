@@ -157,7 +157,7 @@ public class Student extends User implements Serializable {
      */
     @Override
     public String toString() {
-        return studentID + " " + super.getName();
+        return super.getName();
     }
 
 }

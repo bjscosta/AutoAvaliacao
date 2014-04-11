@@ -259,7 +259,7 @@ public class Project implements Serializable {
      */
     @Override
     public String toString() {
-        return id + " " + name;
+        return name;
     }
 
 }

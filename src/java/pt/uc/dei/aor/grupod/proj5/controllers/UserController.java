@@ -494,8 +494,12 @@ public class UserController {
 
     }
 
-    public void updateEdition(Edition e) {
-        edition = e;
+    public void createLogForEnterPageStudent(String page) {
+        try {
+            logFacade.createLog("view " + page, student);
+        } catch (LogException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

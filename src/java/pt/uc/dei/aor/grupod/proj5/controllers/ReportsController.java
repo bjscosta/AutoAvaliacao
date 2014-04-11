@@ -410,10 +410,10 @@ public class ReportsController {
                 project = null;
             } catch (NoResultQueryException ex) {
                 Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
-                MessagesForUser.addMessage(ex.getMessage());
+                MessagesForUser.addMessageError(ex.getMessage());
             }
         } else {
-            MessagesForUser.addMessage("Selecione uma Edição");
+            MessagesForUser.addMessageError("Selecione uma Edição");
         }
 
     }
@@ -433,10 +433,10 @@ public class ReportsController {
                 projectReport.setRendered(true);
             } catch (NoResultQueryException ex) {
                 Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
-                MessagesForUser.addMessage(ex.getMessage());
+                MessagesForUser.addMessageError(ex.getMessage());
             }
         } else {
-            MessagesForUser.addMessage("Selecione um Projecto");
+            MessagesForUser.addMessageError("Selecione um Projecto");
         }
     }
 
@@ -461,11 +461,11 @@ public class ReportsController {
             editionReport.setRendered(false);
         } catch (NoResultQueryException ex) {
             Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
-            MessagesForUser.addMessage(ex.getMessage());
+            MessagesForUser.addMessageError(ex.getMessage());
         }
         }
         else{
-            MessagesForUser.addMessage("Selecione um Estudante");
+            MessagesForUser.addMessageError("Selecione um Estudante");
         }
     }
 
@@ -515,7 +515,7 @@ public class ReportsController {
                     a.set(s.getName(), projEvaluationFacade.evaluationCriteriaStudentProject(project, c, s));
                 } catch (NoResultQueryException ex) {
                     Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
-                    MessagesForUser.addMessage(ex.getMessage());
+                    MessagesForUser.addMessageError(ex.getMessage());
                 }
                 a.setLabel(c.getCriteriaName());
             }
@@ -534,7 +534,7 @@ public class ReportsController {
                 criteria.set(s.getName(), projEvaluationFacade.averageStudent(s));
             } catch (NoResultQueryException ex) {
                 Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
-                MessagesForUser.addMessage(ex.getMessage());
+                MessagesForUser.addMessageError(ex.getMessage());
             }
         }
         studentsEditionGraph.addSeries(criteria);
@@ -551,7 +551,7 @@ public class ReportsController {
                 evo.set(p.getName(), projEvaluationFacade.evoStudentProject(p, student));
             } catch (NoResultQueryException ex) {
                 Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
-                MessagesForUser.addMessage(ex.getMessage());
+                MessagesForUser.addMessageError(ex.getMessage());
             }
         }
         studentsEvolutionProjectGraph.addSeries(evo);
@@ -560,7 +560,7 @@ public class ReportsController {
     public void confirmProjectStudent(){
         edition = userController.getStudent().getEdition();
         if (selectedProjects.isEmpty()){
-            MessagesForUser.addMessage("Selecione projectos");
+            MessagesForUser.addMessageError("Selecione projectos");
         }
         else if(selectedProjects.size() == 1){
             try {
@@ -571,7 +571,7 @@ public class ReportsController {
                 oneProjectStudent.setRendered(true);
             } catch (NoResultQueryException ex) {
                 Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
-                 MessagesForUser.addMessage(ex.getMessage());
+                 MessagesForUser.addMessageError(ex.getMessage());
             }
             
         }
@@ -586,7 +586,7 @@ public class ReportsController {
                 variousProjectsStudent.setRendered(true);
             } catch (NoResultQueryException ex) {
                 Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
-                MessagesForUser.addMessage(ex.getMessage());
+                MessagesForUser.addMessageError(ex.getMessage());
             }
         }
     }
@@ -626,7 +626,7 @@ public class ReportsController {
                     cs.set(p.getName(), projEvaluationFacade.evaluationCriteriaStudentProject(p, c, studentLogged));
                 } catch (NoResultQueryException ex) {
                     Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
-                    MessagesForUser.addMessage(ex.getMessage());
+                    MessagesForUser.addMessageError(ex.getMessage());
                 }
                 cs.setLabel(c.getCriteriaName());
             }
@@ -666,7 +666,7 @@ public class ReportsController {
                     cs.set(c.getCriteriaName(), projEvaluationFacade.evaluationCriteriaStudentProject(p, c, studentLogged));
                 } catch (NoResultQueryException ex) {
                     Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
-                    MessagesForUser.addMessage(ex.getMessage());
+                    MessagesForUser.addMessageError(ex.getMessage());
                 }
                 cs.setLabel(p.getName());
             }
@@ -687,7 +687,7 @@ public class ReportsController {
                     cs.set(c.getCriteriaName(), projEvaluationFacade.evaEditionCriteria(c, s));
                 } catch (NoResultQueryException ex) {
                     Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
-                    MessagesForUser.addMessage(ex.getMessage());
+                    MessagesForUser.addMessageError(ex.getMessage());
                 }
                 cs.setLabel(s.getName());
             }
@@ -707,7 +707,7 @@ public class ReportsController {
                     cs.set(c.getCriteriaName(), projEvaluationFacade.evaProjectCriteria(project, c, s));
                 } catch (NoResultQueryException ex) {
                     Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
-                    MessagesForUser.addMessage(ex.getMessage());
+                    MessagesForUser.addMessageError(ex.getMessage());
                 }
                 cs.setLabel(s.getName());
             }
@@ -727,7 +727,7 @@ public class ReportsController {
                     cs.set(c.getCriteriaName(), projEvaluationFacade.evaluationCriteriaStudentProject(p, c, student));
                 } catch (NoResultQueryException ex) {
                     Logger.getLogger(ReportsController.class.getName()).log(Level.SEVERE, null, ex);
-                    MessagesForUser.addMessage(ex.getMessage());
+                    MessagesForUser.addMessageError(ex.getMessage());
                 }
                 cs.setLabel(p.getName());
             }

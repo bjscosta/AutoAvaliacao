@@ -334,7 +334,7 @@ public class EditionController {
                 errorCreate = ex.getMessage();
                 Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
                 save = false;
-                MessagesForUser.addMessage(ex.getMessage());
+                MessagesForUser.addMessageError(ex.getMessage());
 
             }
         }
@@ -366,7 +366,7 @@ public class EditionController {
             editionFacade.removesEdition(selectedEdition);
         } catch (OperationEditionAborted ex) {
             Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
-            MessagesForUser.addMessage(ex.getMessage());
+            MessagesForUser.addMessageError(ex.getMessage());
         }
         return "edition";
     }

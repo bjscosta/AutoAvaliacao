@@ -14,8 +14,13 @@ import javax.faces.context.FacesContext;
  */
 public class MessagesForUser {
 
-    public static void addMessage(String m) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, m, "Aviso");
+    public static void addMessageError(String m) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, m, "Erro");
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+    
+    public static void addMessageInfo(String m) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, m, "Aviso");
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 }

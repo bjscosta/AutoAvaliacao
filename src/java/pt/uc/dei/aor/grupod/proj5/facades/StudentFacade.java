@@ -264,7 +264,7 @@ public class StudentFacade extends AbstractFacade<Student> {
                 em.merge(s);
                 em.merge(e);
             } catch (Exception ex) {
-                MessagesForUser.addMessage("Tente mais tarde fazer o login");
+                MessagesForUser.addMessageError("Tente mais tarde fazer o login");
             }
 
             return s;

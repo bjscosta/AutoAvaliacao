@@ -18,8 +18,10 @@ import pt.uc.dei.aor.grupod.proj5.entities.Edition;
 import pt.uc.dei.aor.grupod.proj5.entities.ProjEvaluation;
 import pt.uc.dei.aor.grupod.proj5.entities.Project;
 import pt.uc.dei.aor.grupod.proj5.entities.Student;
+import pt.uc.dei.aor.grupod.proj5.exceptions.LogException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.NoResultQueryException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.ProjEvaluationException;
+import pt.uc.dei.aor.grupod.proj5.facades.LogFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.ProjEvaluationFacade;
 import pt.uc.dei.aor.grupod.proj5.utilities.MessagesForUser;
 
@@ -39,6 +41,9 @@ public class EvaluationController {
 
     @Inject
     private MailEJB mailEJB;
+    
+    @Inject
+    private LogFacade logFacade;
 
     private List<ProjEvaluation> list;
 
@@ -60,7 +65,7 @@ public class EvaluationController {
 
         } catch (NoResultQueryException ex) {
             Logger.getLogger(EvaluationController.class.getName()).log(Level.SEVERE, null, ex);
-            MessagesForUser.addMessage(ex.getMessage());
+            MessagesForUser.addMessageError(ex.getMessage());
 
         }
 
@@ -101,7 +106,7 @@ public class EvaluationController {
             }
         } catch (NoResultQueryException ex) {
             Logger.getLogger(EvaluationController.class.getName()).log(Level.SEVERE, null, ex);
-            MessagesForUser.addMessage(ex.getMessage());
+            MessagesForUser.addMessageError(ex.getMessage());
         }
 
     }
@@ -115,7 +120,7 @@ public class EvaluationController {
 
         } catch (NoResultQueryException ex) {
             Logger.getLogger(EvaluationController.class.getName()).log(Level.SEVERE, null, ex);
-            MessagesForUser.addMessage(ex.getMessage());
+            MessagesForUser.addMessageError(ex.getMessage());
 
         }
     }
@@ -123,27 +128,42 @@ public class EvaluationController {
     public void setAvgStudentProject(Double avgStudentProject) {
         this.avgStudentProject = avgStudentProject;
     }
-
+    
+    
+    
     public void updateProjEv() {
         list = projEvaluationFacade.createProjEvaluation(loggedUserEJB.getActiveProject(),
                 (Student) loggedUserEJB.getLoggedUser());
     }
 
-    public void confirm() {
-        try {
-            projEvaluationFacade.confirm(list);
-
-        } catch (ProjEvaluationException ex) {
-            MessagesForUser.addMessage(ex.getMessage());
-            Logger.getLogger(ProjectController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-//        return "openProjectStudent";
-
-    }
+    /**
+     * Submits the evaluation of a student
+     * @return the string that leads to the xhtml page
+     */
 
     public String confirmbutton() {
-        confirm();
-        return "openProjectStudent.xhtml?faces-redirect=true";
+        
+        try {
+            projEvaluationFacade.confirm(list);
+            MessagesForUser.addMessageInfo("Avaliação submetida com sucesso");
+
+        } catch (ProjEvaluationException ex) {
+            MessagesForUser.addMessageError(ex.getMessage());
+            try {
+            logFacade.createLog("Submit Evaluation Failed", (Student)loggedUserEJB.getLoggedUser());
+            } catch (LogException e) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, e);
+        }
+            Logger.getLogger(ProjectController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            logFacade.createLog("Submit Evaluation Successful", (Student)loggedUserEJB.getLoggedUser());
+        } catch (LogException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return "openProjectStudent";
     }
 
 }

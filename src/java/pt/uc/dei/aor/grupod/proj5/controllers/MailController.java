@@ -40,7 +40,7 @@ public class MailController {
         if (list.isEmpty()) {
             mailEJB.sendEmailRemember(s.getEmail(), loggedUserEJB.getActiveProject());
         } else {
-            MessagesForUser.addMessage("Este estudante já avaliou o projecto");
+            MessagesForUser.addMessageError("Este estudante já avaliou o projecto");
         }
     }
 }

@@ -90,7 +90,7 @@ public class UserController {
             admin = (Administrator) loggedUserEJB.getLoggedUser();
         }
         newAdmin = new Administrator();
-        adminList = administratorFacade.findAllAdministrators();
+        
 
     }
 
@@ -387,6 +387,7 @@ public class UserController {
      * @return
      */
     public List<Administrator> getAdminList() {
+        adminList = administratorFacade.findAllAdministrators();
         return adminList;
     }
 
@@ -398,19 +399,35 @@ public class UserController {
         this.adminList = adminList;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Administrator> getSelectedAdmin() {
         return selectedAdmin;
     }
 
+    /**
+     *
+     * @param selectedAdmin
+     */
     public void setSelectedAdmin(List<Administrator> selectedAdmin) {
         this.selectedAdmin = selectedAdmin;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isIsBoss() {
         seeIfIsBoss();
         return isBoss;
     }
 
+    /**
+     *
+     * @param isBoss
+     */
     public void setIsBoss(boolean isBoss) {
         this.isBoss = isBoss;
     }
@@ -715,7 +732,8 @@ public class UserController {
     }
 
     /**
-     *
+     *  Saves the new admin
+     * @return   
      */
     public String saveNewAdmin() {
         administratorFacade.saveAdministrator(newAdmin);
@@ -723,6 +741,10 @@ public class UserController {
         return "adminPage.xhtml?faces-redirect=true";
     }
 
+    /**
+     *  Deletes a list of administrators
+     * @return
+     */
     public String deleteAdminList() {
         for (Administrator a : selectedAdmin) {
             administratorFacade.remove(a);
@@ -730,13 +752,31 @@ public class UserController {
         return "adminPage.xhtml?faces-redirect=true";
     }
     
+    /**
+     * Cheks if the admin is the main administrator
+     */
     public void seeIfIsBoss(){
-        if(admin.getAdministratorID() == 1){
-            isBoss = true;
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) fc.getApplication().getNavigationHandler();
+        if (!loggedUserEJB.getLoggedUser().getEmail().equals("admin@mail.com")) {
+            nav.performNavigation("projectAdmin.xhtml?faces-redirect=true");
+        }
+        
+    }
+    
+    /**
+     *  Creates a link for the main administrator
+     * @return
+     */
+    public String adminis(){
+        if(loggedUserEJB.getLoggedUser().getEmail().equals("admin@mail.com")){
+            return "Administração";
         }
         else{
-            isBoss = false;
+            return "";
         }
     }
+    
+
 
 }

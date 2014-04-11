@@ -85,6 +85,8 @@ public class ProjectController {
     private List<Project> projectsAlreadyEvaluated;
     private UIForm projEvaluatedForm;
     private UIComponent columnSendEmail;
+    private UIComponent inProject;
+    private UIComponent outProject;
 
     /**
      * this method initializes the variables projectCreated and
@@ -584,6 +586,22 @@ public class ProjectController {
         this.filterStudent = filterStudent;
     }
 
+    public UIComponent getInProject() {
+        return inProject;
+    }
+
+    public void setInProject(UIComponent inProject) {
+        this.inProject = inProject;
+    }
+
+    public UIComponent getOutProject() {
+        return outProject;
+    }
+
+    public void setOutProject(UIComponent outProject) {
+        this.outProject = outProject;
+    }
+
     /**
      *
      */
@@ -857,12 +875,17 @@ public class ProjectController {
      * method to insert students into a project
      */
     public void insertStudentsProject() {
+        Date d = new Date();
         Project p = loggedUserEJB.getActiveProject();
-        if (!p.getEdition().getCriteriaList().isEmpty()) {
-            projectFacade.addStudentsProject(loggedUserEJB.getActiveProject(), studentsToAdd);
+        if (p.getFinishingSelfEvaluationDate().after(d) && p.getStartingSelfEvaluationDate().before(d)) {
+            if (!p.getEdition().getCriteriaList().isEmpty()) {
+                projectFacade.addStudentsProject(loggedUserEJB.getActiveProject(), studentsToAdd);
+            } else {
+                MessagesForUser.addMessageError("A edição deste projecto ainda não tem critérios,"
+                        + " adicione primeiro critérios à edição.");
+            }
         } else {
-            MessagesForUser.addMessageError("A edição deste projecto ainda não tem critérios,"
-                    + " adicione primeiro critérios à edição.");
+            MessagesForUser.addMessageError("O projeto ainda se encontra fechado");
         }
     }
 

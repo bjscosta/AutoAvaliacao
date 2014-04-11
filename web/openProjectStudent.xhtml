@@ -15,6 +15,7 @@
         <ui:composition template="./mainTemplateStudent.xhtml">
 
             <ui:define name ="content">
+                <p:growl id="pg" showDetail="true"/>
                 <h:form>
                     <div align="left">
                         <h5><h:commandLink style="color: black" value="Todos" action="#{projectController.seeAll}"/>

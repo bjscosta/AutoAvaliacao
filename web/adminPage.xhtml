@@ -7,6 +7,8 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Administração</title>
+        <f:event type="preRenderView" listener="#{userController.verifyAdministrators()}" />
+        <f:event type="preRenderView" listener="#{userController.seeIfIsBoss()}"/>
     </h:head>
     <h:body>
         <ui:composition template="./mainTemplateAdmin.xhtml">
@@ -16,8 +18,9 @@
                 <div align="center">
                     <h2>Painel de Administração</h2>
                 </div>
-                <h:form>
-                    <h:panelGrid width="100%" columns="2">
+
+                <h:panelGrid width="100%" columns="2">
+                    <h:form>
                         <h:panelGroup>
 
                             <div align="center">
@@ -46,6 +49,8 @@
 
                             </p:dataTable>
                         </h:panelGroup>
+                    </h:form>
+                    <h:form>
                         <h:panelGroup>
                             <div align="center">
                                 <h3>Adicionar Administrador</h3>
@@ -75,7 +80,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <h:outputLabel value="Password"/>
+                                            <h5><h:outputLabel value="Password"/></h5>
                                         </td>
                                         <td>
                                             <p:inputText value="#{userController.newAdmin.password}"/>
@@ -90,8 +95,9 @@
                                 <p:commandButton ajax="false" value="Adicionar" action="#{userController.saveNewAdmin()}"/>
                             </div>
                         </h:panelGroup>
-                    </h:panelGrid>
-                </h:form>
+                    </h:form>
+                </h:panelGrid>
+
             </ui:define>
         </ui:composition>
     </h:body>

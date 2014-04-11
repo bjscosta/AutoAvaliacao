@@ -104,7 +104,7 @@ public class AdministratorFacade extends AbstractFacade<Administrator> {
      */
     public List<Administrator> findAllAdministrators() {
         List<Administrator> list = em.createNamedQuery("Administrator.findAllAdministrators").getResultList();
-        Administrator a = find(1);
+        Administrator a = find((long)1);
         list.remove(a);
         return list;
     }

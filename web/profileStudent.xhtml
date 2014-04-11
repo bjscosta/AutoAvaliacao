@@ -8,6 +8,7 @@
     <h:head>
 
         <f:event type="preRenderView" listener="#{userController.verifyStudents()}" />
+        <f:event type="preRenderView" listener="#{userController.createLogForEnterPageStudent('profileStudent')}"/>
         <title>Perfil de #{loggedUserEJB.loggedUser.name}</title>
 
     </h:head>

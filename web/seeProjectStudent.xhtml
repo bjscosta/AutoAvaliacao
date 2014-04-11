@@ -8,6 +8,7 @@
     <h:head>
 
         <f:event type="preRenderView" listener="#{userController.verifyStudents()}" />
+        <f:event type="preRenderView" listener="#{userController.createLogForEnterPageStudent('seeProjectStudent')}"/>
         <title>Projeto #{loggedUserEJB.activeProject.name}</title>
     </h:head>
     <h:body>

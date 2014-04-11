@@ -489,18 +489,18 @@ public class UserController {
         } else {
             if (!(loggedUserEJB.getLoggedUser() instanceof Administrator)) {
                 nav.performNavigation("index");
-            } else {
-
             }
         }
 
     }
 
     public void createLogForEnterPageStudent(String page) {
-        try {
-            logFacade.createLog("view " + page, student);
-        } catch (LogException ex) {
-            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        if (student != null) {
+            try {
+                logFacade.createLog("view " + page, student);
+            } catch (LogException ex) {
+                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

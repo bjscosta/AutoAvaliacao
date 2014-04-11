@@ -7,7 +7,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <f:event type="preRenderView" listener="#{userController.verifyStudents()}" />
-        <f:event type="preRenderView" listener="#{userController.createLogForEnterPageStudent('openProjectStudent')}"/>
+
         <title>Projetos de #{loggedUserEJB.loggedUser.name}</title>
     </h:head>
     <h:body>

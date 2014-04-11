@@ -34,7 +34,9 @@ public class LogFacade extends AbstractFacade<Log> {
             log1.setTimeStamp(new Date());
             log1.setStudent(student);
             em.persist(log1);
+            student.getLogEntries();
             student.getLogEntries().add(log1);
+            student.getLogEntries();
             em.merge(student);
         } catch (RollbackException e) {
             throw new LogException();

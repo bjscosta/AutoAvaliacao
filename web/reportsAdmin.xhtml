@@ -15,20 +15,20 @@
     <h:body>
         <ui:composition template="./mainTemplateAdmin.xhtml">
             <ui:define name ="content">
-
+                <div align="center"><h2>Relatórios</h2></div>
                 <h:form>
                     <p:growl id="growl" showDetail="true"/>
                     <h:panelGrid columns="3" width="100%">
                         <h:panelGroup id="et">
-                            <div align="center"><h2>Escolha uma Edição</h2></div>
+                            <div align="center"><h3>Escolha uma Edição</h3></div>
                             <p:dataTable  id="editionReportTable" var="edition"
                                           value="#{reportsController.editionsList}" rowKey="#{edition.editionId}"
                                           selection="#{reportsController.edition}" selectionMode="single">
 
-                                <p:column sortFunction="true"  headerText="Nome" sortBy="#{edition.editionName}">
+                                <p:column  headerText="Nome" >
                                     #{edition.editionName}
                                 </p:column>
-                                <p:column headerText="Ano" sortBy="#{edition.yearEdition}">
+                                <p:column headerText="Ano" >
                                     #{edition.yearEdition}
                                 </p:column>
 
@@ -39,12 +39,12 @@
                         </h:panelGroup>
 
                         <h:panelGroup binding="#{reportsController.projectTable}" id="pt">
-                            <div align="center"><h2>Escolha um Projecto</h2></div>
+                            <div align="center"><h3>Escolha um Projecto</h3></div>
                             <p:dataTable  id="projectReportTable" var="project"
                                           value="#{reportsController.projectsList}" rowKey="#{project.id}"
                                           selection="#{reportsController.project}" selectionMode="single">
 
-                                <p:column sortFunction="true"  headerText="Nome" sortBy="#{project.name}">
+                                <p:column headerText="Nome">
                                     #{project.name}
                                 </p:column>
 
@@ -56,16 +56,16 @@
                         </h:panelGroup>
 
                         <h:panelGroup binding="#{reportsController.studentsTable}" id="st">
-                            <div align="center"><h2>Escolha os Estudantes</h2></div>
+                            <div align="center"><h3>Escolha os Estudantes</h3></div>
                             <p:dataTable  id="studentReportTable" var="student"
                                           value="#{reportsController.studentsList}" rowKey="#{student.studentID}"
                                           selection="#{reportsController.student}" selectionMode="single">
 
-                                <p:column sortFunction="true"  headerText="Nome" sortBy="#{student.name}">
+                                <p:column headerText="Nome" >
                                     #{student.name}
                                 </p:column>
 
-                                <p:column sortFunction="true"  headerText="E-mail" sortBy="#{student.email}">
+                                <p:column  headerText="E-mail" >
                                     #{student.email}
                                 </p:column>
 
@@ -73,6 +73,7 @@
                                 <f:facet name="footer">
                                     <p:commandButton ajax="false" value="Selecionar" action="#{reportsController.confirmStudents()}"/>
                                 </f:facet>
+
                             </p:dataTable>
                         </h:panelGroup>
 

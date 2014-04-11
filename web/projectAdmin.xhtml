@@ -16,15 +16,15 @@
         <ui:composition template="./mainTemplateAdmin.xhtml">
 
             <ui:define name ="content">
-
+                <p:growl showDetail="true" id="deleteStudents"/>
 
                 <h:form binding="#{projectController.header}">
                     <div align="left">
-                        <h:commandLink style="color: #00aff9;" value="Todos" action="#{projectController.seeAll}"/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <h:commandLink style="color: #00aff9;" value="Projectos Abertos" action="#{projectController.seeOpenProjects}"/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <h:commandLink style="color: #00aff9;" value="Projectos Fechados" action="#{projectController.seeClosedProjects}"/>
+                        <h5><h:commandLink style="color: black;" value="Todos" action="#{projectController.seeAll}"/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <h:commandLink style="color: black;" value="Projectos Abertos" action="#{projectController.seeOpenProjects}"/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <h:commandLink style="color: black;" value="Projectos Fechados" action="#{projectController.seeClosedProjects}"/></h5>
                     </div>
                     <div align="right"><p:commandButton rendered="#{!empty projectController.allEditions}" ajax="false" value="Criar Projecto" action="#{projectController.goToCreateProject}"/> </div>
                 </h:form>
@@ -33,7 +33,7 @@
 
 
                 <h:form id="openedProjectsForm" binding="#{projectController.openProjectsForm}">
-                    <div align="center"><h3>Projectos Abertos</h3></div>
+                    <div align="center"><h2>Projectos Abertos</h2></div>
                     <br/>
                     <p:dataTable value="#{projectController.openProjects}" var="project2" rowKey="#{project2.id}"
                                  selectionMode="single" selection="#{projectController.selectedOpenedProject}"
@@ -43,17 +43,17 @@
                         <p:column headerText="Nome" sortBy="name">
                             #{project2.name}
                         </p:column>
-                        <p:column headerText="Data de Inicio" sortBy="startingSelfEvaluationDate">
+                        <p:column headerText="Data de Inicio">
                             <h:outputLabel value="#{project2.startingSelfEvaluationDate}">
                                 <f:convertDateTime locale="Europe/Lisbon"/>
                             </h:outputLabel>
                         </p:column>
-                        <p:column headerText="Data de Fim" sortBy="finishingSelfEvaluationDate">
+                        <p:column headerText="Data de Fim">
                             <h:outputLabel value="#{project2.finishingSelfEvaluationDate}">
                                 <f:convertDateTime locale="Europe/Lisbon"/>
                             </h:outputLabel>
                         </p:column>
-                        <p:column headerText="Nome da Edição" sortBy="edition">
+                        <p:column headerText="Nome da Edição">
                             #{project2.edition.editionName}
                         </p:column>
                         <p:column>
@@ -64,7 +64,7 @@
                 </h:form>
                 <br/>
                 <h:form binding = "#{projectController.addStudentForm}" rendered="false">
-                    <div align="center"><h3>#{loggedUserEJB.activeProject.name}</h3></div>
+                    <div align="center"><h2>#{loggedUserEJB.activeProject.name}</h2></div>
                     <div align="right">
 
                         <table>
@@ -77,7 +77,7 @@
                             </thead>
                             <tr>
                                 <td>
-                                    <h:outputLabel value="Data de Inicio da Avaliações"/>
+                                    <h5><h:outputLabel value="Data de Inicio da Avaliações"/></h5>
                                 </td>
                                 <td>
                                     <p:calendar value="#{loggedUserEJB.activeProject.startingSelfEvaluationDate}"
@@ -88,7 +88,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <h:outputLabel value="Data de Fim da Avaliações"/>
+                                    <h5><h:outputLabel value="Data de Fim da Avaliações"/></h5>
                                 </td>
                                 <td>
                                     <p:calendar value="#{loggedUserEJB.activeProject.finishingSelfEvaluationDate}"
@@ -113,10 +113,10 @@
                         <p:column selectionMode="multiple" />
 
 
-                        <p:column headerText="Nome" sortBy="#{student.name}">
+                        <p:column headerText="Nome">
                             <div align="center">#{student.name}</div>
                         </p:column>
-                        <p:column headerText="E-mail" sortBy="#{student.email}">
+                        <p:column headerText="E-mail">
                             <div align="center">#{student.email}</div>
                         </p:column>
                         <p:column binding="#{projectController.columnSendEmail}">
@@ -130,7 +130,7 @@
 
 
                         <f:facet name="footer">
-                            <p:growl showDetail="true" id="deleteStudents"/>
+
                             <p:commandButton ajax="false" value="Apagar selecionados" actionListener="#{projectController.deleteStudentsFromProject}"/>
                             <br/>
 
@@ -151,10 +151,10 @@
 
 
                         <p:column selectionMode="multiple" />
-                        <p:column filterBy="name" filterMatchMode="contains" headerText="Nome" sortBy="#{student.name}">
+                        <p:column filterBy="name" filterMatchMode="contains" headerText="Nome">
                             <div align="center">#{student.name}</div>
                         </p:column>
-                        <p:column filterBy="email" filterMatchMode="contains" headerText="E-mail" sortBy="#{student.email}">
+                        <p:column filterBy="email" filterMatchMode="contains" headerText="E-mail">
                             <div align="center">#{student.email}</div>
                         </p:column>
 
@@ -178,20 +178,20 @@
                                  paginator="true" rows="10" paginatorPosition="bottom"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15" resizableColumns="false">
-                        <p:column headerText="Nome" sortBy="name">
+                        <p:column headerText="Nome">
                             <div align="center">#{project1.name}</div>
                         </p:column>
-                        <p:column headerText="Data de Inicio" sortBy="startingSelfEvaluationDate">
+                        <p:column headerText="Data de Inicio" >
                             <div align="center"><h:outputLabel value="#{project1.startingSelfEvaluationDate}">
                                     <f:convertDateTime locale="Europe/Lisbon"/>
                                 </h:outputLabel></div>
                         </p:column>
-                        <p:column headerText="Data de Fim" sortBy="finishingSelfEvaluationDate">
+                        <p:column headerText="Data de Fim" >
                             <div align="center"><h:outputLabel value="#{project1.finishingSelfEvaluationDate}">
                                     <f:convertDateTime locale="Europe/Lisbon"/>
                                 </h:outputLabel></div>
                         </p:column>
-                        <p:column headerText="Nome da Edição" sortBy="edition">
+                        <p:column headerText="Nome da Edição">
                             <div align="center">#{project1.edition.editionName}</div>
                         </p:column>
 
@@ -205,7 +205,7 @@
                 </h:form>
 
                 <h:form binding="#{projectController.createProject}" rendered="false">
-                    <p:growl id="messages"/>
+
                     <div align="center"><h2>Criar Projecto</h2></div>
                     <br/>
 
@@ -213,7 +213,7 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <h:outputLabel value="Nome"/>
+                                    <h5><h:outputLabel value="Nome"/></h5>
                                 </td>
                                 <td>
                                     <p:inputText value="#{projectController.projectCreated.name}"/>
@@ -225,7 +225,7 @@
 
                             <tr>
                                 <td>
-                                    <h:outputLabel value="Data de Inicio da Avaliações"/>
+                                    <h5><h:outputLabel value="Data de Inicio da Avaliações"/></h5>
                                 </td>
                                 <td>
                                     <p:calendar value="#{projectController.beginningDate}"
@@ -238,7 +238,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <h:outputLabel value="Data de Fim da Avaliações"/>
+                                    <h5><h:outputLabel value="Data de Fim da Avaliações"/></h5>
                                 </td>
                                 <td align="center">
                                     <p:calendar value="#{projectController.endingDate}"

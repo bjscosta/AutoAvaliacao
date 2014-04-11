@@ -14,7 +14,7 @@
         <ui:composition template="./mainTemplateAdmin.xhtml">
 
             <ui:define name ="content">
-
+                <p:growl showDetail="true" id="editionMessages"/>
                 <h:form>
 
                     <div align="center"><h2> Editar #{loggedUserEJB.activeEdition.editionName}</h2></div>
@@ -33,7 +33,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <h:outputLabel value="Nome"/>
+                                            <h5><h:outputLabel value="Nome"/></h5>
                                         </td>
                                         <td align="center">
                                             <p:inputText value="#{loggedUserEJB.activeEdition.editionName}"/>
@@ -44,7 +44,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <h:outputLabel value="Ano"/>
+                                            <h5><h:outputLabel value="Ano"/></h5>
                                         </td>
                                         <td align="center">
                                             <p:inputText value="#{loggedUserEJB.activeEdition.yearEdition}"/>
@@ -54,7 +54,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><h:outputLabel value="Escala de Avaliação:"/></td>
+                                        <h5><td><h:outputLabel value="Escala de Avaliação:"/></td></h5>
                                         <td>
 
 
@@ -64,7 +64,7 @@
 
                                         <td>
 
-                                            <h:outputLabel value="Limite Minimo:"/>
+                                            <h5><h:outputLabel value="Limite Minimo:"/></h5>
                                         </td>
                                         <td>
                                             <p:spinner id="min"
@@ -76,12 +76,12 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <h:outputLabel value="Limite Maximo:"/>
+                                            <h5><h:outputLabel value="Limite Maximo:"/></h5>
                                         </td>
                                         <td>
                                             <p:spinner id="max"
                                                        value="#{loggedUserEJB.activeEdition.maxValueScale}"
-                                                       min="0"
+                                                       min="1"
                                                        max="100" >
                                             </p:spinner>
 
@@ -112,10 +112,10 @@
                                                           value="#{loggedUserEJB.activeEdition.criteriaList}" rowKey="#{criteria.criteriaId}"
                                                           selection="#{editionController.criteriaList}">
                                                 <p:column selectionMode="multiple" />
-                                                <p:column sortFunction="true"  headerText="Nome" sortBy="#{criteria.criteriaName}">
+                                                <p:column  headerText="Nome">
                                                     #{criteria.criteriaName}
                                                 </p:column>
-                                                <p:column headerText="Descrição" sortBy="#{criteria.criteriaDiscription}">
+                                                <p:column headerText="Descrição">
                                                     #{criteria.criteriaDiscription}
                                                 </p:column>
 
@@ -146,10 +146,10 @@
                                                           value="#{loggedUserEJB.activeEdition.projectList}" rowKey="#{project.id}"
                                                           selection="#{projectController.projectList}">
                                                 <p:column selectionMode="multiple" />
-                                                <p:column sortFunction="true"  headerText="Nome" sortBy="#{project.name}">
+                                                <p:column  headerText="Nome" >
                                                     #{project.name}
                                                 </p:column>
-                                                <p:column headerText="Data de início" sortBy="#{project.startingSelfEvaluationDate}">
+                                                <p:column headerText="Data de início" >
 
 
                                                     <h:outputLabel value="#{project.startingSelfEvaluationDate}">
@@ -157,7 +157,7 @@
                                                     </h:outputLabel>
                                                 </p:column>
 
-                                                <p:column headerText="Data de fim" sortBy="#{project.finishingSelfEvaluationDate}">
+                                                <p:column headerText="Data de fim">
 
                                                     <h:outputLabel value="#{project.finishingSelfEvaluationDate}">
                                                         <f:convertDateTime locale="Europe/Lisbon"/>
@@ -189,7 +189,7 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <h:outputLabel value="Nome"/>
+                                            <h5><h:outputLabel value="Nome"/></h5>
                                         </td>
                                         <td>
                                             <p:inputText value="#{editionController.criteria.criteriaName}"/>
@@ -201,7 +201,7 @@
 
                                     <tr>
                                         <td>
-                                            <h:outputLabel value="Descrição"/>
+                                            <h5><h:outputLabel value="Descrição"/></h5>
                                         </td>
                                         <td>
                                             <p:inputTextarea value="#{editionController.criteria.criteriaDiscription}"/>
@@ -223,7 +223,7 @@
 
                         <h:panelGroup binding="#{projectController.editEditionProject}" rendered="false">
 
-                            <p:growl id="messages"/>
+
 
 
                             <table align="center">
@@ -232,7 +232,7 @@
 
                                     <tr>
                                         <td>
-                                            <h:outputLabel value="Nome"/>
+                                            <h5><h:outputLabel value="Nome"/></h5>
                                         </td>
                                         <td>
                                             <p:inputText value="#{projectController.projectCreated.name}"/>
@@ -244,7 +244,7 @@
 
                                     <tr>
                                         <td>
-                                            <h:outputLabel value="Data de Inicio da Avaliações"/>
+                                            <h5><h:outputLabel value="Data de Inicio da Avaliações"/></h5>
                                         </td>
                                         <td>
                                             <p:calendar value="#{projectController.beginningDate}"
@@ -257,7 +257,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <h:outputLabel value="Data de Fim da Avaliações"/>
+                                            <h5><h:outputLabel value="Data de Fim da Avaliações"/></h5>
                                         </td>
                                         <td align="center">
                                             <p:calendar value="#{projectController.endingDate}"
@@ -287,7 +287,7 @@
                     <br />
                     <br />
                     <div align="center">
-                        <p:growl showDetail="true" id="editionMessages"/>
+
                         <p:commandButton ajax="false" value="Confirmar Alterações" action="#{editionController.editEdition}"/>
                         <p:commandButton ajax="false" value="Eliminar Edição" action="#{editionController.deleteEdition()}"/>
                     </div>

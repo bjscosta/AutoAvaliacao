@@ -45,9 +45,6 @@ public class Student extends User implements Serializable {
     @ManyToOne
     private Edition edition;
 
-    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "student", orphanRemoval = true)
-    private List<Log> logEntries;
-
     public int getYearOfRegistration() {
         return yearOfRegistration;
     }
@@ -78,14 +75,6 @@ public class Student extends User implements Serializable {
 
     public void setEdition(Edition edition) {
         this.edition = edition;
-    }
-
-    public List<Log> getLogEntries() {
-        return logEntries;
-    }
-
-    public void setLogEntries(List<Log> logEntries) {
-        this.logEntries = logEntries;
     }
 
     public List<ProjEvaluation> getProjEvaluations() {

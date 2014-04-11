@@ -1,4 +1,3 @@
-
 package pt.uc.dei.aor.grupod.proj5.facades;
 
 import java.util.Date;
@@ -9,8 +8,6 @@ import javax.persistence.RollbackException;
 import pt.uc.dei.aor.grupod.proj5.entities.Log;
 import pt.uc.dei.aor.grupod.proj5.entities.Student;
 import pt.uc.dei.aor.grupod.proj5.exceptions.LogException;
-
-
 
 @Stateless
 public class LogFacade extends AbstractFacade<Log> {
@@ -32,12 +29,9 @@ public class LogFacade extends AbstractFacade<Log> {
             Log log1 = new Log();
             log1.setOperation(operation);
             log1.setTimeStamp(new Date());
-            log1.setStudent(student);
+            log1.setStudentID(student.getStudentID());
             em.persist(log1);
-            student.getLogEntries();
-            student.getLogEntries().add(log1);
-            student.getLogEntries();
-            em.merge(student);
+
         } catch (RollbackException e) {
             throw new LogException();
         }

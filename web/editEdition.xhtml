@@ -54,21 +54,41 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>
-                                            <h:outputLabel value="Escala"/>
-                                        </td>
-                                        <td align="right">
-                                            <h:panelGrid columns="1" style="margin-bottom:10px">
-                                                <h:outputText id="displayRange" value="Entre #{loggedUserEJB.activeEdition.minValueScale} e #{loggedUserEJB.activeEdition.maxValueScale}"/>
-                                                <p:slider for="min,max" display="displayRange" style="width:200px" range="true"
-                                                          displayTemplate="Entre {min} e {max}"/>
-                                            </h:panelGrid>
-                                            <h:inputHidden id="min" value="#{loggedUserEJB.activeEdition.minValueScale}" />
-                                            <h:inputHidden id="max" value="#{loggedUserEJB.activeEdition.maxValueScale}" />
-                                        </td>
+                                        <td><h:outputLabel value="Escala de Avaliação:"/></td>
                                         <td>
 
+
+                                        </td></tr>
+                                    <tr>
+
+
+                                        <td>
+
+                                            <h:outputLabel value="Limite Minimo:"/>
                                         </td>
+                                        <td>
+                                            <p:spinner id="min"
+                                                       value="#{loggedUserEJB.activeEdition.minValueScale}"
+                                                       min="0"
+                                                       max="99">
+                                            </p:spinner>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h:outputLabel value="Limite Maximo:"/>
+                                        </td>
+                                        <td>
+                                            <p:spinner id="max"
+                                                       value="#{loggedUserEJB.activeEdition.maxValueScale}"
+                                                       min="0"
+                                                       max="100" >
+                                            </p:spinner>
+
+
+
+                                        </td>
+
                                     </tr>
 
                                 </tbody>
@@ -100,8 +120,8 @@
                                                 </p:column>
 
                                                 <f:facet name="footer">
-                                                    <h:commandButton value="Apagar selecionadas" action="#{editionController.deleteCriteriaListFromEdition()}"/>
-                                                    <h:commandButton value="Adicionar Critérios" action="#{editionController.openCriteriaMaker}"/>
+                                                    <p:commandButton value="Apagar selecionadas" ajax="false" action="#{editionController.deleteCriteriaListFromEdition()}"/>
+                                                    <p:commandButton value="Adicionar Critérios" ajax="false" action="#{editionController.openCriteriaMaker}"/>
                                                 </f:facet>
                                             </p:dataTable>
                                         </td>
@@ -145,8 +165,8 @@
                                                 </p:column>
 
                                                 <f:facet name="footer">
-                                                    <h:commandButton value="Apagar selecionados" action="#{projectController.deleteProjectFromEdition()}"/>
-                                                    <h:commandButton value="Adicionar Projetos" action="#{projectController.openProjectMaker}"/>
+                                                    <p:commandButton ajax="false" value="Apagar selecionados" action="#{projectController.deleteProjectFromEdition()}"/>
+                                                    <p:commandButton ajax="false" value="Adicionar Projetos" action="#{projectController.openProjectMaker}"/>
                                                 </f:facet>
                                             </p:dataTable>
                                         </td>
@@ -195,8 +215,8 @@
                                 </tbody>
                             </table>
                             <div align="center">
-                                <h:commandButton value="Inserir" action="#{editionController.createsCriteriaForEdition()}"/>
-                                <h:commandButton immediate="true" value="Cancelar" action="#{editionController.cancelMakeCriteria()}"/>
+                                <p:commandButton ajax="false" value="Inserir" action="#{editionController.createsCriteriaForEdition()}"/>
+                                <p:commandButton ajax="false" immediate="true" value="Cancelar" action="#{editionController.cancelMakeCriteria()}"/>
                             </div>
 
                         </h:panelGroup>
@@ -228,7 +248,7 @@
                                         </td>
                                         <td>
                                             <p:calendar value="#{projectController.beginningDate}"
-                                                        id="startDate" showOn="button" binding="#{startDateComponent}"
+                                                        id="startDate" showOn="popup" binding="#{startDateComponent}"
                                                         required="true"/>
                                         </td>
                                         <td>
@@ -241,7 +261,7 @@
                                         </td>
                                         <td align="center">
                                             <p:calendar value="#{projectController.endingDate}"
-                                                        id="endDate" showOn="button" required="true">
+                                                        id="endDate" showOn="popup" required="true">
                                                 <f:validator validatorId="dateRangeValidator" />
                                                 <f:attribute name="startDateComponent" value="#{startDateComponent}" />
                                             </p:calendar>
@@ -255,8 +275,8 @@
                                 </tbody>
                             </table>
                             <div align="center">
-                                <h:commandButton value="Inserir" action="#{projectController.editEditionMakeProject()}"/>
-                                <h:commandButton immediate="true" value="Cancelar" action="#{projectController.cancelMakeProject()}"/>
+                                <p:commandButton ajax="false" value="Inserir" action="#{projectController.editEditionMakeProject()}"/>
+                                <p:commandButton ajax="false"  immediate="true" value="Cancelar" action="#{projectController.cancelMakeProject()}"/>
                             </div>
                         </h:panelGroup>
 
@@ -268,8 +288,8 @@
                     <br />
                     <div align="center">
                         <p:growl showDetail="true" id="editionMessages"/>
-                        <h:commandButton value="Confirmar Alterações" action="#{editionController.editEdition}"/>
-                        <h:commandButton value="Eliminar Edição" action="#{editionController.deleteEdition()}"/>
+                        <p:commandButton ajax="false" value="Confirmar Alterações" action="#{editionController.editEdition}"/>
+                        <p:commandButton ajax="false" value="Eliminar Edição" action="#{editionController.deleteEdition()}"/>
                     </div>
                 </h:form>
             </ui:define>

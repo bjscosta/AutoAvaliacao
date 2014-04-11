@@ -12,7 +12,7 @@ package pt.uc.dei.aor.grupod.proj5.exceptions;
 public class RatingScaleException extends Exception {
 
     public RatingScaleException() {
-        super("O limite minimo não pode ser maior ou igual que o limite superior");
+        super("O valor máximo da escala da edição tem de ser maior que o valor minimo");
     }
 
 }

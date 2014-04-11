@@ -325,4 +325,14 @@ public class EditionFacade extends AbstractFacade<Edition> {
 
     }
 
+    public void editEdition(Edition e) throws RatingScaleException {
+        if (e.getMinValueScale() >= e.getMaxValueScale()) {
+            edit(e);
+
+        } else {
+            throw new RatingScaleException();
+
+        }
+    }
+
 }

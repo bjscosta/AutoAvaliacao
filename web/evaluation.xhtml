@@ -8,7 +8,7 @@
     <h:head>
 
         <f:event type="preRenderView" listener="#{userController.verifyStudents()}" />
-
+        <f:event type="preRenderView" listener="#{userController.createLogForEnterPageStudent('seeEvalutation')}"/>
         <title>Avaliar</title>
         <f:event type="preRenderView" listener="#{projectController.listenerSelectedOpenedProjectEvaluationPage()}"/>
         <f:event listener="#{projectController.updateProjEv()}" type="preRenderView" />

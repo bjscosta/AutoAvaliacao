@@ -372,8 +372,14 @@ public class EditionController {
     }
 
     public String editEdition() {
-        editionFacade.edit(loggedUserEJB.getActiveEdition());
-        return "edition";
+        try {
+            editionFacade.editEdition(loggedUserEJB.getActiveEdition());
+            return "edition";
+        } catch (RatingScaleException ex) {
+            Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
+            MessagesForUser.addMessageError(ex.getMessage());
+            return null;
+        }
     }
 
     public String goToEdit(Edition edition) {

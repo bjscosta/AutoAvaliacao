@@ -66,13 +66,13 @@
                             </tr>
                             <tr>
                                 <td align="center">
-                                    <h:commandButton value="Cancelar" action="openProjectStudent"/>
+                                    <p:commandButton ajax="false" value="Cancelar" action="openProjectStudent"/>
                                 </td>
                                 <td align="center">
-                                    <h:commandButton value="Editar" action="#{userController.makeUpdateStudent()}"/>
+                                    <p:commandButton ajax="false" value="Editar" action="#{userController.makeUpdateStudent()}"/>
                                 </td>
                                 <td>
-                                    <h:commandButton value="Apagar Conta" action="#{userController.deleteStudent()}"/>
+                                    <p:commandButton ajax="false" value="Apagar Conta" action="#{userController.deleteStudent()}"/>
                                 </td>
                             </tr>
                         </tbody>

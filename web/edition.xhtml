@@ -39,7 +39,7 @@
 
 
                         <p:column  headerText="Nome" sortBy="#{edition.editionName}">
-                            <h:commandLink action="#{editionController.goToEdit(edition)}" value="#{edition.editionName}"/>
+                            <p:commandLink ajax="false" action="#{editionController.goToEdit(edition)}" value="#{edition.editionName}"/>
 
                         </p:column>
 
@@ -52,7 +52,7 @@
                     <br />
 
                     <div align="center">
-                        <h:commandButton value="Criar Edição" action="#{editionController.goToNewEdition}"/>
+                        <p:commandButton ajax="false" value="Criar Edição" action="#{editionController.goToNewEdition}"/>
 
                     </div>
 
@@ -89,11 +89,13 @@
                             <tr>
                                 <td>
                                     <h:outputLabel value="Escala de Avaliação:"/>
-
-
                                 </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td> <h:outputLabel value="Limite Minimo:"/></td>
                                 <td align="right">
-                                    <h:outputLabel value="Limite Minimo:"/>
+
                                     <br/>
                                     <p:spinner id="min"
                                                value="#{editionController.edition.minValueScale}"
@@ -101,8 +103,11 @@
                                                max="99">
                                     </p:spinner>
                                 </td>
-                                <td align="right">
-                                    <h:outputLabel value="Limite Maximo:"/>
+                            </tr>
+                            <tr>
+                                <td><h:outputLabel value="Limite Maximo:"/></td>
+                                <td>
+
                                     <br/>
                                     <p:spinner id="max"
                                                value="#{editionController.edition.maxValueScale}"
@@ -113,9 +118,7 @@
 
 
                                 </td>
-                                <td>
 
-                                </td>
                             </tr>
 
                         </tbody>
@@ -176,7 +179,7 @@
                                                 </td>
                                                 <td align="center">
                                                     <p:growl showDetail="true" id="edition"/>
-                                                    <h:commandButton value="Inserir" action="#{editionController.createsCriteriaForEdition()}"/>
+                                                    <p:commandButton ajax="false" value="Inserir" action="#{editionController.createsCriteriaForEdition()}"/>
                                                 </td>
                                                 <td>
 
@@ -202,7 +205,7 @@
                                         </p:column>
 
                                         <f:facet name="footer">
-                                            <h:commandButton value="Apagar selecionadas" action="#{editionController.deleteCriteriaListFromEdition()}"/>
+                                            <p:commandButton ajax="false" value="Apagar selecionadas" action="#{editionController.deleteCriteriaListFromEdition()}"/>
                                         </f:facet>
                                     </p:dataTable>
                                     <br />

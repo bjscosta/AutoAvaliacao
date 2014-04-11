@@ -356,6 +356,9 @@ public class ProjectFacade extends AbstractFacade<Project> {
             for (Student s : p.getStudents()) {
                 s.getProjects().remove(p);
             }
+            Edition e = p.getEdition();
+            e.getProjectList().remove(p);
+            em.merge(p);
             remove(p);
         } else {
             MessagesForUser.addMessageInfo("Não pode apagar o projeto " + p.getName() + ".");

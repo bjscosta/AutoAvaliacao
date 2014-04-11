@@ -28,6 +28,11 @@ import pt.uc.dei.aor.grupod.proj5.facades.LogFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.StudentFacade;
 import pt.uc.dei.aor.grupod.proj5.utilities.MessagesForUser;
 
+/**
+ *
+ * @author Bruno Costa
+ * @author Pedro Pamplona
+ */
 @Named
 @RequestScoped
 public class UserController {
@@ -67,6 +72,9 @@ public class UserController {
     private String password2;
     private UIComponent loginEdition;
 
+    /**
+     *
+     */
     @PostConstruct
     public void init() {
         if (loggedUserEJB.getLoggedUser() == null) {
@@ -79,172 +87,338 @@ public class UserController {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public UIComponent getLoginEdition() {
         return loginEdition;
     }
 
+    /**
+     *
+     * @param loginEdition
+     */
     public void setLoginEdition(UIComponent loginEdition) {
         this.loginEdition = loginEdition;
     }
 
+    /**
+     *
+     * @return
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     *
+     * @param user
+     */
     public void setUser(User user) {
         this.user = user;
     }
 
+    /**
+     *
+     * @return
+     */
     public Student getStudent() {
         return student;
     }
 
+    /**
+     *
+     * @param student
+     */
     public void setStudent(Student student) {
         this.student = student;
     }
 
+    /**
+     *
+     * @return
+     */
     public Administrator getAdmin() {
         return admin;
     }
 
+    /**
+     *
+     * @param admin
+     */
     public void setAdmin(Administrator admin) {
         this.admin = admin;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getStudentEmail() {
         return studentEmail;
     }
 
+    /**
+     *
+     * @param studentEmail
+     */
     public void setStudentEmail(String studentEmail) {
         this.studentEmail = studentEmail;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getStudentPassword() {
         return studentPassword;
     }
 
+    /**
+     *
+     * @param studentPassword
+     */
     public void setStudentPassword(String studentPassword) {
         this.studentPassword = studentPassword;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getAdminEmail() {
         return adminEmail;
     }
 
+    /**
+     *
+     * @param adminEmail
+     */
     public void setAdminEmail(String adminEmail) {
         this.adminEmail = adminEmail;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getAdminPassword() {
         return adminPassword;
     }
 
+    /**
+     *
+     * @param adminPassword
+     */
     public void setAdminPassword(String adminPassword) {
         this.adminPassword = adminPassword;
     }
 
+    /**
+     *
+     * @return
+     */
     public UIForm getLogin() {
         return login;
     }
 
+    /**
+     *
+     * @param login
+     */
     public void setLogin(UIForm login) {
         this.login = login;
     }
 
+    /**
+     *
+     * @return
+     */
     public UIForm getNewRegistration() {
         return newRegistration;
     }
 
+    /**
+     *
+     * @param newRegistration
+     */
     public void setNewRegistration(UIForm newRegistration) {
         this.newRegistration = newRegistration;
     }
 
+    /**
+     *
+     * @return
+     */
     public UIForm getAdminLogin() {
         return adminLogin;
     }
 
+    /**
+     *
+     * @param adminLogin
+     */
     public void setAdminLogin(UIForm adminLogin) {
         this.adminLogin = adminLogin;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getConfirmPassword() {
         return confirmPassword;
     }
 
+    /**
+     *
+     * @param confirmPassword
+     */
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
     }
 
+    /**
+     *
+     * @return
+     */
     public StudentFacade getStudentFacade() {
         return studentFacade;
     }
 
+    /**
+     *
+     * @param studentFacade
+     */
     public void setStudentFacade(StudentFacade studentFacade) {
         this.studentFacade = studentFacade;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDuplicateEmail() {
         return duplicateEmail;
     }
 
+    /**
+     *
+     * @param duplicateEmail
+     */
     public void setDuplicateEmail(String duplicateEmail) {
         this.duplicateEmail = duplicateEmail;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPassDontMatch() {
         return passDontMatch;
     }
 
+    /**
+     *
+     * @param passDontMatch
+     */
     public void setPassDontMatch(String passDontMatch) {
         this.passDontMatch = passDontMatch;
     }
 
+    /**
+     *
+     * @return
+     */
     public AdministratorFacade getAdministratorFacade() {
         return administratorFacade;
     }
 
+    /**
+     *
+     * @param administratorFacade
+     */
     public void setAdministratorFacade(AdministratorFacade administratorFacade) {
         this.administratorFacade = administratorFacade;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPassNotCorrect() {
         return passNotCorrect;
     }
 
+    /**
+     *
+     * @param passNotCorrect
+     */
     public void setPassNotCorrect(String passNotCorrect) {
         this.passNotCorrect = passNotCorrect;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getUserNotFound() {
         return userNotFound;
     }
 
+    /**
+     *
+     * @param userNotFound
+     */
     public void setUserNotFound(String userNotFound) {
         this.userNotFound = userNotFound;
     }
 
+    /**
+     *
+     * @return
+     */
     public Edition getEdition() {
         return edition;
     }
 
+    /**
+     *
+     * @param edition
+     */
     public void setEdition(Edition edition) {
         this.edition = edition;
     }
 
-    
-
+    /**
+     *
+     * @return
+     */
     public String getPassword1() {
         return password1;
     }
 
+    /**
+     *
+     * @param password1
+     */
     public void setPassword1(String password1) {
         this.password1 = password1;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPassword2() {
         return password2;
     }
 
+    /**
+     *
+     * @param password2
+     */
     public void setPassword2(String password2) {
         this.password2 = password2;
     }
@@ -263,14 +437,14 @@ public class UserController {
                 loggedUserEJB.setLoggedUser(studentFacade.createStudent(student, confirmPassword, edition));
 
             } catch (DuplicateEmailException e) {
-                
+
                 MessagesForUser.addMessageError(e.getMessage());
                 return null;
             } catch (PassDontMatchException ex) {
-                
+
                 MessagesForUser.addMessageError(ex.getMessage());
                 return null;
-            
+
             } catch (Exception e) {
                 MessagesForUser.addMessageError("Neste momento não é possivel registar-se tente mais tarde");
                 return null;
@@ -338,11 +512,11 @@ public class UserController {
                 }
             }
         } catch (PasswordNotCorrectException e) {
-            
+
             MessagesForUser.addMessageError(e.getMessage());
             return null;
         } catch (UserNotFoundException ex) {
-            
+
             MessagesForUser.addMessageError(ex.getMessage());
             return null;
         }
@@ -450,7 +624,7 @@ public class UserController {
             return false;
 
         } catch (PassDontMatchException ex) {
-            
+
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             MessagesForUser.addMessageError(ex.getMessage());
 
@@ -462,6 +636,10 @@ public class UserController {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     public String deleteStudent() {
         try {
             logFacade.createLog("Delete Profile Successful", student);
@@ -473,19 +651,8 @@ public class UserController {
     }
 
     /**
-     * redirect for students pages
+     *
      */
-    public void veryfyStudent() {
-        loggedUserEJB.verifyStudents();
-    }
-
-    /**
-     * redirect for administrator pages
-     */
-    public void veryfyAdministrator() {
-        loggedUserEJB.verifyAdministrators();
-    }
-
     public void verifyStudents() {
 
         FacesContext fc = FacesContext.getCurrentInstance();
@@ -518,11 +685,15 @@ public class UserController {
                 }
                 nav.performNavigation("index");
             }
-            
+
         }
 
     }
 
+    /**
+     *
+     * @param page
+     */
     public void createLogForEnterPageStudent(String page) {
         if (student != null) {
             try {

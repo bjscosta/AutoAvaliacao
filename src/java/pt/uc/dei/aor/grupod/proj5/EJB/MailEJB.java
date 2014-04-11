@@ -22,11 +22,19 @@ import pt.uc.dei.aor.grupod.proj5.utilities.MessagesForUser;
 
 /**
  *
- * @author User
+ * @author Bruno Costa
+ * @author Pedro Pamplona
  */
 @Stateless(name = "ejbs/EmailServiceEJB")
 public class MailEJB {
 
+    /**
+     * this method sends an email to destinationEmail and remembers the owner of
+     * the destinationEmail to self-evaluate the project given in the parameters
+     *
+     * @param destinationEmail
+     * @param p
+     */
     public void sendEmailRemember(String destinationEmail, Project p) {
         // OUR EMAIL SETTINGS
         String host = "smtp.gmail.com";// Gmail

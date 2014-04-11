@@ -33,6 +33,11 @@ import pt.uc.dei.aor.grupod.proj5.facades.ProjectFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.StudentFacade;
 import pt.uc.dei.aor.grupod.proj5.utilities.MessagesForUser;
 
+/**
+ *
+ * @author Bruno Costa
+ * @author Pedro Pamplona
+ */
 @Named
 @RequestScoped
 public class ProjectController {
@@ -73,7 +78,6 @@ public class ProjectController {
     private long projectID;
     private List<Student> studentsToDelete;
     private List<Student> studentsToAdd;
-    private String searchText;
     private List<Project> studentProjectEvaluate;
     private UIForm projectsForevaluate;
     private List<Student> filterStudent;
@@ -82,242 +86,456 @@ public class ProjectController {
     private UIForm projEvaluatedForm;
     private UIComponent columnSendEmail;
 
+    /**
+     * this method initializes the variables projectCreated and
+     */
     @PostConstruct
     public void init() {
         projectCreated = new Project();
-        User u = loggedUserEJB.getLoggedUser();
 
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Project> getOpenProjects() {
         actualizeOpenProjects();
         return openProjects;
     }
 
+    /**
+     *
+     * @param openProjects
+     */
     public void setOpenProjects(List<Project> openProjects) {
         this.openProjects = openProjects;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Project> getCloseProjects() {
         actualizeClosedProjects();
         return closeProjects;
     }
 
+    /**
+     *
+     * @param closeProjects
+     */
     public void setCloseProjects(List<Project> closeProjects) {
         this.closeProjects = closeProjects;
     }
 
+    /**
+     *
+     * @return
+     */
     public Project getSelectedOpenedProject() {
         return selectedOpenedProject;
     }
 
+    /**
+     *
+     * @param selectedOpenedProject
+     */
     public void setSelectedOpenedProject(Project selectedOpenedProject) {
         this.selectedOpenedProject = selectedOpenedProject;
     }
 
+    /**
+     *
+     * @return
+     */
     public Project getSelectedClosedProject() {
         return selectedClosedProject;
     }
 
+    /**
+     *
+     * @param selectedClosedProject
+     */
     public void setSelectedClosedProject(Project selectedClosedProject) {
         this.selectedClosedProject = selectedClosedProject;
     }
 
+    /**
+     *
+     * @return
+     */
     public UIForm getOpenProjectsForm() {
         return openProjectsForm;
     }
 
+    /**
+     *
+     * @param openProjectsForm
+     */
     public void setOpenProjectsForm(UIForm openProjectsForm) {
         this.openProjectsForm = openProjectsForm;
     }
 
+    /**
+     *
+     * @return
+     */
     public UIForm getClosedProjecsForm() {
         return closedProjecsForm;
     }
 
+    /**
+     *
+     * @param closedProjecsForm
+     */
     public void setClosedProjecsForm(UIForm closedProjecsForm) {
         this.closedProjecsForm = closedProjecsForm;
     }
 
+    /**
+     *
+     * @return
+     */
     public Project getProjectCreated() {
         return projectCreated;
     }
 
+    /**
+     *
+     * @param projectCreated
+     */
     public void setProjectCreated(Project projectCreated) {
         this.projectCreated = projectCreated;
     }
 
+    /**
+     *
+     * @return
+     */
     public Date getBeginningDate() {
         return beginningDate;
     }
 
+    /**
+     *
+     * @param beginningDate
+     */
     public void setBeginningDate(Date beginningDate) {
         this.beginningDate = beginningDate;
     }
 
+    /**
+     *
+     * @return
+     */
     public Date getEndingDate() {
         return endingDate;
     }
 
+    /**
+     *
+     * @param endingDate
+     */
     public void setEndingDate(Date endingDate) {
         this.endingDate = endingDate;
     }
 
+    /**
+     *
+     * @return
+     */
     public UIForm getCreateProject() {
         return createProject;
     }
 
+    /**
+     *
+     * @param createProject
+     */
     public void setCreateProject(UIForm createProject) {
         this.createProject = createProject;
     }
 
+    /**
+     *
+     * @return
+     */
     public UIForm getProjEvaluatedForm() {
         return projEvaluatedForm;
     }
 
+    /**
+     *
+     * @param projEvaluatedForm
+     */
     public void setProjEvaluatedForm(UIForm projEvaluatedForm) {
         this.projEvaluatedForm = projEvaluatedForm;
     }
 
+    /**
+     *
+     * @return
+     */
     public Edition getEdition() {
         return edition;
     }
 
+    /**
+     *
+     * @param edition
+     */
     public void setEdition(Edition edition) {
         this.edition = edition;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Project> getProjectList() {
         return projectList;
     }
 
+    /**
+     *
+     * @param projectList
+     */
     public void setProjectList(List<Project> projectList) {
         this.projectList = projectList;
     }
 
+    /**
+     *
+     * @return
+     */
     public UIComponent getEditEditionProject() {
         return editEditionProject;
     }
 
+    /**
+     *
+     * @return
+     */
     public UIForm getAddStudentForm() {
         return addStudentForm;
     }
 
+    /**
+     *
+     * @param addStudentForm
+     */
     public void setAddStudentForm(UIForm addStudentForm) {
         this.addStudentForm = addStudentForm;
     }
 
+    /**
+     *
+     * @param editEditionProject
+     */
     public void setEditEditionProject(UIComponent editEditionProject) {
         this.editEditionProject = editEditionProject;
     }
 
+    /**
+     *
+     * @return
+     */
     public ProjectFacade getProjectFacade() {
         return projectFacade;
     }
 
+    /**
+     *
+     * @param projectFacade
+     */
     public void setProjectFacade(ProjectFacade projectFacade) {
         this.projectFacade = projectFacade;
     }
 
+    /**
+     *
+     * @return
+     */
     public LoggedUserEJB getLoggedUserEJB() {
         return loggedUserEJB;
     }
 
+    /**
+     *
+     * @param loggedUserEJB
+     */
     public void setLoggedUserEJB(LoggedUserEJB loggedUserEJB) {
         this.loggedUserEJB = loggedUserEJB;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Student> getSelectedStudents() {
         return selectedStudents;
     }
 
+    /**
+     *
+     * @param selectedStudents
+     */
     public void setSelectedStudents(List<Student> selectedStudents) {
         this.selectedStudents = selectedStudents;
     }
 
+    /**
+     *
+     * @return
+     */
     public Project getProject() {
         return project;
     }
 
+    /**
+     *
+     * @param project
+     */
     public void setProject(Project project) {
         this.project = project;
 
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Project> getProjectsAlreadyEvaluated() {
         projectsAlreadyEvaluated = projectFacade.projectsEvaluated((Student) loggedUserEJB.getLoggedUser());
         return projectsAlreadyEvaluated;
     }
 
+    /**
+     *
+     * @param projectsAlreadyEvaluated
+     */
     public void setProjectsAlreadyEvaluated(List<Project> projectsAlreadyEvaluated) {
         this.projectsAlreadyEvaluated = projectsAlreadyEvaluated;
     }
 
+    /**
+     *
+     * @return
+     */
     public UIForm getHeader() {
         return header;
     }
 
+    /**
+     *
+     * @param header
+     */
     public void setHeader(UIForm header) {
         this.header = header;
     }
 
+    /**
+     *
+     * @return
+     */
     public UIComponent getStudentsEdition() {
         return studentsEdition;
     }
 
+    /**
+     *
+     * @param studentsEdition
+     */
     public void setStudentsEdition(UIComponent studentsEdition) {
         this.studentsEdition = studentsEdition;
     }
 
+    /**
+     *
+     * @return
+     */
     public long getProjectID() {
         return projectID;
     }
 
+    /**
+     *
+     * @param projectID
+     */
     public void setProjectID(long projectID) {
         this.projectID = projectID;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Student> getStudentsToDelete() {
         return studentsToDelete;
     }
 
+    /**
+     *
+     * @param StudentsToDelete
+     */
     public void setStudentsToDelete(List<Student> StudentsToDelete) {
         this.studentsToDelete = StudentsToDelete;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Student> getStudentsToAdd() {
         return studentsToAdd;
     }
 
+    /**
+     *
+     * @param StudentsToAdd
+     */
     public void setStudentsToAdd(List<Student> StudentsToAdd) {
         this.studentsToAdd = StudentsToAdd;
     }
 
-    public String getSearchText() {
-        return searchText;
-    }
-
-    public void setSearchText(String searchText) {
-        this.searchText = searchText;
-    }
-
+    /**
+     *
+     * @return
+     */
     public List<Project> getStudentProjectEvaluate() {
         actualizeStudentEvaluateProje();
         return studentProjectEvaluate;
     }
 
+    /**
+     *
+     * @param studentProjectEvaluate
+     */
     public void setStudentProjectEvaluate(List<Project> studentProjectEvaluate) {
         this.studentProjectEvaluate = studentProjectEvaluate;
     }
 
+    /**
+     *
+     * @return
+     */
     public UIForm getProjectsForevaluate() {
         return projectsForevaluate;
     }
 
+    /**
+     *
+     * @param projectsForevaluate
+     */
     public void setProjectsForevaluate(UIForm projectsForevaluate) {
         this.projectsForevaluate = projectsForevaluate;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<ProjEvaluation> getPeListStudent() {
 
         peListStudent = projEvaluationFacade
@@ -326,26 +544,49 @@ public class ProjectController {
         return peListStudent;
     }
 
+    /**
+     *
+     * @param peListStudent
+     */
     public void setPeListStudent(List<ProjEvaluation> peListStudent) {
         this.peListStudent = peListStudent;
     }
 
+    /**
+     *
+     * @return
+     */
     public UIComponent getColumnSendEmail() {
         return columnSendEmail;
     }
 
+    /**
+     *
+     * @param columnSendEmail
+     */
     public void setColumnSendEmail(UIComponent columnSendEmail) {
         this.columnSendEmail = columnSendEmail;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Student> getFilterStudent() {
         return filterStudent;
     }
 
+    /**
+     *
+     * @param filterStudent
+     */
     public void setFilterStudent(List<Student> filterStudent) {
         this.filterStudent = filterStudent;
     }
 
+    /**
+     *
+     */
     public void actualizeStudentEvaluateProje() {
         User u = loggedUserEJB.getLoggedUser();
         if (u instanceof Student) {
@@ -368,10 +609,18 @@ public class ProjectController {
         }
     }
 
+    /**
+     *
+     * @param s
+     * @return
+     */
     public List<ProjEvaluation> listProjEvaluation(Student s) {
         return projEvaluationFacade.evaluationsOfStudentAndProject(s, loggedUserEJB.getActiveProject());
     }
 
+    /**
+     *
+     */
     public void updateProjEv() {
         peListStudent = projEvaluationFacade
                 .evaluationsOfStudentAndProject((Student) loggedUserEJB.getLoggedUser(),
@@ -427,6 +676,9 @@ public class ProjectController {
 
     }
 
+    /**
+     *
+     */
     public void closeCreateProjectForm() {
         if (createProject != null && openProjectsForm != null && closedProjecsForm != null) {
             createProject.setRendered(false);
@@ -447,6 +699,9 @@ public class ProjectController {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
+    /**
+     *
+     */
     public void deleteProjectFromEdition() {
         for (Project p : projectList) {
             loggedUserEJB.getActiveEdition().getProjectList().remove(p);
@@ -454,19 +709,31 @@ public class ProjectController {
         }
     }
 
+    /**
+     *
+     */
     public void openProjectMaker() {
         editEditionProject.setRendered(true);
     }
 
+    /**
+     *
+     */
     public void editEditionMakeProject() {
         edition = loggedUserEJB.getActiveEdition();
         makeProject();
     }
 
+    /**
+     *
+     */
     public void cancelMakeProject() {
         editEditionProject.setRendered(false);
     }
 
+    /**
+     *
+     */
     public void seeAll() {
         closedProjecsForm.setRendered(true);
         if (openProjectsForm != null) {
@@ -480,6 +747,9 @@ public class ProjectController {
         }
     }
 
+    /**
+     *
+     */
     public void seeOpenProjects() {
         if (openProjectsForm != null) {
             openProjectsForm.setRendered(true);
@@ -493,6 +763,9 @@ public class ProjectController {
         }
     }
 
+    /**
+     *
+     */
     public void seeClosedProjects() {
         if (openProjectsForm != null) {
             openProjectsForm.setRendered(false);
@@ -506,6 +779,9 @@ public class ProjectController {
         }
     }
 
+    /**
+     *
+     */
     public void seeProjForEvaluate() {
 
         closedProjecsForm.setRendered(false);
@@ -515,6 +791,9 @@ public class ProjectController {
 
     }
 
+    /**
+     *
+     */
     public void seeProjEvaluated() {
 
         closedProjecsForm.setRendered(false);
@@ -524,6 +803,10 @@ public class ProjectController {
 
     }
 
+    /**
+     *
+     * @param project
+     */
     public void goToAddStudents(Project project) {
 
         loggedUserEJB.setActiveProject(project);
@@ -540,20 +823,34 @@ public class ProjectController {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Edition> getAllEditions() {
         return editionFacade.findAll();
     }
 
+    /**
+     *
+     */
     public void deleteStudentsFromProject() {
 
         projectFacade.deleteStudents(loggedUserEJB.getActiveProject(), studentsToDelete);
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Student> listNotInProject() {
 
         return projectFacade.studentsNotInProject(loggedUserEJB.getActiveProject());
     }
 
+    /**
+     *
+     */
     public void insertStudentsProject() {
         Project p = loggedUserEJB.getActiveProject();
         if (!p.getEdition().getCriteriaList().isEmpty()) {
@@ -564,6 +861,9 @@ public class ProjectController {
         }
     }
 
+    /**
+     *
+     */
     public void editProject() {
         projectFacade.edit(loggedUserEJB.getActiveProject());
         addStudentForm.setRendered(false);
@@ -572,12 +872,20 @@ public class ProjectController {
         openProjectsForm.setRendered(true);
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Student> listStudentEdition() {
 
         return projectFacade.studentsInProject(loggedUserEJB.getActiveProject());
 
     }
 
+    /**
+     *
+     * @return
+     */
     public String evaluate() {
 
         loggedUserEJB.setActiveProject(selectedOpenedProject);
@@ -586,12 +894,20 @@ public class ProjectController {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public String seeGradesinProjectStudent() {
         loggedUserEJB.setActiveProject(selectedClosedProject);
 
         return "seeProjectStudent";
     }
 
+    /**
+     *
+     * @return
+     */
     public String confirm() {
         try {
             projEvaluationFacade.confirm(peListStudent);
@@ -604,6 +920,9 @@ public class ProjectController {
 
     }
 
+    /**
+     *
+     */
     public void listenerSelectedOpenedProjectEvaluationPage() {
         FacesContext fc = FacesContext.getCurrentInstance();
         ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) fc.getApplication().getNavigationHandler();

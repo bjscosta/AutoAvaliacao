@@ -27,7 +27,8 @@ import pt.uc.dei.aor.grupod.proj5.utilities.MessagesForUser;
 
 /**
  *
- * @author User
+ * @author Bruno Costa
+ * @author Pedro Pamplona
  */
 @ManagedBean
 @ViewScoped
@@ -51,6 +52,11 @@ public class EvaluationController {
 
     private Double avgStudentProject;
 
+    /**
+     * this method initializes the variables list and evaluations of
+     * EvaluationController, it called the method createProjEvaluation and
+     * getListProjEvaluation of ProjEvaluationFacade
+     */
     @PostConstruct
     public void init() {
         list = projEvaluationFacade.createProjEvaluation(loggedUserEJB.getActiveProject(),
@@ -60,43 +66,56 @@ public class EvaluationController {
 
     }
 
+    /**
+     *
+     * @return list
+     */
     public List<ProjEvaluation> getList() {
         return list;
     }
 
+    /**
+     *
+     * @param list
+     */
     public void setList(List<ProjEvaluation> list) {
         this.list = list;
     }
 
+    /**
+     * this method calls the method updateEditionEvaluations(); for returning
+     * evaluations
+     *
+     * @return evaluations
+     */
     public List<ProjEvaluation> getEvaluations() {
         updateEditionEvaluations();
         return evaluations;
     }
 
+    /**
+     *
+     * @param evaluations
+     */
     public void setEvaluations(List<ProjEvaluation> evaluations) {
         this.evaluations = evaluations;
     }
 
+    /**
+     * this method calls avgStudentProj() before returning avgStudent
+     *
+     * @return avgStudentProject
+     */
     public Double getAvgStudentProject() {
-        avgStudentProj();
+        updateAvgStudentProject();
         return avgStudentProject;
 
     }
 
-    public void avgStudentProj() {
-        try {
-            Student s = (Student) loggedUserEJB.getLoggedUser();
-            Project p = loggedUserEJB.getActiveProject();
-
-            avgStudentProject = projEvaluationFacade.avgStudentProject(s.getStudentID(), p.getId());
-
-        } catch (NoResultQueryException ex) {
-            Logger.getLogger(EvaluationController.class.getName()).log(Level.SEVERE, null, ex);
-            MessagesForUser.addMessageError(ex.getMessage());
-
-        }
-    }
-
+    /**
+     * this method points the variable evaluations to the return value of the
+     * method getListProjEvaluation
+     */
     public void updateEditionEvaluations() {
         try {
             evaluations = projEvaluationFacade.getListProjEvaluation(
@@ -114,6 +133,11 @@ public class EvaluationController {
 
     }
 
+    /**
+     * this method updates the variable avgStudentProject by using the method
+     * avgStudentProject of the projEvaluationFacade, if unsuccessful the method
+     * catches the exception NoResultQueryException
+     */
     public void updateAvgStudentProject() {
         try {
             Student s = (Student) loggedUserEJB.getLoggedUser();
@@ -128,10 +152,18 @@ public class EvaluationController {
         }
     }
 
+    /**
+     *
+     * @param avgStudentProject
+     */
     public void setAvgStudentProject(Double avgStudentProject) {
         this.avgStudentProject = avgStudentProject;
     }
 
+    /**
+     * this method updates the variable list by using the method
+     * createProjEvaluation of the projEvaluationFacade
+     */
     public void updateProjEv() {
         list = projEvaluationFacade.createProjEvaluation(loggedUserEJB.getActiveProject(),
                 (Student) loggedUserEJB.getLoggedUser());

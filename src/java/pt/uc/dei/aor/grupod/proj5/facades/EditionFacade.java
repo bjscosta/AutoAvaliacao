@@ -26,6 +26,7 @@ import pt.uc.dei.aor.grupod.proj5.exceptions.CreateEditionAbortedException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.CriteriaNotFoundException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.OperationEditionAborted;
 import pt.uc.dei.aor.grupod.proj5.exceptions.RatingScaleException;
+import pt.uc.dei.aor.grupod.proj5.exceptions.YearEditionException;
 
 /**
  *
@@ -157,7 +158,12 @@ public class EditionFacade extends AbstractFacade<Edition> {
      * @return
      * @throws CreateEditionAbortedException
      */
-    public Edition createsEdition(Edition e) throws CreateEditionAbortedException, RatingScaleException {
+    public Edition createsEdition(Edition e) throws CreateEditionAbortedException, RatingScaleException, YearEditionException {
+        GregorianCalendar gc = new GregorianCalendar();
+        int year = gc.get(Calendar.YEAR);
+        if (year > e.getYearEdition()) {
+            throw new YearEditionException(year);
+        }
         if (e.getMinValueScale() >= e.getMaxValueScale()) {
             throw new RatingScaleException();
         }

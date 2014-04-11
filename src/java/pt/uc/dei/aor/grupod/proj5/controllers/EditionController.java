@@ -1,5 +1,7 @@
 package pt.uc.dei.aor.grupod.proj5.controllers;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,10 +17,16 @@ import pt.uc.dei.aor.grupod.proj5.entities.Edition;
 import pt.uc.dei.aor.grupod.proj5.exceptions.CreateEditionAbortedException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.OperationEditionAborted;
 import pt.uc.dei.aor.grupod.proj5.exceptions.RatingScaleException;
+import pt.uc.dei.aor.grupod.proj5.exceptions.YearEditionException;
 import pt.uc.dei.aor.grupod.proj5.facades.CriteriaFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.EditionFacade;
 import pt.uc.dei.aor.grupod.proj5.utilities.MessagesForUser;
 
+/**
+ *
+ * @author Bruno Costa
+ * @author Pedro Pamplona
+ */
 @Named
 @RequestScoped
 public class EditionController {
@@ -34,13 +42,11 @@ public class EditionController {
 
     private List<Edition> availableEditions;
     private Edition edition;
-    private String errorCreate;
     private Criteria criteria;
     private Long editionId;
     private UIForm editions;
     private UIForm newEdition;
     private UIForm createCriteria;
-    private String operationEditionError;
     private List<Criteria> criteriaList;
     private UIForm formSaveEditionCriteriaHide;
     private UIForm formSaveEditionCriteriaShowing;
@@ -64,159 +70,283 @@ public class EditionController {
 
     }
 
+    /**
+     * when this method is called, the method points the return value of
+     * editionFacade.findEditionsByTheCurrentYear() to availableEditions
+     *
+     * @return availableEditions
+     */
     public List<Edition> getAvailableEditions() {
         availableEditions = editionFacade.findEditionsByTheCurrentYear();
         return availableEditions;
     }
 
+    /**
+     *
+     * @param availableEditions
+     */
     public void setAvailableEditions(List<Edition> availableEditions) {
         this.availableEditions = availableEditions;
     }
 
+    /**
+     *
+     * @return editionFacade
+     */
     public EditionFacade getEditionFacade() {
         return editionFacade;
     }
 
+    /**
+     *
+     * @param editionFacade
+     */
     public void setEditionFacade(EditionFacade editionFacade) {
         this.editionFacade = editionFacade;
     }
 
+    /**
+     *
+     * @return edition
+     */
     public Edition getEdition() {
 
         return edition;
     }
 
+    /**
+     *
+     * @param edition
+     */
     public void setEdition(Edition edition) {
         this.edition = edition;
     }
 
-    public String getErrorCreate() {
-        return errorCreate;
-    }
-
-    public void setErrorCreate(String errorCreate) {
-        this.errorCreate = errorCreate;
-    }
-
+    /**
+     *
+     * @return criteria
+     */
     public Criteria getCriteria() {
         return criteria;
     }
 
+    /**
+     *
+     * @param criteria
+     */
     public void setCriteria(Criteria criteria) {
         this.criteria = criteria;
     }
 
+    /**
+     *
+     * @return editionId
+     */
     public Long getEditionId() {
         return editionId;
     }
 
+    /**
+     *
+     * @param editionId
+     */
     public void setEditionId(Long editionId) {
         this.editionId = editionId;
     }
 
+    /**
+     *
+     * @return editions
+     */
     public UIForm getEditions() {
         return editions;
     }
 
+    /**
+     *
+     * @param editions
+     */
     public void setEditions(UIForm editions) {
         this.editions = editions;
     }
 
+    /**
+     *
+     * @return newEdition
+     */
     public UIForm getNewEdition() {
         return newEdition;
     }
 
+    /**
+     *
+     * @param newEdition
+     */
     public void setNewEdition(UIForm newEdition) {
         this.newEdition = newEdition;
     }
 
+    /**
+     *
+     * @return createCriteria
+     */
     public UIForm getCreateCriteria() {
         return createCriteria;
     }
 
+    /**
+     *
+     * @param createCriteria
+     */
     public void setCreateCriteria(UIForm createCriteria) {
         this.createCriteria = createCriteria;
     }
 
-    public String getOperationEditionError() {
-        return operationEditionError;
-    }
-
-    public void setOperationEditionError(String operationEditionError) {
-        this.operationEditionError = operationEditionError;
-    }
-
+    /**
+     *
+     * @return criteriaList
+     */
     public List<Criteria> getCriteriaList() {
         return criteriaList;
     }
 
+    /**
+     *
+     * @param criteriaList
+     */
     public void setCriteriaList(List<Criteria> criteriaList) {
         this.criteriaList = criteriaList;
     }
 
+    /**
+     *
+     * @return criteriaFacade
+     */
     public CriteriaFacade getCriteriaFacade() {
         return criteriaFacade;
     }
 
+    /**
+     *
+     * @param criteriaFacade
+     */
     public void setCriteriaFacade(CriteriaFacade criteriaFacade) {
         this.criteriaFacade = criteriaFacade;
     }
 
+    /**
+     *
+     * @return loggedUserEJB
+     */
     public LoggedUserEJB getLoggedUserEJB() {
         return loggedUserEJB;
     }
 
+    /**
+     *
+     * @param loggedUserEJB
+     */
     public void setLoggedUserEJB(LoggedUserEJB loggedUserEJB) {
         this.loggedUserEJB = loggedUserEJB;
     }
 
+    /**
+     *
+     * @return formSaveEditionCriteriaHide
+     */
     public UIForm getFormSaveEditionCriteriaHide() {
         return formSaveEditionCriteriaHide;
     }
 
+    /**
+     *
+     * @param formSaveEditionCriteriaHide
+     */
     public void setFormSaveEditionCriteriaHide(UIForm formSaveEditionCriteriaHide) {
         this.formSaveEditionCriteriaHide = formSaveEditionCriteriaHide;
     }
 
+    /**
+     *
+     * @return
+     */
     public UIForm getFormSaveEditionCriteriaShowing() {
         return formSaveEditionCriteriaShowing;
     }
 
+    /**
+     *
+     * @param formSaveEditionCriteriaShowing
+     */
     public void setFormSaveEditionCriteriaShowing(UIForm formSaveEditionCriteriaShowing) {
         this.formSaveEditionCriteriaShowing = formSaveEditionCriteriaShowing;
     }
 
+    /**
+     *
+     * @return addCriteriaButton
+     */
     public UIComponent getAddCriteriaButton() {
         return addCriteriaButton;
     }
 
+    /**
+     *
+     * @param addCriteriaButton
+     */
     public void setAddCriteriaButton(UIComponent addCriteriaButton) {
         this.addCriteriaButton = addCriteriaButton;
     }
 
+    /**
+     * this method when it's called, sets the activeEdition of loggedUserEJB to
+     * selectedEdition
+     *
+     * @return selectedEdition
+     */
     public Edition getSelectedEdition() {
         loggedUserEJB.setActiveEdition(selectedEdition);
         return selectedEdition;
 
     }
 
+    /**
+     *
+     * @param selectedEdition
+     */
     public void setSelectedEdition(Edition selectedEdition) {
         this.selectedEdition = selectedEdition;
         loggedUserEJB.setActiveEdition(selectedEdition);
     }
 
+    /**
+     *
+     * @return createCriteriaArea
+     */
     public UIComponent getCreateCriteriaArea() {
         return createCriteriaArea;
     }
 
+    /**
+     *
+     * @param createCriteriaArea
+     */
     public void setCreateCriteriaArea(UIComponent createCriteriaArea) {
         this.createCriteriaArea = createCriteriaArea;
     }
 
+    /**
+     *
+     * @return vazio
+     */
     public UIComponent getVazio() {
         return vazio;
     }
 
+    /**
+     *
+     * @param vazio
+     */
     public void setVazio(UIComponent vazio) {
         this.vazio = vazio;
     }
@@ -229,8 +359,9 @@ public class EditionController {
      * @param e
      * @throws
      * pt.uc.dei.aor.grupod.proj5.exceptions.CreateEditionAbortedException
+     * @throws pt.uc.dei.aor.grupod.proj5.exceptions.RatingScaleException
      */
-    public void createEdition(Edition e) throws CreateEditionAbortedException, RatingScaleException {
+    public void createEdition(Edition e) throws CreateEditionAbortedException, RatingScaleException, YearEditionException {
 
         try {
 
@@ -238,13 +369,18 @@ public class EditionController {
 
         } catch (CreateEditionAbortedException ex) {
             Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
-            errorCreate = ex.getMessage();
+
             throw new CreateEditionAbortedException();
 
         } catch (RatingScaleException ex) {
             Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
-            errorCreate = ex.getMessage();
+
             throw new RatingScaleException();
+        } catch (YearEditionException ex) {
+            Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
+            GregorianCalendar gc = new GregorianCalendar();
+            int year = gc.get(Calendar.YEAR);
+            throw new YearEditionException(year);
         }
 
     }
@@ -279,9 +415,10 @@ public class EditionController {
             opensCreateCriteria();
             createEdition(edition);
 
-        } catch (CreateEditionAbortedException | RatingScaleException ex) {
-            errorCreate = ex.getMessage();
+        } catch (CreateEditionAbortedException | RatingScaleException | YearEditionException ex) {
+
             Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
+            MessagesForUser.addMessageError(ex.getMessage());
 
         }
     }
@@ -297,7 +434,8 @@ public class EditionController {
     }
 
     /**
-     * Opens the create criteria menu
+     * Opens the create criteria menu, set's the activeEdition of loggedUserEJB
+     * to edition
      */
     public void opensCreateCriteria() {
         if (addCriteriaButton != null) {
@@ -316,13 +454,15 @@ public class EditionController {
             criteria = null;
         } catch (OperationEditionAborted ex) {
             Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
-            operationEditionError = ex.getMessage();
+            MessagesForUser.addMessageError(ex.getMessage());
         }
 
     }
 
     /**
-     *
+     * this saves an edition to database, calls the method createEdition, if
+     * creating fails, the methods catches the exceptions
+     * CreateEditionAbortedException and RatingScaleException
      */
     public void saveEdition() {
         boolean save = true;
@@ -330,8 +470,8 @@ public class EditionController {
             try {
                 createEdition(edition);
 
-            } catch (CreateEditionAbortedException | RatingScaleException ex) {
-                errorCreate = ex.getMessage();
+            } catch (CreateEditionAbortedException | RatingScaleException | YearEditionException ex) {
+
                 Logger.getLogger(EditionController.class.getName()).log(Level.SEVERE, null, ex);
                 save = false;
                 MessagesForUser.addMessageError(ex.getMessage());
@@ -358,6 +498,10 @@ public class EditionController {
 
     }
 
+    /**
+     *
+     * @return the edition String that leads to the page edition.xhtml
+     */
     public String deleteEdition() {
         try {
             if (selectedEdition == null) {
@@ -371,6 +515,13 @@ public class EditionController {
         return "edition";
     }
 
+    /**
+     * method to edit the edition that is saved on the loggedUserEJB, this
+     * method calls the method of the editionFacade editionEdition
+     *
+     * @return the edition String that leads to the page edition.xhtml or null
+     * if the RatingException is catched
+     */
     public String editEdition() {
         try {
             editionFacade.editEdition(loggedUserEJB.getActiveEdition());
@@ -382,22 +533,39 @@ public class EditionController {
         }
     }
 
+    /**
+     * goes to the editEdition view and sets the activeEdition to the edition
+     * given in the parameters
+     *
+     * @param edition
+     * @return the page editEdition
+     */
     public String goToEdit(Edition edition) {
         loggedUserEJB.setActiveEdition(edition);
 
         return "editEdition";
     }
 
+    /**
+     * this methods renders the createCriteriaArea to true, to view the
+     * createCriteria menu
+     */
     public void openCriteriaMaker() {
         vazio.setRendered(false);
         createCriteriaArea.setRendered(true);
     }
 
+    /**
+     * cancels the createCriteria menu, renders to false
+     */
     public void cancelMakeCriteria() {
         createCriteriaArea.setRendered(false);
         vazio.setRendered(true);
     }
 
+    /**
+     * this methods return the list of editions view
+     */
     public void returnToEditions() {
         createCriteria.setRendered(false);
         editions.setRendered(true);

@@ -19,7 +19,8 @@ import pt.uc.dei.aor.grupod.proj5.utilities.MessagesForUser;
 
 /**
  *
- * @author User
+ * @author Bruno Costa
+ * @author Pedro Pamplona
  */
 @Named
 @RequestScoped
@@ -34,6 +35,13 @@ public class MailController {
     @Inject
     private MailEJB mailEJB;
 
+    /**
+     * if the Student s hasn't given any evaluation to the project saved in the
+     * loggedUserEJB this method calls the method sendEmailRemember of MailEJB
+     * and a remember email
+     *
+     * @param s
+     */
     public void sendEmailToStudent(Student s) {
         Project p = loggedUserEJB.getActiveProject();
         List<ProjEvaluation> list = projEvaluationFacade.evaluationsOfStudentAndProject(s, p);

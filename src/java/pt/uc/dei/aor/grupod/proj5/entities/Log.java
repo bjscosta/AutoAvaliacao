@@ -10,6 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 
+/**
+ *
+ * @author User
+ */
 @Entity
 
 public class Log implements Serializable {
@@ -30,34 +34,66 @@ public class Log implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date timeStamp;
 
+    /**
+     *
+     * @return
+     */
     public String getOperation() {
         return operation;
     }
 
+    /**
+     *
+     * @param operation
+     */
     public void setOperation(String operation) {
         this.operation = operation;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public Date getTimeStamp() {
         return new Date(timeStamp.getTime());
     }
 
+    /**
+     *
+     * @param timeStamp
+     */
     public void setTimeStamp(Date timeStamp) {
         this.timeStamp = new Date(timeStamp.getTime());
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getStudentID() {
         return studentID;
     }
 
+    /**
+     *
+     * @param studentID
+     */
     public void setStudentID(Long studentID) {
         this.studentID = studentID;
     }

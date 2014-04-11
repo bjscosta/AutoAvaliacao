@@ -15,6 +15,10 @@ import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
+/**
+ *
+ * @author User
+ */
 @Entity
 @Table(name = "EDITION")
 @NamedQueries({
@@ -56,66 +60,130 @@ public class Edition implements Serializable {
     @OneToMany(mappedBy = "edition", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Criteria> criteriaList;
 
+    /**
+     *
+     * @return
+     */
     public String getEditionName() {
         return editionName;
     }
 
+    /**
+     *
+     * @param editionName
+     */
     public void setEditionName(String editionName) {
         this.editionName = editionName;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getYearEdition() {
         return yearEdition;
     }
 
+    /**
+     *
+     * @param yearEdition
+     */
     public void setYearEdition(int yearEdition) {
         this.yearEdition = yearEdition;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Project> getProjectList() {
         return projectList;
     }
 
+    /**
+     *
+     * @param projectList
+     */
     public void setProjectList(List<Project> projectList) {
         this.projectList = projectList;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Criteria> getCriteriaList() {
         return criteriaList;
     }
 
+    /**
+     *
+     * @param criteriaList
+     */
     public void setCriteriaList(List<Criteria> criteriaList) {
         this.criteriaList = criteriaList;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getMinValueScale() {
         return minValueScale;
     }
 
+    /**
+     *
+     * @param minValueScale
+     */
     public void setMinValueScale(int minValueScale) {
         this.minValueScale = minValueScale;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getMaxValueScale() {
         return maxValueScale;
     }
 
+    /**
+     *
+     * @param maxValueScale
+     */
     public void setMaxValueScale(int maxValueScale) {
         this.maxValueScale = maxValueScale;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getEditionId() {
         return editionId;
     }
 
+    /**
+     *
+     * @param editionId
+     */
     public void setEditionId(Long editionId) {
         this.editionId = editionId;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Student> getStudents() {
         return students;
     }
 
+    /**
+     *
+     * @param students
+     */
     public void setStudents(List<Student> students) {
         this.students = students;
     }

@@ -15,6 +15,11 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+/**
+ *
+ * @author Bruno Costa
+ * @author Pedro Pamplona
+ */
 @Entity
 @Table(name = "CRITERIA")
 @NamedQueries({
@@ -40,62 +45,108 @@ public class Criteria implements Serializable {
     @NotNull
     @Column(name = "CRITERIA_DISCRIPTION", nullable = false)
     private String criteriaDiscription;
-    
+
     @Transient
     private double avgValue;
 
     @ManyToOne
     private Edition edition;
 
+    /**
+     *
+     * @return criteriaId
+     */
     public Long getCriteriaId() {
         return criteriaId;
     }
 
+    /**
+     *
+     * @param criteriaId
+     */
     public void setCriteriaId(Long criteriaId) {
         this.criteriaId = criteriaId;
     }
 
+    /**
+     *
+     * @return criteriaName
+     */
     public String getCriteriaName() {
         return criteriaName;
     }
 
+    /**
+     *
+     * @param criteriaName
+     */
     public void setCriteriaName(String criteriaName) {
         this.criteriaName = criteriaName;
     }
 
+    /**
+     *
+     * @return criteriaDiscription
+     */
     public String getCriteriaDiscription() {
         return criteriaDiscription;
     }
 
+    /**
+     *
+     * @param criteriaDiscription
+     */
     public void setCriteriaDiscription(String criteriaDiscription) {
         this.criteriaDiscription = criteriaDiscription;
     }
 
+    /**
+     *
+     * @return edition
+     */
     public Edition getEdition() {
         return edition;
     }
 
+    /**
+     *
+     * @param edition
+     */
     public void setEdition(Edition edition) {
         this.edition = edition;
     }
 
+    /**
+     *
+     * @return projEvaluations
+     */
     public List<ProjEvaluation> getProjEvaluations() {
         return projEvaluations;
     }
 
+    /**
+     *
+     * @param projEvaluations
+     */
     public void setProjEvaluations(List<ProjEvaluation> projEvaluations) {
         this.projEvaluations = projEvaluations;
     }
 
+    /**
+     *
+     * @return avgValue
+     */
     public double getAvgValue() {
         return avgValue;
     }
 
+    /**
+     *
+     * @param avgValue
+     */
     public void setAvgValue(double avgValue) {
         this.avgValue = avgValue;
     }
-    
-    
 
     @Override
     public int hashCode() {

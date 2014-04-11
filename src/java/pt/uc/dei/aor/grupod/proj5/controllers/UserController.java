@@ -52,7 +52,7 @@ public class UserController {
 
     @Inject
     private LogFacade logFacade;
-    
+
     @Inject
     private ProjEvaluationFacade projEvaluationFacade;
 
@@ -67,17 +67,14 @@ public class UserController {
     private UIForm login;
     private UIForm newRegistration;
     private UIForm adminLogin;
-    private String duplicateEmail;
-    private String passDontMatch;
-    private String passNotCorrect;
-    private String userNotFound;
+
     private Edition edition;
     private String password1;
     private String password2;
     private UIComponent loginEdition;
 
     /**
-     *
+     * this method initializes some variables of the userController
      */
     @PostConstruct
     public void init() {
@@ -93,7 +90,7 @@ public class UserController {
 
     /**
      *
-     * @return
+     * @return loginEdition
      */
     public UIComponent getLoginEdition() {
         return loginEdition;
@@ -109,7 +106,7 @@ public class UserController {
 
     /**
      *
-     * @return
+     * @return user
      */
     public User getUser() {
         return user;
@@ -125,7 +122,7 @@ public class UserController {
 
     /**
      *
-     * @return
+     * @return student
      */
     public Student getStudent() {
         return student;
@@ -141,7 +138,7 @@ public class UserController {
 
     /**
      *
-     * @return
+     * @return admin
      */
     public Administrator getAdmin() {
         return admin;
@@ -157,7 +154,7 @@ public class UserController {
 
     /**
      *
-     * @return
+     * @return studentEmail
      */
     public String getStudentEmail() {
         return studentEmail;
@@ -173,7 +170,7 @@ public class UserController {
 
     /**
      *
-     * @return
+     * @return studentPassword
      */
     public String getStudentPassword() {
         return studentPassword;
@@ -189,7 +186,7 @@ public class UserController {
 
     /**
      *
-     * @return
+     * @return adminEmail
      */
     public String getAdminEmail() {
         return adminEmail;
@@ -205,7 +202,7 @@ public class UserController {
 
     /**
      *
-     * @return
+     * @return adminPassword
      */
     public String getAdminPassword() {
         return adminPassword;
@@ -221,7 +218,7 @@ public class UserController {
 
     /**
      *
-     * @return
+     * @return login
      */
     public UIForm getLogin() {
         return login;
@@ -237,7 +234,7 @@ public class UserController {
 
     /**
      *
-     * @return
+     * @return newRegistration
      */
     public UIForm getNewRegistration() {
         return newRegistration;
@@ -253,7 +250,7 @@ public class UserController {
 
     /**
      *
-     * @return
+     * @return adminLogin
      */
     public UIForm getAdminLogin() {
         return adminLogin;
@@ -269,7 +266,7 @@ public class UserController {
 
     /**
      *
-     * @return
+     * @return confirmPassword
      */
     public String getConfirmPassword() {
         return confirmPassword;
@@ -285,7 +282,7 @@ public class UserController {
 
     /**
      *
-     * @return
+     * @return studentFacade
      */
     public StudentFacade getStudentFacade() {
         return studentFacade;
@@ -301,39 +298,7 @@ public class UserController {
 
     /**
      *
-     * @return
-     */
-    public String getDuplicateEmail() {
-        return duplicateEmail;
-    }
-
-    /**
-     *
-     * @param duplicateEmail
-     */
-    public void setDuplicateEmail(String duplicateEmail) {
-        this.duplicateEmail = duplicateEmail;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getPassDontMatch() {
-        return passDontMatch;
-    }
-
-    /**
-     *
-     * @param passDontMatch
-     */
-    public void setPassDontMatch(String passDontMatch) {
-        this.passDontMatch = passDontMatch;
-    }
-
-    /**
-     *
-     * @return
+     * @return administratorFacade
      */
     public AdministratorFacade getAdministratorFacade() {
         return administratorFacade;
@@ -349,39 +314,7 @@ public class UserController {
 
     /**
      *
-     * @return
-     */
-    public String getPassNotCorrect() {
-        return passNotCorrect;
-    }
-
-    /**
-     *
-     * @param passNotCorrect
-     */
-    public void setPassNotCorrect(String passNotCorrect) {
-        this.passNotCorrect = passNotCorrect;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getUserNotFound() {
-        return userNotFound;
-    }
-
-    /**
-     *
-     * @param userNotFound
-     */
-    public void setUserNotFound(String userNotFound) {
-        this.userNotFound = userNotFound;
-    }
-
-    /**
-     *
-     * @return
+     * @return edition
      */
     public Edition getEdition() {
         return edition;
@@ -397,7 +330,7 @@ public class UserController {
 
     /**
      *
-     * @return
+     * @return password1
      */
     public String getPassword1() {
         return password1;
@@ -413,7 +346,7 @@ public class UserController {
 
     /**
      *
-     * @return
+     * @return password2
      */
     public String getPassword2() {
         return password2;
@@ -620,6 +553,13 @@ public class UserController {
 
     }
 
+    /**
+     * method to edit the profile of the student
+     *
+     * @return false the profile of the student is updated, true if the student
+     * can't update
+     */
+
     private boolean editProfile() {
 
         try {
@@ -641,21 +581,23 @@ public class UserController {
     }
 
     /**
+     * method to delete the account od a student
      *
-     * @return
+     * @return the value of the method makeLogout()
      */
     public String deleteStudent() {
+
+        studentFacade.removeStudent((Student) loggedUserEJB.getLoggedUser());
         try {
             logFacade.createLog("Delete Profile Successful", student);
         } catch (LogException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        studentFacade.removeStudent((Student) loggedUserEJB.getLoggedUser());
         return makeLogout();
     }
 
     /**
-     *
+     * redirect to protect the students's views
      */
     public void verifyStudents() {
 
@@ -695,6 +637,7 @@ public class UserController {
     }
 
     /**
+     * this method is to create o log when a student enters a page
      *
      * @param page
      */
@@ -707,9 +650,12 @@ public class UserController {
             }
         }
     }
-    
-    public void updateEvaStudent(){
-        projEvaluationFacade.studentsWithAvaliationsEdition(((Student)loggedUserEJB.getLoggedUser()).getEdition());
+
+    /**
+     * this method updates the evaluations of the students
+     */
+    public void updateEvaStudent() {
+        projEvaluationFacade.studentsWithAvaliationsEdition(((Student) loggedUserEJB.getLoggedUser()).getEdition());
     }
 
 }

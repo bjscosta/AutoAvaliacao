@@ -9,6 +9,11 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+/**
+ *
+ * @author Bruno Costa
+ * @author Pedro Pamplona
+ */
 @Entity
 @Table(name = "ADMINISTRATOR")
 @NamedQueries({
@@ -21,10 +26,18 @@ public class Administrator extends User implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long administratorID;
 
+    /**
+     *
+     * @return administratorID
+     */
     public Long getAdministratorID() {
         return administratorID;
     }
 
+    /**
+     *
+     * @param administratorID
+     */
     public void setAdministratorID(Long administratorID) {
         this.administratorID = administratorID;
     }
@@ -49,4 +62,10 @@ public class Administrator extends User implements Serializable {
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return administratorID + "";
+    }
+
 }

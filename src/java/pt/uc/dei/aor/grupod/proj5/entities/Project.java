@@ -18,6 +18,10 @@ import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+/**
+ *
+ * @author User
+ */
 @Entity
 @Table(name = "PROJECT")
 @NamedQueries({
@@ -68,82 +72,162 @@ public class Project implements Serializable {
     @ManyToMany
     private List<Student> students;
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     *
+     * @return
+     */
     public Edition getEdition() {
         return edition;
     }
 
+    /**
+     *
+     * @param edition
+     */
     public void setEdition(Edition edition) {
         this.edition = edition;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<ProjEvaluation> getProjAvaliations() {
         return projAvaliations;
     }
 
+    /**
+     *
+     * @param projAvaliations
+     */
     public void setProjAvaliations(List<ProjEvaluation> projAvaliations) {
         this.projAvaliations = projAvaliations;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Student> getStudents() {
         return students;
     }
 
+    /**
+     *
+     * @param students
+     */
     public void setStudents(List<Student> students) {
         this.students = students;
     }
 
+    /**
+     *
+     * @return
+     */
     public Date getStartingSelfEvaluationDate() {
         return new Date(startingSelfEvaluationDate.getTime());
     }
 
+    /**
+     *
+     * @param startingSelfEvaluationDate
+     */
     public void setStartingSelfEvaluationDate(Date startingSelfEvaluationDate) {
         this.startingSelfEvaluationDate = new Date(startingSelfEvaluationDate.getTime());
     }
 
+    /**
+     *
+     * @return
+     */
     public Date getFinishingSelfEvaluationDate() {
         return new Date(finishingSelfEvaluationDate.getTime());
     }
 
+    /**
+     *
+     * @param finishingSelfEvaluationDate
+     */
     public void setFinishingSelfEvaluationDate(Date finishingSelfEvaluationDate) {
         this.finishingSelfEvaluationDate = new Date(finishingSelfEvaluationDate.getTime());
     }
 
+    /**
+     *
+     * @return
+     */
     public static String getFindAllProjects() {
         return findAllProjects;
     }
 
+    /**
+     *
+     * @return
+     */
     public static String getFindProjectById() {
         return findProjectById;
     }
 
+    /**
+     *
+     * @return
+     */
     public static String getFindProjectByName() {
         return findProjectByName;
     }
 
+    /**
+     *
+     * @return
+     */
     public static String getFindProjectByEditionId() {
         return findProjectByEditionId;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getAvgProject() {
         return avgProject;
     }
 
+    /**
+     *
+     * @param avgProject
+     */
     public void setAvgProject(double avgProject) {
         this.avgProject = avgProject;
     }

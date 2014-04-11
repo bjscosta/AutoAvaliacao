@@ -17,6 +17,10 @@ import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
+/**
+ *
+ * @author User
+ */
 @Entity
 @Table(name = "STUDENT")
 @NamedQueries({
@@ -45,42 +49,82 @@ public class Student extends User implements Serializable {
     @ManyToOne
     private Edition edition;
 
+    /**
+     *
+     * @return
+     */
     public int getYearOfRegistration() {
         return yearOfRegistration;
     }
 
+    /**
+     *
+     * @param yearOfRegistration
+     */
     public void setYearOfRegistration(int yearOfRegistration) {
         this.yearOfRegistration = yearOfRegistration;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getStudentID() {
         return studentID;
     }
 
+    /**
+     *
+     * @param studentID
+     */
     public void setStudentID(Long studentID) {
         this.studentID = studentID;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Project> getProjects() {
         return projects;
     }
 
+    /**
+     *
+     * @param projects
+     */
     public void setProjects(List<Project> projects) {
         this.projects = projects;
     }
 
+    /**
+     *
+     * @return
+     */
     public Edition getEdition() {
         return edition;
     }
 
+    /**
+     *
+     * @param edition
+     */
     public void setEdition(Edition edition) {
         this.edition = edition;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<ProjEvaluation> getProjEvaluations() {
         return projEvaluations;
     }
 
+    /**
+     *
+     * @param projEvaluations
+     */
     public void setProjEvaluations(List<ProjEvaluation> projEvaluations) {
         this.projEvaluations = projEvaluations;
     }

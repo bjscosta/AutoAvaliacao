@@ -11,6 +11,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+/**
+ *
+ * @author User
+ */
 @Entity
 @Table(name = "PROJ_EVALUATION")
 @NamedQueries({
@@ -54,42 +58,82 @@ public class ProjEvaluation implements Serializable {
     @ManyToOne
     private Criteria criteria;
 
+    /**
+     *
+     * @return
+     */
     public double getCriteriaValue() {
         return criteriaValue;
     }
 
+    /**
+     *
+     * @param criteriaValue
+     */
     public void setCriteriaValue(double criteriaValue) {
         this.criteriaValue = criteriaValue;
     }
 
+    /**
+     *
+     * @return
+     */
     public Student getStudent() {
         return student;
     }
 
+    /**
+     *
+     * @param student
+     */
     public void setStudent(Student student) {
         this.student = student;
     }
 
+    /**
+     *
+     * @return
+     */
     public Project getProject() {
         return project;
     }
 
+    /**
+     *
+     * @param project
+     */
     public void setProject(Project project) {
         this.project = project;
     }
 
+    /**
+     *
+     * @return
+     */
     public Criteria getCriteria() {
         return criteria;
     }
 
+    /**
+     *
+     * @param criteria
+     */
     public void setCriteria(Criteria criteria) {
         this.criteria = criteria;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Long id) {
         this.id = id;
     }

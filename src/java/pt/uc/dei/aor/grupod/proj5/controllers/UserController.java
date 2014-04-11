@@ -489,6 +489,8 @@ public class UserController {
         } else {
             if (!(loggedUserEJB.getLoggedUser() instanceof Administrator)) {
                 nav.performNavigation("index");
+            } else {
+
             }
         }
 

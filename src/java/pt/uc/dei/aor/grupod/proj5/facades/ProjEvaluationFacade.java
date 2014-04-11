@@ -154,7 +154,7 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
      *
      * @param s
      * @param p
-     * @return the result of the named query
+     * @return the result of the named query ProjEvaluation.userEvaluation
      */
     public List<ProjEvaluation> evaluationsOfStudentAndProject(Student s, Project p) {
         return em.createNamedQuery("ProjEvaluation.userEvaluation")
@@ -162,6 +162,7 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
     }
 
     /**
+     * this method it's to confirm the evaluations that were made my the student
      *
      * @param pelist
      * @throws ProjEvaluationException
@@ -190,10 +191,11 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
     }
 
     /**
+     * creates a list of ProjEvaluation for the student and project
      *
      * @param p
      * @param s
-     * @return
+     * @return projE
      */
     public List<ProjEvaluation> createProjEvaluation(Project p, Student s) {
         List<ProjEvaluation> projE = new ArrayList();
@@ -209,9 +211,10 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
     }
 
     /**
+     * method to see the average of the edition
      *
      * @param edition
-     * @return
+     * @return the result of the named query ProjEvaluation.avgOfAnEdition
      * @throws NoResultQueryException
      */
     public double averageEdition(Edition edition) throws NoResultQueryException {
@@ -223,9 +226,11 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
     }
 
     /**
+     * method to set the transient value avgValue of each criteria of the
+     * edition edition uses the named query ProjEvaluation.avgOfACriteriaEdition
      *
      * @param edition
-     * @return
+     * @return edition
      * @throws NoResultQueryException
      */
     public Edition averageCriteriaEdition(Edition edition) throws NoResultQueryException {
@@ -242,9 +247,10 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
     }
 
     /**
+     * method to see the average of the project
      *
      * @param p
-     * @return
+     * @return the result of the named query ProjEvaluation.avgProj
      * @throws NoResultQueryException
      */
     public double averageProject(Project p) throws NoResultQueryException {
@@ -256,10 +262,12 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
     }
 
     /**
+     * method to set the transient value avgValue of each criteria of the
+     * edition edition uses the named query ProjEvaluation.avgOfACriteriaProject
      *
      * @param edition
      * @param project
-     * @return
+     * @return edition
      * @throws NoResultQueryException
      */
     public Edition averageCriteriaProject(Edition edition, Project project) throws NoResultQueryException {
@@ -276,9 +284,10 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
     }
 
     /**
+     * method to see the average of a student
      *
      * @param s
-     * @return
+     * @return the result of the named query ProjEvaluation.avgStudent
      * @throws NoResultQueryException
      */
     public double averageStudent(Student s) throws NoResultQueryException {
@@ -290,11 +299,14 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
     }
 
     /**
+     * method to set the transient value avgValue of each criteria of the
+     * edition edition uses the named query
+     * ProjEvaluation.avgStudentProjectCriteria
      *
      * @param edition
      * @param student
      * @param project
-     * @return
+     * @return edition
      * @throws NoResultQueryException
      */
     public Edition averageStudentProject(Edition edition, Student student, Project project) throws NoResultQueryException {
@@ -311,10 +323,11 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
     }
 
     /**
+     * the average of the student in the project
      *
      * @param studentID
      * @param projectID
-     * @return
+     * @return the result of the named query ProjEvaluation.avgProjStudent
      * @throws NoResultQueryException
      */
     public double avgStudentProject(Long studentID, Long projectID) throws NoResultQueryException {
@@ -331,10 +344,12 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
     }
 
     /**
+     * method to set the transient value avgValue of each criteria of the
+     * edition uses the named query ProjEvaluation.avgOfCriteriaStudent
      *
      * @param edition
      * @param student
-     * @return
+     * @return edition
      * @throws NoResultQueryException
      */
     public Edition averageCriteriaStudent(Edition edition, Student student) throws NoResultQueryException {
@@ -352,11 +367,13 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
     }
 
     /**
+     * method see the evaluation of a student of criteria of the project
      *
      * @param p
      * @param c
      * @param s
-     * @return
+     * @return the result of the named query
+     * ProjEvaluation.evStudentProjectCriteria
      * @throws NoResultQueryException
      */
     public double evaluationCriteriaStudentProject(Project p, Criteria c, Student s) throws NoResultQueryException {
@@ -373,7 +390,7 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
      *
      * @param p
      * @param s
-     * @return
+     * @return the result of the named query ProjEvaluation.avgStudentProject
      * @throws NoResultQueryException
      */
     public double evoStudentProject(Project p, Student s) throws NoResultQueryException {

@@ -1,5 +1,6 @@
 package pt.uc.dei.aor.grupod.proj5.facades;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -92,4 +93,14 @@ public class AdministratorFacade extends AbstractFacade<Administrator> {
             return null;
         }
     }
+
+    /**
+     * method to find all administrators saves in the database
+     *
+     * @return the result of the named query Administrator.findAllAdministrators
+     */
+    public List<Administrator> findAllAdministrators() {
+        return em.createNamedQuery("Administrator.findAllAdministrators").getResultList();
+    }
+
 }

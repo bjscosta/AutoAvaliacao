@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.ConfigurableNavigationHandler;
+import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -65,7 +66,7 @@ public class UserController {
     private String insertEdition;
     private String password1;
     private String password2;
-    private UIForm loginEdition;
+    private UIComponent loginEdition;
 
     @PostConstruct
     public void init() {
@@ -79,11 +80,11 @@ public class UserController {
 
     }
 
-    public UIForm getLoginEdition() {
+    public UIComponent getLoginEdition() {
         return loginEdition;
     }
 
-    public void setLoginEdition(UIForm loginEdition) {
+    public void setLoginEdition(UIComponent loginEdition) {
         this.loginEdition = loginEdition;
     }
 

@@ -702,8 +702,14 @@ public class ProjectController {
     /**
      * this method deletes a project from an Edition
      */
-    public void deleteProjectFromEdition() {
-        projectFacade.removeProject(projectList);
+    public void deleteProjectListFromEdition() {
+        projectFacade.removeProjectList(projectList);
+    }
+    
+    public String deleteProjectFromEdition() {
+        projectFacade.removeProject(loggedUserEJB.getActiveProject());
+        
+        return "projectAdmin.xhtml?faces-redirect=true";
     }
 
     /**

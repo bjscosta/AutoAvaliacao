@@ -291,20 +291,33 @@ public class ProjectFacade extends AbstractFacade<Project> {
 
         return openProjects;
     }
-    
-    public void removeProject(List<Project> pl){
+
+    public void removeProjectList(List<Project> pl) {
         for (Project pr : pl) {
-            if(pr.getProjAvaliations().isEmpty()){
-            pr.getEdition().getProjectList().remove(pr);
-            for(Student s : pr.getStudents()){
-                s.getProjects().remove(pr);
-            }
-            remove(pr);
-            }
-            else{
-                MessagesForUser.addMessageInfo("Não pode apagar o projeto "+pr.getName()+".");
+            if (pr.getProjAvaliations().isEmpty()) {
+                pr.getEdition().getProjectList().remove(pr);
+                for (Student s : pr.getStudents()) {
+                    s.getProjects().remove(pr);
+                }
+                remove(pr);
+            } else {
+                MessagesForUser.addMessageInfo("Não pode apagar o projeto " + pr.getName() + ".");
             }
         }
+    }
+
+    public void removeProject(Project p) {
+
+        if (p.getProjAvaliations().isEmpty()) {
+            p.getEdition().getProjectList().remove(p);
+            for (Student s : p.getStudents()) {
+                s.getProjects().remove(p);
+            }
+            remove(p);
+        } else {
+            MessagesForUser.addMessageInfo("Não pode apagar o projeto " + p.getName() + ".");
+        }
+
     }
 
 }

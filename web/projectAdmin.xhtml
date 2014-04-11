@@ -22,9 +22,9 @@
                     <div align="left">
                         <h5><h:commandLink style="color: black;" value="Todos" action="#{projectController.seeAll}"/>
                             &nbsp;&nbsp;&nbsp;&nbsp;
-                            <h:commandLink style="color: black;" value="Projectos Abertos" action="#{projectController.seeOpenProjects}"/>
+                            <h:commandLink style="color: black;" value="Projetos Abertos" action="#{projectController.seeOpenProjects}"/>
                             &nbsp;&nbsp;&nbsp;&nbsp;
-                            <h:commandLink style="color: black;" value="Projectos Fechados" action="#{projectController.seeClosedProjects}"/></h5>
+                            <h:commandLink style="color: black;" value="Projetos Fechados" action="#{projectController.seeClosedProjects}"/></h5>
                     </div>
                     <div align="right"><p:commandButton rendered="#{!empty projectController.allEditions}" ajax="false" value="Criar Projecto" action="#{projectController.goToCreateProject}"/> </div>
                 </h:form>
@@ -33,7 +33,7 @@
 
 
                 <h:form id="openedProjectsForm" binding="#{projectController.openProjectsForm}">
-                    <div align="center"><h2>Projectos Abertos</h2></div>
+                    <div align="center"><h3>Projetos Abertos</h3></div>
                     <br/>
                     <p:dataTable value="#{projectController.openProjects}" var="project2" rowKey="#{project2.id}"
                                  selectionMode="single" selection="#{projectController.selectedOpenedProject}"
@@ -178,7 +178,7 @@
                 </h:form>
 
                 <h:form id="closedProjectsForm" binding="#{projectController.closedProjecsForm}">
-                    <div align="center"><h2>Projectos Fechados</h2></div>
+                    <div align="center"><h3>Projetos Fechados</h3></div>
                     <br/>
                     <p:dataTable value="#{projectController.closeProjects}" var="project1" rowKey="#{project1.id}"
                                  selectionMode="single" selection="#{projectController.selectedClosedProject}"

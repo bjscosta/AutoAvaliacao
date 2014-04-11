@@ -15,7 +15,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.model.chart.CartesianChartModel;
 import org.primefaces.model.chart.ChartSeries;
-import pt.uc.dei.aor.grupod.proj5.EJB.LoggedUserEJB;
 import pt.uc.dei.aor.grupod.proj5.entities.Criteria;
 import pt.uc.dei.aor.grupod.proj5.entities.Edition;
 import pt.uc.dei.aor.grupod.proj5.entities.Project;
@@ -23,7 +22,6 @@ import pt.uc.dei.aor.grupod.proj5.entities.Student;
 import pt.uc.dei.aor.grupod.proj5.exceptions.NoResultQueryException;
 import pt.uc.dei.aor.grupod.proj5.facades.EditionFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.ProjEvaluationFacade;
-import pt.uc.dei.aor.grupod.proj5.facades.ProjectFacade;
 import pt.uc.dei.aor.grupod.proj5.utilities.MessagesForUser;
 
 /**
@@ -41,14 +39,10 @@ public class ReportsController {
     @Inject
     private EditionFacade editionFacade;
 
-    @Inject
-    private ProjectFacade projectFacade;
 
     @Inject
     private ProjEvaluationFacade projEvaluationFacade;
 
-    @Inject
-    private LoggedUserEJB loggedUserEJB;
 
     private Edition edition;
     private Project project;
@@ -686,7 +680,7 @@ public class ReportsController {
     }
 
     /**
-     *
+     * Create the report of a edition for the administrator
      */
     public void confirmEdition() {
         if (edition != null) {
@@ -714,7 +708,7 @@ public class ReportsController {
     }
 
     /**
-     *
+     * Create the report of a project for the administrator
      */
     public void confirmProject() {
 
@@ -739,7 +733,7 @@ public class ReportsController {
     }
 
     /**
-     *
+     * Create the report of a student for the administrator
      */
     public void confirmStudents() {
 
@@ -770,8 +764,8 @@ public class ReportsController {
     }
 
     /**
-     *
-     * @param edition
+     * Create chart editionGraph
+     * @param edition Edition
      */
     public void createEditionGraph(Edition edition) {
         editionGraph = new CartesianChartModel();
@@ -785,8 +779,8 @@ public class ReportsController {
     }
 
     /**
-     *
-     * @param edition
+     * Create chart projectGraph
+     * @param edition Edition
      */
     public void createProjGraph(Edition edition) {
 
@@ -801,8 +795,8 @@ public class ReportsController {
     }
 
     /**
-     *
-     * @param edition
+     * Create chart studentGraph
+     * @param edition Edition
      */
     public void createStudentGraph(Edition edition) {
 
@@ -817,9 +811,9 @@ public class ReportsController {
     }
 
     /**
-     *
-     * @param p
-     * @param e
+     * Create chart studentsProjectGraph
+     * @param p Project
+     * @param e Edition
      */
     public void createStudentsProjectChart(Project p, Edition e) {
         studentsProjectGraph = new CartesianChartModel();
@@ -841,8 +835,8 @@ public class ReportsController {
     }
 
     /**
-     *
-     * @param e
+     * Create chart studentsEditionGraph
+     * @param e Edition
      */
     public void createStudentsEditionChart(Edition e) {
         studentsEditionGraph = new CartesianChartModel();
@@ -863,7 +857,7 @@ public class ReportsController {
     }
 
     /**
-     *
+     * Create chart studentsEvolutionProjectGraph
      */
     public void createStudentEvolutionProjects() {
         studentsEvolutionProjectGraph = new CartesianChartModel();
@@ -882,7 +876,7 @@ public class ReportsController {
     }
 
     /**
-     *
+     * Creates the report for one student
      */
     public void confirmProjectStudent() {
         edition = userController.getStudent().getEdition();
@@ -917,8 +911,8 @@ public class ReportsController {
     }
 
     /**
-     *
-     * @return
+     * Gets the list of projects with evaluation
+     * @return list of Projects
      */
     public List<Project> listProjEvaStudent() {
         List<Project> lp = projEvaluationFacade.projWithEva(studentLogged);
@@ -926,8 +920,8 @@ public class ReportsController {
     }
 
     /**
-     *
-     * @param e
+     * Create chart studentProjGraphS
+     * @param e Edition
      */
     public void createStudentProjGraphS(Edition e) {
         studentProjGraphS = new CartesianChartModel();
@@ -943,8 +937,8 @@ public class ReportsController {
     }
 
     /**
-     *
-     * @param e
+     *  Create chart studentProjectCriteriaGraph
+     * @param e Edition
      */
     public void createStudentProjectCriteriaGraph(Edition e) {
         studentProjectCriteriaGraph = new CartesianChartModel();
@@ -968,8 +962,8 @@ public class ReportsController {
     }
 
     /**
-     *
-     * @param e
+     * Create chart avgProjectStudent
+     * @param e Edition
      */
     public void createAvgProjStudent(Edition e) {
         avgProjectStudent = new CartesianChartModel();
@@ -989,8 +983,8 @@ public class ReportsController {
     }
 
     /**
-     *
-     * @param e
+     * Create chart bestCriteriaStudent
+     * @param e Edition
      */
     public void createBestCriteriaStudentGraph(Edition e) {
         bestCriteriaStudent = new CartesianChartModel();
@@ -1013,8 +1007,8 @@ public class ReportsController {
     }
 
     /**
-     *
-     * @param e
+     * Create chart bestCriteriaEditionAdmin
+     * @param e Edition
      */
     public void createBestCriteriaEditionAdmin(Edition e) {
         bestCriteriaEditionAdmin = new CartesianChartModel();
@@ -1037,8 +1031,8 @@ public class ReportsController {
     }
 
     /**
-     *
-     * @param e
+     *  Create chart bestCriteriaProjectAdmin
+     * @param e Edition
      */
     public void createBestCriteriaProjectAdmin(Edition e) {
         bestCriteriaProjectAdmin = new CartesianChartModel();
@@ -1061,8 +1055,8 @@ public class ReportsController {
     }
 
     /**
-     *
-     * @param e
+     * Create chart bestCriteriaStudentAdmin
+     * @param e Edition
      */
     public void createBestCriteriaStudentAdmin(Edition e) {
         bestCriteriaStudentAdmin = new CartesianChartModel();

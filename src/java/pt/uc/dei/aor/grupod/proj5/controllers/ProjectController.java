@@ -30,6 +30,7 @@ import pt.uc.dei.aor.grupod.proj5.facades.EditionFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.ProjEvaluationFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.ProjectFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.StudentFacade;
+import pt.uc.dei.aor.grupod.proj5.utilities.MessagesForUser;
 
 @Named
 @RequestScoped
@@ -554,8 +555,13 @@ public class ProjectController {
     }
 
     public void insertStudentsProject() {
-
-        projectFacade.addStudentsProject(loggedUserEJB.getActiveProject(), studentsToAdd);
+        Project p = loggedUserEJB.getActiveProject();
+        if (!p.getEdition().getCriteriaList().isEmpty()) {
+            projectFacade.addStudentsProject(loggedUserEJB.getActiveProject(), studentsToAdd);
+        } else {
+            MessagesForUser.addMessage("A edição deste projecto ainda não tem critérios,"
+                    + " adicione primeiro critérios à edição.");
+        }
     }
 
     public void editProject() {

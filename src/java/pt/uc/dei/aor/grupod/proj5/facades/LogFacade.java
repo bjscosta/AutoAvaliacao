@@ -29,12 +29,12 @@ public class LogFacade extends AbstractFacade<Log> {
 
     public void createLog(String operation, Student student) throws LogException {
         try {
-            Log log = new Log();
-            log.setOperation(operation);
-            log.setTimeStamp(new Date());
-            log.setStudent(student);
-            student.getLogEntries().add(log);
-            em.persist(log);
+            Log log1 = new Log();
+            log1.setOperation(operation);
+            log1.setTimeStamp(new Date());
+            log1.setStudent(student);
+            em.persist(log1);
+            student.getLogEntries().add(log1);
             em.merge(student);
         } catch (RollbackException e) {
             throw new LogException();

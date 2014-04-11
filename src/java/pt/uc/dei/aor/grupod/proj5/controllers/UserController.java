@@ -270,21 +270,24 @@ public class UserController {
                 loggedUserEJB.setLoggedUser(studentFacade.createStudent(student, confirmPassword, edition));
 
             } catch (DuplicateEmailException e) {
-                duplicateEmail = e.getMessage();
+                
+                MessagesForUser.addMessageError(e.getMessage());
                 return null;
             } catch (PassDontMatchException ex) {
-                passDontMatch = ex.getMessage();
+                
+                MessagesForUser.addMessageError(ex.getMessage());
                 return null;
+            
             } catch (Exception e) {
                 MessagesForUser.addMessageError("Neste momento não é possivel registar-se tente mais tarde");
                 return null;
             }
         } else {
-            insertEdition = "Necessita de selecionar uma Edição";
+            MessagesForUser.addMessageError("Necessita de selecionar uma Edição");
             return null;
         }
         try {
-            logFacade.createLog("Registration", student);
+            logFacade.createLog("Registration Successful", (Student) loggedUserEJB.getLoggedUser());
         } catch (LogException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -304,6 +307,11 @@ public class UserController {
                 if (s != null) {
                     if (s.getEdition() != null) {
                         loggedUserEJB.setLoggedUser(s);
+                        try {
+                            logFacade.createLog("Login Successful ", s);
+                        } catch (LogException exc) {
+                            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, exc);
+                        }
                         return "openProjectStudent";
                     } else {
                         loginEdition.setRendered(true);
@@ -312,6 +320,7 @@ public class UserController {
                         return null;
                     }
                 } else {
+
                     return null;
                 }
             } else {
@@ -319,6 +328,11 @@ public class UserController {
                 if (s != null) {
                     if (s.getEdition() != null) {
                         loggedUserEJB.setLoggedUser(s);
+                        try {
+                            logFacade.createLog("Login Successful ", s);
+                        } catch (LogException exc) {
+                            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, exc);
+                        }
                         return "openProjectStudent";
                     } else {
                         loginEdition.setRendered(true);
@@ -331,10 +345,12 @@ public class UserController {
                 }
             }
         } catch (PasswordNotCorrectException e) {
-            passNotCorrect = e.getMessage();
+            
+            MessagesForUser.addMessageError(e.getMessage());
             return null;
         } catch (UserNotFoundException ex) {
-            userNotFound = ex.getMessage();
+            
+            MessagesForUser.addMessageError(ex.getMessage());
             return null;
         }
     }
@@ -349,10 +365,10 @@ public class UserController {
             loggedUserEJB.setLoggedUser(administratorFacade.login(adminEmail, adminPassword));
             return "projectAdmin";
         } catch (PasswordNotCorrectException e) {
-            passNotCorrect = e.getMessage();
+            MessagesForUser.addMessageError(e.getMessage());
             return null;
         } catch (UserNotFoundException ex) {
-            userNotFound = ex.getMessage();
+            MessagesForUser.addMessageError(ex.getMessage());
             return null;
         }
 
@@ -392,6 +408,14 @@ public class UserController {
      * @return
      */
     public String makeLogout() {
+
+        if (loggedUserEJB.getLoggedUser() instanceof Student) {
+            try {
+                logFacade.createLog("Logout Successful ", student);
+            } catch (LogException exc) {
+                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, exc);
+            }
+        }
         return studentFacade.logout();
 
     }
@@ -408,7 +432,7 @@ public class UserController {
 
         if (error) {
             try {
-                logFacade.createLog("FailToEditProfile", student);
+                logFacade.createLog("EditProfile Failed", student);
             } catch (LogException ex) {
                 Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -416,7 +440,7 @@ public class UserController {
         }
 
         try {
-            logFacade.createLog("EditProfile", student);
+            logFacade.createLog("EditProfile Successful", student);
         } catch (LogException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -433,18 +457,24 @@ public class UserController {
             return false;
 
         } catch (PassDontMatchException ex) {
+            
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-            passDontMatch = ex.getMessage();
+            MessagesForUser.addMessageError(ex.getMessage());
 
         } catch (DuplicateEmailException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-            duplicateEmail = ex.getMessage();
+            MessagesForUser.addMessageError(ex.getMessage());
 
         }
         return true;
     }
 
     public String deleteStudent() {
+        try {
+            logFacade.createLog("Delete Profile Successful", student);
+        } catch (LogException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         studentFacade.removeStudent((Student) loggedUserEJB.getLoggedUser());
         return makeLogout();
     }
@@ -488,8 +518,14 @@ public class UserController {
             nav.performNavigation("index");
         } else {
             if (!(loggedUserEJB.getLoggedUser() instanceof Administrator)) {
+                try {
+                    logFacade.createLog("Try to see an Administrator page", student);
+                } catch (LogException ex) {
+                    Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 nav.performNavigation("index");
             }
+            
         }
 
     }

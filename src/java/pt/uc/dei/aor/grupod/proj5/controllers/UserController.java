@@ -90,7 +90,7 @@ public class UserController {
         }
         newAdmin = new Administrator();
         adminList = administratorFacade.findAllAdministrators();
-        
+
     }
 
     /**
@@ -404,8 +404,6 @@ public class UserController {
     public void setSelectedAdmin(List<Administrator> selectedAdmin) {
         this.selectedAdmin = selectedAdmin;
     }
-    
-    
 
     /**
      * Creates a new student
@@ -606,7 +604,6 @@ public class UserController {
      * @return false the profile of the student is updated, true if the student
      * can't update
      */
-
     private boolean editProfile() {
 
         try {
@@ -704,21 +701,21 @@ public class UserController {
     public void updateEvaStudent() {
         projEvaluationFacade.studentsWithAvaliationsEdition(((Student) loggedUserEJB.getLoggedUser()).getEdition());
     }
-    
+
     /**
      *
      */
-    public void saveNewAdmin(){
+    public String saveNewAdmin() {
         administratorFacade.saveAdministrator(newAdmin);
+
+        return "adminPage.xhtml?faces-redirect=true";
     }
-    
-    public String deleteAdminList(){
-        for(Administrator a : selectedAdmin){
+
+    public String deleteAdminList() {
+        for (Administrator a : selectedAdmin) {
             administratorFacade.remove(a);
         }
-        return "adminPage";
+        return "adminPage.xhtml?faces-redirect=true";
     }
-    
-    
 
 }

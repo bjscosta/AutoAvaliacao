@@ -700,17 +700,18 @@ public class ProjectController {
     }
 
     /**
-     *
+     * this method deletes a project from an Edition
      */
     public void deleteProjectFromEdition() {
         for (Project p : projectList) {
+
             loggedUserEJB.getActiveEdition().getProjectList().remove(p);
             projectFacade.remove(p);
         }
     }
 
     /**
-     *
+     * this method open the create project menu
      */
     public void openProjectMaker() {
         editEditionProject.setRendered(true);

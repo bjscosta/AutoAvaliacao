@@ -12,7 +12,8 @@ import pt.uc.dei.aor.grupod.proj5.entities.Criteria;
 
 /**
  *
- * @author brunocosta
+ * @author Bruno Costa
+ * @author Pedro Pamplona
  */
 @Stateless
 public class CriteriaFacade extends AbstractFacade<Criteria> {
@@ -20,11 +21,18 @@ public class CriteriaFacade extends AbstractFacade<Criteria> {
     @PersistenceContext(unitName = "AutoAvaliacaoPU")
     private EntityManager em;
 
+    /**
+     *
+     * @return em
+     */
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
 
+    /**
+     * constructor of criteriaFacade
+     */
     public CriteriaFacade() {
         super(Criteria.class);
     }

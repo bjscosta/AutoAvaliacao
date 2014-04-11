@@ -20,7 +20,8 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author User
+ * @author Bruno Costa
+ * @author Pedro Pamplona
  */
 @Entity
 @Table(name = "PROJECT")
@@ -65,7 +66,7 @@ public class Project implements Serializable {
 
     @OneToMany(mappedBy = "project")
     private List<ProjEvaluation> projAvaliations;
-    
+
     @Transient
     private double avgProject;
 
@@ -74,7 +75,7 @@ public class Project implements Serializable {
 
     /**
      *
-     * @return
+     * @return name
      */
     public String getName() {
         return name;
@@ -90,7 +91,7 @@ public class Project implements Serializable {
 
     /**
      *
-     * @return
+     * @return edition
      */
     public Edition getEdition() {
         return edition;
@@ -106,7 +107,7 @@ public class Project implements Serializable {
 
     /**
      *
-     * @return
+     * @return projAvaliations
      */
     public List<ProjEvaluation> getProjAvaliations() {
         return projAvaliations;
@@ -122,7 +123,7 @@ public class Project implements Serializable {
 
     /**
      *
-     * @return
+     * @return students
      */
     public List<Student> getStudents() {
         return students;
@@ -138,7 +139,7 @@ public class Project implements Serializable {
 
     /**
      *
-     * @return
+     * @return new Date(startingSelfEvaluationDate.getTime())
      */
     public Date getStartingSelfEvaluationDate() {
         return new Date(startingSelfEvaluationDate.getTime());
@@ -154,7 +155,7 @@ public class Project implements Serializable {
 
     /**
      *
-     * @return
+     * @return new Date(finishingSelfEvaluationDate.getTime())
      */
     public Date getFinishingSelfEvaluationDate() {
         return new Date(finishingSelfEvaluationDate.getTime());
@@ -170,7 +171,7 @@ public class Project implements Serializable {
 
     /**
      *
-     * @return
+     * @return findAllProjects
      */
     public static String getFindAllProjects() {
         return findAllProjects;
@@ -178,7 +179,7 @@ public class Project implements Serializable {
 
     /**
      *
-     * @return
+     * @return findProjectById
      */
     public static String getFindProjectById() {
         return findProjectById;
@@ -186,7 +187,7 @@ public class Project implements Serializable {
 
     /**
      *
-     * @return
+     * @return findProjectByName
      */
     public static String getFindProjectByName() {
         return findProjectByName;
@@ -194,7 +195,7 @@ public class Project implements Serializable {
 
     /**
      *
-     * @return
+     * @return findProjectByEditionId
      */
     public static String getFindProjectByEditionId() {
         return findProjectByEditionId;
@@ -202,7 +203,7 @@ public class Project implements Serializable {
 
     /**
      *
-     * @return
+     * @return id
      */
     public Long getId() {
         return id;
@@ -218,7 +219,7 @@ public class Project implements Serializable {
 
     /**
      *
-     * @return
+     * @return avgProject
      */
     public double getAvgProject() {
         return avgProject;
@@ -231,8 +232,7 @@ public class Project implements Serializable {
     public void setAvgProject(double avgProject) {
         this.avgProject = avgProject;
     }
-    
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -253,9 +253,13 @@ public class Project implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return id + " " + name
+     */
     @Override
     public String toString() {
-        return "pt.uc.dei.aor.grupod.proj5.entities.Project[ id=" + id + " ]";
+        return id + " " + name;
     }
 
 }

@@ -19,7 +19,8 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author User
+ * @author Bruno Costa
+ * @author Pedro Pamplona
  */
 @Entity
 @Table(name = "STUDENT")
@@ -51,7 +52,7 @@ public class Student extends User implements Serializable {
 
     /**
      *
-     * @return
+     * @return yearOfRegistration
      */
     public int getYearOfRegistration() {
         return yearOfRegistration;
@@ -67,7 +68,7 @@ public class Student extends User implements Serializable {
 
     /**
      *
-     * @return
+     * @return studentID
      */
     public Long getStudentID() {
         return studentID;
@@ -83,7 +84,7 @@ public class Student extends User implements Serializable {
 
     /**
      *
-     * @return
+     * @return projects
      */
     public List<Project> getProjects() {
         return projects;
@@ -99,7 +100,7 @@ public class Student extends User implements Serializable {
 
     /**
      *
-     * @return
+     * @return edition
      */
     public Edition getEdition() {
         return edition;
@@ -115,7 +116,7 @@ public class Student extends User implements Serializable {
 
     /**
      *
-     * @return
+     * @return projEvaluations
      */
     public List<ProjEvaluation> getProjEvaluations() {
         return projEvaluations;
@@ -150,9 +151,13 @@ public class Student extends User implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return studentID + " " + super.getName()
+     */
     @Override
     public String toString() {
-        return "Student: ";
+        return studentID + " " + super.getName();
     }
 
 }

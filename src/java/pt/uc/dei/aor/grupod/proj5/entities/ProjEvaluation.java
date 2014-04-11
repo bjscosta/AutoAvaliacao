@@ -13,7 +13,8 @@ import javax.persistence.Table;
 
 /**
  *
- * @author User
+ * @author Bruno Costa
+ * @author Pedro Pamplona
  */
 @Entity
 @Table(name = "PROJ_EVALUATION")
@@ -60,7 +61,7 @@ public class ProjEvaluation implements Serializable {
 
     /**
      *
-     * @return
+     * @return criteriaValue
      */
     public double getCriteriaValue() {
         return criteriaValue;
@@ -76,7 +77,7 @@ public class ProjEvaluation implements Serializable {
 
     /**
      *
-     * @return
+     * @return student
      */
     public Student getStudent() {
         return student;
@@ -92,7 +93,7 @@ public class ProjEvaluation implements Serializable {
 
     /**
      *
-     * @return
+     * @return project
      */
     public Project getProject() {
         return project;
@@ -108,7 +109,7 @@ public class ProjEvaluation implements Serializable {
 
     /**
      *
-     * @return
+     * @return criteria
      */
     public Criteria getCriteria() {
         return criteria;
@@ -124,7 +125,7 @@ public class ProjEvaluation implements Serializable {
 
     /**
      *
-     * @return
+     * @return id
      */
     public Long getId() {
         return id;
@@ -160,7 +161,7 @@ public class ProjEvaluation implements Serializable {
 
     @Override
     public String toString() {
-        return "pt.uc.dei.aor.grupod.proj5.entities.ProjAvaliation[ id=" + id + " ]";
+        return id + " " + criteria.getCriteriaName() + " " + criteriaValue + " " + student.getName();
     }
 
 }

@@ -168,9 +168,13 @@ public class Criteria implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return criteriaId + " " + criteriaName
+     */
     @Override
     public String toString() {
-        return "pt.uc.dei.aor.grupod.proj5.entities.Criteria[ id=" + criteriaId + " ]";
+        return criteriaId + " " + criteriaName;
     }
 
 }

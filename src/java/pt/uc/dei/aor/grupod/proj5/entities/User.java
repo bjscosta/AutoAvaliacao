@@ -9,7 +9,8 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author User
+ * @author Bruno Costa
+ * @author Pedro Pamplona
  */
 @MappedSuperclass
 public abstract class User implements Serializable {
@@ -28,7 +29,6 @@ public abstract class User implements Serializable {
     @Column(name = "USER_EMAIL", nullable = false, unique = true)
     private String email;
 
-    
     @NotNull
     @Size(min = 4, message = "Password demasiado pequena")
     @Column(name = "PASSWORD", nullable = false)

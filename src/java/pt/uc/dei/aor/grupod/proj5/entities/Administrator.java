@@ -63,9 +63,13 @@ public class Administrator extends User implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return the name of the administrator
+     */
     @Override
     public String toString() {
-        return administratorID + "";
+        return super.getName();
     }
 
 }

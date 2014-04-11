@@ -17,7 +17,8 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author User
+ * @author Bruno Costa
+ * @author Pedro Pamplona
  */
 @Entity
 @Table(name = "EDITION")
@@ -62,7 +63,7 @@ public class Edition implements Serializable {
 
     /**
      *
-     * @return
+     * @return editionName
      */
     public String getEditionName() {
         return editionName;
@@ -78,7 +79,7 @@ public class Edition implements Serializable {
 
     /**
      *
-     * @return
+     * @return yearEdition
      */
     public int getYearEdition() {
         return yearEdition;
@@ -94,7 +95,7 @@ public class Edition implements Serializable {
 
     /**
      *
-     * @return
+     * @return projectList
      */
     public List<Project> getProjectList() {
         return projectList;
@@ -110,7 +111,7 @@ public class Edition implements Serializable {
 
     /**
      *
-     * @return
+     * @return criteriaList
      */
     public List<Criteria> getCriteriaList() {
         return criteriaList;
@@ -126,7 +127,7 @@ public class Edition implements Serializable {
 
     /**
      *
-     * @return
+     * @return minValueScale
      */
     public int getMinValueScale() {
         return minValueScale;
@@ -142,7 +143,7 @@ public class Edition implements Serializable {
 
     /**
      *
-     * @return
+     * @return maxValueScale
      */
     public int getMaxValueScale() {
         return maxValueScale;
@@ -158,7 +159,7 @@ public class Edition implements Serializable {
 
     /**
      *
-     * @return
+     * @return editionId
      */
     public Long getEditionId() {
         return editionId;
@@ -174,7 +175,7 @@ public class Edition implements Serializable {
 
     /**
      *
-     * @return
+     * @return students
      */
     public List<Student> getStudents() {
         return students;
@@ -208,6 +209,10 @@ public class Edition implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return editionName
+     */
     @Override
     public String toString() {
         return editionName;

@@ -12,7 +12,8 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author User
+ * @author Bruno Costa
+ * @author Pedro Pamplona
  */
 @Entity
 
@@ -36,7 +37,7 @@ public class Log implements Serializable {
 
     /**
      *
-     * @return
+     * @return operation
      */
     public String getOperation() {
         return operation;
@@ -52,7 +53,7 @@ public class Log implements Serializable {
 
     /**
      *
-     * @return
+     * @return id
      */
     public Long getId() {
         return id;
@@ -68,7 +69,7 @@ public class Log implements Serializable {
 
     /**
      *
-     * @return
+     * @return new Date(timeStamp.getTime())
      */
     public Date getTimeStamp() {
         return new Date(timeStamp.getTime());
@@ -84,7 +85,7 @@ public class Log implements Serializable {
 
     /**
      *
-     * @return
+     * @return studentID
      */
     public Long getStudentID() {
         return studentID;
@@ -118,9 +119,13 @@ public class Log implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return id+" " + operation+ " "+studentID
+     */
     @Override
     public String toString() {
-        return "pt.uc.dei.aor.grupod.proj5.entities.Log[ id=" + id + " ]";
+        return id + " " + operation + " " + studentID;
     }
 
 }

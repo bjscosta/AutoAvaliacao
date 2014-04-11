@@ -16,11 +16,20 @@ import javax.faces.validator.ValidatorException;
 
 /**
  *
- * @author User
+ * @author Bruno Costa
+ * @author Pedro Pamplona
  */
 @FacesValidator("dateRangeValidator")
 public class DateValidator implements Validator {
 
+    /**
+     * this method validates the dates that were chosen by the user
+     *
+     * @param context
+     * @param component
+     * @param value
+     * @throws ValidatorException
+     */
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         if (value == null) {
@@ -31,18 +40,25 @@ public class DateValidator implements Validator {
 
         UIInput startDateComponent = (UIInput) component.getAttributes().get("startDateComponent");
         UIInput editStartDateComponent = (UIInput) component.getAttributes().get("editStartDateComponent");
-        
-        if(startDateComponent != null){
+
+        if (startDateComponent != null) {
             validateStart(context, startDateComponent, value);
         }
-        
-        if(editStartDateComponent != null){
+
+        if (editStartDateComponent != null) {
             validateEditStart(context, editStartDateComponent, value);
         }
-        
+
     }
-    
-    public void validateStart(FacesContext context, UIInput startDateComponent, Object value){
+
+    /**
+     * this method validates the dates that were chosen by the user
+     *
+     * @param context
+     * @param startDateComponent
+     * @param value
+     */
+    public void validateStart(FacesContext context, UIInput startDateComponent, Object value) {
         if (!startDateComponent.isValid()) {
             startDateComponent.setValid(false);
             throw new ValidatorException(new FacesMessage(
@@ -65,8 +81,15 @@ public class DateValidator implements Validator {
                     FacesMessage.SEVERITY_ERROR, "Data de inicio não pode ser depois da data de fim", null));
         }
     }
-    
-    public void validateEditStart(FacesContext context, UIInput editStartDateComponent, Object value){
+
+    /**
+     * this method validates the dates that were chosen by the user
+     *
+     * @param context
+     * @param editStartDateComponent
+     * @param value
+     */
+    public void validateEditStart(FacesContext context, UIInput editStartDateComponent, Object value) {
         if (!editStartDateComponent.isValid()) {
             editStartDateComponent.setValid(false);
             throw new ValidatorException(new FacesMessage(

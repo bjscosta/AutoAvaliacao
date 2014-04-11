@@ -30,7 +30,8 @@ import pt.uc.dei.aor.grupod.proj5.exceptions.YearEditionException;
 
 /**
  *
- * @author brunocosta
+ * @author Bruno Costa
+ * @author Pedro Pamplona
  */
 @Stateless
 public class EditionFacade extends AbstractFacade<Edition> {
@@ -42,25 +43,20 @@ public class EditionFacade extends AbstractFacade<Edition> {
     @PersistenceContext(unitName = "AutoAvaliacaoPU")
     private EntityManager em;
 
+    /**
+     *
+     * @return em
+     */
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
 
+    /**
+     * constructor of EditionFacade
+     */
     public EditionFacade() {
         super(Edition.class);
-    }
-
-    public String getError() {
-        return error;
-    }
-
-    public void setError(String error) {
-        this.error = error;
-    }
-
-    public static String getErrorFindingEditions() {
-        return errorFindingEditions;
     }
 
     /**
@@ -157,6 +153,8 @@ public class EditionFacade extends AbstractFacade<Edition> {
      * @param e
      * @return
      * @throws CreateEditionAbortedException
+     * @throws pt.uc.dei.aor.grupod.proj5.exceptions.RatingScaleException
+     * @throws pt.uc.dei.aor.grupod.proj5.exceptions.YearEditionException
      */
     public Edition createsEdition(Edition e) throws CreateEditionAbortedException, RatingScaleException, YearEditionException {
         GregorianCalendar gc = new GregorianCalendar();
@@ -222,6 +220,11 @@ public class EditionFacade extends AbstractFacade<Edition> {
 
     }
 
+    /**
+     *
+     * @param e
+     * @param s
+     */
     public void cleanStudent(Edition e, Student s) {
         for (Project p : e.getProjectList()) {
             s.getProjects().remove(p);
@@ -290,6 +293,12 @@ public class EditionFacade extends AbstractFacade<Edition> {
 
     }
 
+    /**
+     * this method finds all criterias by edition
+     *
+     * @param edition
+     * @return q.getResultList()
+     */
     public List<Criteria> findAllCriteriasByEdition(Edition edition) {
 
         try {
@@ -307,6 +316,13 @@ public class EditionFacade extends AbstractFacade<Edition> {
 
     }
 
+    /**
+     * finds criteria by criteriaId
+     *
+     * @param criteriaId
+     * @return
+     * @throws CriteriaNotFoundException
+     */
     public Criteria findCriteria(Long criteriaId) throws CriteriaNotFoundException {
         try {
             Query q = em.createNamedQuery("Criteria.findByCriteria_Id");
@@ -320,6 +336,12 @@ public class EditionFacade extends AbstractFacade<Edition> {
         }
     }
 
+    /**
+     * this method deletes the edition
+     *
+     * @param edition
+     * @throws OperationEditionAborted
+     */
     public void delete(Edition edition) throws OperationEditionAborted {
         try {
             checksEvaluationsOnEdition(edition);
@@ -331,6 +353,12 @@ public class EditionFacade extends AbstractFacade<Edition> {
 
     }
 
+    /**
+     * this method edits the edition
+     *
+     * @param e
+     * @throws RatingScaleException
+     */
     public void editEdition(Edition e) throws RatingScaleException {
         if (e.getMinValueScale() >= e.getMaxValueScale()) {
             edit(e);

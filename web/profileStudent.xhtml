@@ -73,7 +73,13 @@
                                     <p:commandButton ajax="false" value="Editar" action="#{userController.makeUpdateStudent()}"/>
                                 </td>
                                 <td>
-                                    <p:commandButton ajax="false" value="Apagar Conta" action="#{userController.deleteStudent()}"/>
+                                    <p:commandButton value="Apagar Conta" oncomplete="PF('ds').show()"/>
+
+                                    <p:dialog header="Confirmar" widgetVar="ds" modal="true" height="100">
+                                        <div align="center"><h5>Confirma que deseja apagar o seu registo?</h5></div>
+                                        <p:commandButton ajax="false" value="Sim" action="#{userController.deleteStudent()}"/>
+                                        <p:commandButton value="Não" onclick="PF('ds').close()"/>
+                                    </p:dialog>
                                 </td>
                             </tr>
                         </tbody>

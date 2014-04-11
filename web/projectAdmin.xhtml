@@ -167,6 +167,13 @@
                     <br />
                     <div align="center">
                         <p:commandButton ajax="false" value="Confirmar Alterações" action="#{projectController.editProject}"/>
+                        <p:commandButton value="Eliminar Projeto" oncomplete="PF('dp').show()"/>
+                        <p:dialog header="Confirmar" widgetVar="dp" modal="true" height="100">
+                            <div align="center"><h5>Apagar o Projeto #{loggedUserEJB.activeProject.name}?</h5></div>
+                            <p:commandButton ajax="false" value="Sim" action="#{projectController.deleteProjectFromEdition()}"/>
+                            <p:commandButton value="Não" onclick="PF('dp').close()"/>
+                        </p:dialog>
+
                     </div>
                 </h:form>
 

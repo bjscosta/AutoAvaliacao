@@ -1,12 +1,15 @@
 package pt.uc.dei.aor.grupod.proj5.facades;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import pt.uc.dei.aor.grupod.proj5.entities.Administrator;
+import pt.uc.dei.aor.grupod.proj5.exceptions.DuplicateEmailException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.PasswordNotCorrectException;
 import pt.uc.dei.aor.grupod.proj5.exceptions.UserNotFoundException;
 import pt.uc.dei.aor.grupod.proj5.utilities.EncriptMD5;
@@ -101,6 +104,40 @@ public class AdministratorFacade extends AbstractFacade<Administrator> {
      */
     public List<Administrator> findAllAdministrators() {
         return em.createNamedQuery("Administrator.findAllAdministrators").getResultList();
+    }
+
+    /**
+     * checks if there is already an email registered by a administrator in a
+     * database
+     *
+     * @param a
+     * @throws DuplicateEmailException if there is already an email in a
+     * database
+     */
+    public void checksEmail(Administrator a) throws DuplicateEmailException {
+
+        Administrator admin = findAdminByEmail(a.getEmail());
+        if (admin != null) {
+            throw new DuplicateEmailException();
+        }
+    }
+
+    /**
+     * method to save an administrator to the database
+     *
+     * @param a
+     * @return a if the administrator was persisted
+     */
+    public Administrator saveAdministrator(Administrator a) {
+        try {
+            checksEmail(a);
+            em.persist(a);
+            return a;
+        } catch (DuplicateEmailException ex) {
+            Logger.getLogger(AdministratorFacade.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+
     }
 
 }

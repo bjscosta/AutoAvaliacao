@@ -91,7 +91,7 @@ public class MailEJB {
             transport.connect(host, port, serviceUsername, servicePassword);
             Transport.send(message, message.getAllRecipients());
             transport.close();
-            MessagesForUser.addMessageError("Email enviado a " + destinationEmail);
+            MessagesForUser.addMessageInfo("Email enviado a " + destinationEmail);
 
         } catch (MessagingException e) {
             MessagesForUser.addMessageError("Não foi possivel mandar email a " + destinationEmail);

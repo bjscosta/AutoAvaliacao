@@ -404,10 +404,11 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
     }
 
     /**
+     * method insert the
      *
      * @param pl
      * @param s
-     * @return
+     * @return the list p
      */
     public List<Project> insertAvgProject(List<Project> pl, Student s) {
         List<Project> p = new ArrayList<>();

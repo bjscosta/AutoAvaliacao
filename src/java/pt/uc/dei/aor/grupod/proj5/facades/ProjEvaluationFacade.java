@@ -2,6 +2,8 @@
 package pt.uc.dei.aor.grupod.proj5.facades;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -33,11 +35,33 @@ public class ProjEvaluationFacade extends AbstractFacade<ProjEvaluation> {
     }
 
     public List<Student> studentsWithAvaliationsProject(Project p) {
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.add(Calendar.DAY_OF_MONTH, 1);
+        Edition edition = p.getEdition();
+        
         List<Student> withAvaliations = new ArrayList<>();
         for (Student s : p.getStudents()) {
             if (!em.createNamedQuery("ProjEvaluation.userEvaluation")
                     .setParameter("student", s).setParameter("project", p).getResultList().isEmpty()) {
                 withAvaliations.add(s);
+            }
+            else{
+                if(p.getFinishingSelfEvaluationDate().before(gc.getTime())){
+                    for(Criteria c : edition.getCriteriaList()){
+                        ProjEvaluation pe = new ProjEvaluation();
+                        pe.setCriteria(c);
+                        pe.setCriteriaValue(edition.getMinValueScale());
+                        pe.setStudent(s);
+                        pe.setProject(p);
+                        em.persist(pe);
+                        p.getProjAvaliations().add(pe);
+                        s.getProjEvaluations().add(pe);
+                        em.merge(s);
+                        em.merge(p);
+                    }
+                    withAvaliations.add(s);
+                }
+                
             }
         }
         return withAvaliations;

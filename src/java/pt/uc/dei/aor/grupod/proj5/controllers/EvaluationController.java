@@ -63,7 +63,8 @@ public class EvaluationController {
                 (Student) loggedUserEJB.getLoggedUser());
         evaluations = projEvaluationFacade.getListProjEvaluation(
                 (Student) loggedUserEJB.getLoggedUser(), loggedUserEJB.getActiveProject());
-
+        
+        
     }
 
     /**

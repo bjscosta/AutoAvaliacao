@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
@@ -602,6 +603,14 @@ public class ProjectController {
         }
         return "openProjectStudent";
 
+    }
+
+    public void listenerSelectedOpenedProjectEvaluationPage() {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) fc.getApplication().getNavigationHandler();
+        if (selectedOpenedProject == null) {
+            nav.performNavigation("openProjectStudent.xhtml?faces-redirect=true");
+        }
     }
 
 }

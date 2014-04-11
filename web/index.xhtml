@@ -7,229 +7,243 @@
     <h:head>
         <title>Login Auto-Avaliação</title>
 
-
-        <script>
-            function loadDialogIfError() {
-                //var lbl = document.getElementById("j_idt31:errorEditionMissing");
-                //if (lbl !== null &amp;&amp; lbl.innerHTML.length &gt; 0)
-                //    document.getElementById("j_idt31:editionsButton").onclick();
-            }
-        </script>
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
 
     </h:head>
     <h:body onload="loadDialogIfError()">
         <p:growl showDetail="true" id="index"/>
-        <h:form binding="#{userController.login}" rendered="true">
-            <div align="right">
-                <h:commandButton value ="Novo Utilizador" action="#{userController.goToNewRegistration()}"/>
-                <h:commandButton value ="Administrador" action="#{userController.goToAdminLogin()}"/>
-            </div>
+        <table width="100%" border="0" cellpadding="50">
+            <div align="center"><h1>Portal de Auto-Avaliação</h1></div>
+            <tbody>
+                <tr>
+                    <td align="center" width="50%">
+                        <img src="resources/uc log.gif" width="400" height="385" alt="uc log"/>
 
-            <div align="center">
-                <h3>Login Estudante</h3>
-            </div>
+                        <h2>Universidade de Coimbra</h2>
 
-            <table align="center">
+                    </td>
+                    <td  width="50%">
+                        <h:form binding="#{userController.login}" rendered="true">
+                            <div align="right">
+                                <p:commandButton ajax="false" value ="Novo Utilizador" action="#{userController.goToNewRegistration()}"/>
+                                <p:commandButton ajax="false" value ="Administrador" action="#{userController.goToAdminLogin()}"/>
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                            </div>
 
-                <tbody>
-                    <tr>
-                        <td>
-                            <h4>E-Mail</h4>
-                        </td>
-                        <td>
-                            <p:inputText value="#{userController.studentEmail}"/>
-                        </td>
-                        <td>
-                            <h:outputLabel value="#{userController.userNotFound}" style="color: red"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h4>Password</h4>
-                        </td>
-                        <td>
-                            <p:password value="#{userController.studentPassword}"/>
-                        </td>
-                        <td>
-                            <h:outputLabel value="#{userController.passNotCorrect}" style="color: red"/>
-                        </td>
-                    </tr>
-                </tbody>
+                            <div align="center">
+                                <h3>Login Estudante</h3>
+                            </div>
 
-            </table>
-            <div align="center">
-                <h:panelGrid binding="#{userController.loginEdition}" rendered="false">
-                    <p:dataTable rowKey="#{edition.editionId}" selectionMode="single"
-                                 selection="#{userController.edition}" value="#{editionController.availableEditions}"
-                                 var="edition" paginator="true" rows="10" paginatorPosition="bottom"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="5,10,15">
+                            <table align="center">
 
-                        <p:ajax event="rowSelect" listener="#{userController.updateEdition(edition)}"/>
-                        <p:column headerText="Nome">
-                            #{edition.editionName}
-                        </p:column>
-                        <p:column headerText="Ano">
-                            #{edition.yearEdition}
-                        </p:column>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <h4>E-Mail</h4>
+                                        </td>
+                                        <td>
+                                            <p:inputText value="#{userController.studentEmail}"/>
+                                        </td>
+                                        <td>
+                                            <h:outputLabel value="#{userController.userNotFound}" style="color: red"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h4>Password</h4>
+                                        </td>
+                                        <td>
+                                            <p:password value="#{userController.studentPassword}"/>
+                                        </td>
+                                        <td>
+                                            <h:outputLabel value="#{userController.passNotCorrect}" style="color: red"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
 
-                    </p:dataTable>
-                </h:panelGrid>
-
-                <h:commandButton value="Entrar" action="#{userController.verifyStudent}"/>
-            </div>
-        </h:form>
-
-
-
-        <br />
+                            </table>
+                            <div align="center">
+                                <h:panelGrid binding="#{userController.loginEdition}" rendered="false">
+                                    <p:dataTable rowKey="#{edition.editionId}" selectionMode="single"
+                                                 selection="#{userController.edition}" value="#{editionController.availableEditions}"
+                                                 var="edition" paginator="true" rows="10" paginatorPosition="bottom"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="5,10,15">
 
 
+                                        <p:column headerText="Nome">
+                                            #{edition.editionName}
+                                        </p:column>
+                                        <p:column headerText="Ano">
+                                            #{edition.yearEdition}
+                                        </p:column>
+
+                                    </p:dataTable>
+                                </h:panelGrid>
+                                <br />
+                                <br />
+                                <p:commandButton ajax="false" value="Entrar" action="#{userController.verifyStudent}"/>
+                            </div>
+                        </h:form>
 
 
-        <h:form binding="#{userController.adminLogin}" rendered="false">
-            <div align="right">
-                <h:commandButton value ="Novo Utilizador" action="#{userController.goToNewRegistration()}"/>
-                <h:commandButton value ="Login" action="#{userController.goToLogin()}"/>
-            </div>
 
-            <div align="center">
-                <h3>Login Administrador</h3>
-            </div>
-
-            <table align="center">
-
-                <tbody>
-                    <tr>
-                        <td>
-                            <h4>E-Mail</h4>
-                        </td>
-                        <td>
-                            <p:inputText value="#{userController.adminEmail}"/>
-                        </td>
-                        <td>
-                            <h:outputLabel value="#{userController.userNotFound}" style="color: red"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h4>Password</h4>
-                        </td>
-                        <td>
-                            <p:password value="#{userController.adminPassword}"/>
-                        </td>
-                        <td>
-                            <h:outputLabel value="#{userController.passNotCorrect}" style="color: red"/>
-                        </td>
-                    </tr>
-                </tbody>
-
-            </table>
-
-            <div align="center">
-                <h:commandButton value="Entrar" action="#{userController.verifyAdmin}"/>
-            </div>
-
-        </h:form>
-
-        <h:form binding="#{userController.newRegistration}" rendered="false">
-            <div align="right">
-                <h:commandButton immediate="true" value ="Login" action="#{userController.goToLogin()}"/>
-                <h:commandButton immediate="true" value ="Administrador" action="#{userController.goToAdminLogin()}"/>
-
-            </div>
-
-            <div align="center">
-                <h3>Novo Registo Estudante</h3>
-            </div>
+                        <br />
 
 
-            <table align="center">
-                <tbody>
-                    <tr>
-                        <td>
-                            <h4>Nome</h4>
-                        </td>
-                        <td>
-                            <p:inputText id="nome" value="#{userController.student.name}"/>
-                        </td>
-                        <td>
-                            <h:message for="nome" style="color: red"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h4>E-Mail</h4>
-                        </td>
-                        <td>
-                            <p:inputText id="email" value="#{userController.student.email}"/>
-                        </td>
-                        <td>
-                            <h:message for="email" style="color: red"/>
-                            <h:outputLabel value="#{userController.duplicateEmail}" style="color: red"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h4>Password</h4>
-                        </td>
-                        <td>
-                            <p:password id="pass" feedback="true" value="#{userController.student.password}"/>
-                        </td>
-                        <td>
-                            <h:message for="pass" style="color: red"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h4>Confirmar Password</h4>
-                        </td>
-                        <td>
-                            <p:password value="#{userController.confirmPassword}"/>
-                        </td>
-                        <td>
-                            <h:outputLabel value="#{userController.passDontMatch}"/>
-                        </td>
-                    </tr>
-
-                </tbody>
-            </table>
-            <h:form id="popupEd">
-                <p:dialog header="Edições" widgetVar="e" modal="true" height="300">
-                    <p:dataTable rowKey="#{edition.editionId}" selectionMode="single"
-                                 selection="#{userController.edition}" value="#{editionController.availableEditions}"
-                                 var="edition" paginator="true" rows="10" paginatorPosition="bottom"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="5,10,15">
 
 
-                        <p:column headerText="Nome">
-                            #{edition.editionName}
-                        </p:column>
-                        <p:column headerText="Ano">
-                            #{edition.yearEdition}
-                        </p:column>
+                        <h:form binding="#{userController.adminLogin}" rendered="false">
+                            <div align="right">
+                                <p:commandButton ajax="false" value ="Novo Utilizador" action="#{userController.goToNewRegistration()}"/>
+                                <p:commandButton ajax="false" value ="Login" action="#{userController.goToLogin()}"/>
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                            </div>
 
-                    </p:dataTable>
-                    <br />
-                    <br />
-                    <div align="center">
-                        <p:growl showDetail="true" id="registrationMessages"/>
-                        <h:commandButton id="selectEdition" value="Confirmar" action="#{userController.newStudent()}" />
-                    </div>
-                </p:dialog>
-            </h:form>
+                            <div align="center">
+                                <h3>Login Administrador</h3>
+                            </div>
 
-            <div align="center">
+                            <table align="center">
 
-                <h:outputLabel id="errorEditionMissing" value="#{userController.insertEdition}" style="color: red"/>
-                <br />
-                <br />
-                <p:commandButton id="editionsButton" value="Escolha a Edição" oncomplete="PF('e').show()" update="popupEd" />
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <h4>E-Mail</h4>
+                                        </td>
+                                        <td>
+                                            <p:inputText value="#{userController.adminEmail}"/>
+                                        </td>
+                                        <td>
+                                            <h:outputLabel value="#{userController.userNotFound}" style="color: red"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h4>Password</h4>
+                                        </td>
+                                        <td>
+                                            <p:password value="#{userController.adminPassword}"/>
+                                        </td>
+                                        <td>
+                                            <h:outputLabel value="#{userController.passNotCorrect}" style="color: red"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+
+                            <div align="center">
+                                <br />
+                                <br />
+                                <p:commandButton ajax="false" value="Entrar" action="#{userController.verifyAdmin}"/>
+                            </div>
+
+                        </h:form>
+
+                        <h:form binding="#{userController.newRegistration}" rendered="false">
+                            <div align="right">
+                                <p:commandButton ajax="false" immediate="true" value ="Login" action="#{userController.goToLogin()}"/>
+                                <p:commandButton ajax="false" immediate="true" value ="Administrador" action="#{userController.goToAdminLogin()}"/>
+                                <br />
+                                <br />
+                            </div>
+
+                            <div align="center">
+                                <h3>Novo Registo Estudante</h3>
+                            </div>
 
 
-            </div>
-        </h:form>
+                            <table align="center">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <h4>Nome</h4>
+                                        </td>
+                                        <td>
+                                            <p:inputText id="nome" value="#{userController.student.name}"/>
+                                        </td>
+                                        <td>
+                                            <h:message for="nome" style="color: red"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h4>E-Mail</h4>
+                                        </td>
+                                        <td>
+                                            <p:inputText id="email" value="#{userController.student.email}"/>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h4>Password</h4>
+                                        </td>
+                                        <td>
+                                            <p:password id="pass" feedback="true" value="#{userController.student.password}"/>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h4>Confirmar Password</h4>
+                                        </td>
+                                        <td>
+                                            <p:password value="#{userController.confirmPassword}"/>
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <h:form id="popupEd">
+                                <p:growl showDetail="true" id="registrationMessages"/>
+                                <p:dialog header="Edições" widgetVar="e" modal="true" height="300">
+                                    <p:dataTable rowKey="#{edition.editionId}" selectionMode="single"
+                                                 selection="#{userController.edition}" value="#{editionController.availableEditions}"
+                                                 var="edition" paginator="true" rows="10" paginatorPosition="bottom"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="5,10,15">
+
+
+                                        <p:column headerText="Nome">
+                                            #{edition.editionName}
+                                        </p:column>
+                                        <p:column headerText="Ano">
+                                            #{edition.yearEdition}
+                                        </p:column>
+                                        <f:facet name="footer">
+                                            <p:commandButton id="selectEdition" value="Confirmar" action="#{userController.newStudent()}" />
+                                        </f:facet>
+
+                                    </p:dataTable>
+
+                                </p:dialog>
+                            </h:form>
+
+                            <div align="center">
+                                <br />
+                                <br />
+
+                                <p:commandButton id="editionsButton" value="Escolha a Edição" oncomplete="PF('e').show()" update="popupEd" />
+
+
+                            </div>
+                        </h:form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
 
     </h:body>
 </html>

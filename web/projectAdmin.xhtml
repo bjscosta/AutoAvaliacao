@@ -20,11 +20,11 @@
 
                 <h:form binding="#{projectController.header}">
                     <div align="left">
-                        <h:commandLink value="Todos" action="#{projectController.seeAll}"/>
+                        <h:commandLink style="color: #00aff9;" value="Todos" action="#{projectController.seeAll}"/>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <h:commandLink value="Projectos Abertos" action="#{projectController.seeOpenProjects}"/>
+                        <h:commandLink style="color: #00aff9;" value="Projectos Abertos" action="#{projectController.seeOpenProjects}"/>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <h:commandLink value="Projectos Fechados" action="#{projectController.seeClosedProjects}"/>
+                        <h:commandLink style="color: #00aff9;" value="Projectos Fechados" action="#{projectController.seeClosedProjects}"/>
                     </div>
                     <div align="right"><p:commandButton rendered="#{!empty projectController.allEditions}" ajax="false" value="Criar Projecto" action="#{projectController.goToCreateProject}"/> </div>
                 </h:form>
@@ -33,7 +33,7 @@
 
 
                 <h:form id="openedProjectsForm" binding="#{projectController.openProjectsForm}">
-                    <div align="center"><h2>Projectos Abertos</h2></div>
+                    <div align="center"><h3>Projectos Abertos</h3></div>
                     <br/>
                     <p:dataTable value="#{projectController.openProjects}" var="project2" rowKey="#{project2.id}"
                                  selectionMode="single" selection="#{projectController.selectedOpenedProject}"
@@ -64,14 +64,14 @@
                 </h:form>
                 <br/>
                 <h:form binding = "#{projectController.addStudentForm}" rendered="false">
-                    <div align="center"><h1>#{loggedUserEJB.activeProject.name}</h1></div>
+                    <div align="center"><h3>#{loggedUserEJB.activeProject.name}</h3></div>
                     <div align="right">
 
                         <table>
                             <thead>
                                 <tr>
                                     <td align="center">
-                                        <h3>Editar datas</h3>
+                                        <h4>Editar datas</h4>
                                     </td>
                                 </tr>
                             </thead>

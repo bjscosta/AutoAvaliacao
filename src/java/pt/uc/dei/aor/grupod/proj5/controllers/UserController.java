@@ -63,7 +63,6 @@ public class UserController {
     private String passNotCorrect;
     private String userNotFound;
     private Edition edition;
-    private String insertEdition;
     private String password1;
     private String password2;
     private UIComponent loginEdition;
@@ -232,13 +231,7 @@ public class UserController {
         this.edition = edition;
     }
 
-    public String getInsertEdition() {
-        return insertEdition;
-    }
-
-    public void setInsertEdition(String insertEdition) {
-        this.insertEdition = insertEdition;
-    }
+    
 
     public String getPassword1() {
         return password1;
@@ -315,8 +308,8 @@ public class UserController {
                         return "openProjectStudent";
                     } else {
                         loginEdition.setRendered(true);
-                        MessagesForUser.addMessageError("A sua Edição foi eliminada precisa de escolher"
-                                + "selecione uma e volte a fazer login");
+                        MessagesForUser.addMessageError("A sua Edição foi eliminada"
+                                + ", selecione a edição que pretende frequentar");
                         return null;
                     }
                 } else {

@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
@@ -30,6 +31,7 @@ import pt.uc.dei.aor.grupod.proj5.facades.EditionFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.ProjEvaluationFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.ProjectFacade;
 import pt.uc.dei.aor.grupod.proj5.facades.StudentFacade;
+import pt.uc.dei.aor.grupod.proj5.utilities.MessagesForUser;
 
 @Named
 @RequestScoped
@@ -554,8 +556,13 @@ public class ProjectController {
     }
 
     public void insertStudentsProject() {
-
-        projectFacade.addStudentsProject(loggedUserEJB.getActiveProject(), studentsToAdd);
+        Project p = loggedUserEJB.getActiveProject();
+        if (!p.getEdition().getCriteriaList().isEmpty()) {
+            projectFacade.addStudentsProject(loggedUserEJB.getActiveProject(), studentsToAdd);
+        } else {
+            MessagesForUser.addMessage("A edição deste projecto ainda não tem critérios,"
+                    + " adicione primeiro critérios à edição.");
+        }
     }
 
     public void editProject() {
@@ -596,6 +603,14 @@ public class ProjectController {
         }
         return "openProjectStudent";
 
+    }
+
+    public void listenerSelectedOpenedProjectEvaluationPage() {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) fc.getApplication().getNavigationHandler();
+        if (selectedOpenedProject == null) {
+            nav.performNavigation("openProjectStudent.xhtml?faces-redirect=true");
+        }
     }
 
 }

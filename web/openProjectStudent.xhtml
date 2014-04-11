@@ -14,24 +14,21 @@
         <ui:composition template="./mainTemplateStudent.xhtml">
 
             <ui:define name ="content">
-
-
-
-                <br />
                 <h:form>
                     <div align="left">
-                        <h:commandLink value="Todos" action="#{projectController.seeAll}"/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <h:commandLink value="Projectos Por Avaliar" action="#{projectController.seeProjForEvaluate}"/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <h:commandLink value="Projectos Avaliados" action="#{projectController.seeProjEvaluated}"/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <h:commandLink value="Projectos Fechados" action="#{projectController.seeClosedProjects}"/>
+                        <h5><h:commandLink style="color: black" value="Todos" action="#{projectController.seeAll}"/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <h:commandLink style="color: black" value="Projectos Por Avaliar" action="#{projectController.seeProjForEvaluate}"/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <h:commandLink style="color: black" value="Projectos Avaliados" action="#{projectController.seeProjEvaluated}"/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <h:commandLink style="color: black" value="Projectos Fechados" action="#{projectController.seeClosedProjects}"/></h5>
                     </div>
                 </h:form>
-
+                <br/>
+                <br/>
                 <h:form binding="#{projectController.projectsForevaluate}" id="form">
-                    <div align="center"><h2>Projectos Por Avaliar</h2></div>
+                    <div align="center"><h3>Projectos Por Avaliar</h3></div>
 
                     <p:dataTable value="#{projectController.openProjects}" var="project2" rowKey="#{project2.id}"
                                  selectionMode="single" selection="#{projectController.selectedOpenedProject}"
@@ -39,20 +36,20 @@
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15" resizableColumns="false">
 
-                        <p:column headerText="Nome" sortBy="name">
+                        <p:column headerText="Nome">
                             #{project2.name}
                         </p:column>
-                        <p:column headerText="Data de Inicio" sortBy="startingSelfEvaluationDate">
+                        <p:column headerText="Data de Inicio">
                             <h:outputLabel value="#{project2.startingSelfEvaluationDate}">
                                 <f:convertDateTime locale="Europe/Lisbon"/>
                             </h:outputLabel>
                         </p:column>
-                        <p:column headerText="Data de Fim" sortBy="finishingSelfEvaluationDate">
+                        <p:column headerText="Data de Fim" >
                             <h:outputLabel value="#{project2.finishingSelfEvaluationDate}">
                                 <f:convertDateTime locale="Europe/Lisbon"/>
                             </h:outputLabel>
                         </p:column>
-                        <p:column headerText="Nome da Edição" sortBy="edition">
+                        <p:column headerText="Nome da Edição" >
                             #{project2.edition.editionName}
                         </p:column>
                         <p:column>
@@ -66,28 +63,30 @@
                     <br/>
 
                 </h:form>
-
+                <br/>
+                <br/>
                 <h:form binding="#{projectController.projEvaluatedForm}">
-                    <div align="center"><h2>Projectos Avaliados</h2></div>
+                    <div align="center"><h3>Projectos Avaliados</h3></div>
                     <p:dataTable value="#{projectController.projectsAlreadyEvaluated}" var="project1" rowKey="#{project1.id}"
                                  selectionMode="single" selection="#{projectController.selectedClosedProject}"
                                  paginator="true" rows="10" paginatorPosition="bottom"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15" resizableColumns="false">
-                        <p:column headerText="Nome" sortBy="name">
+
+                        <p:column headerText="Nome">
                             #{project1.name}
                         </p:column>
-                        <p:column headerText="Data de Inicio" sortBy="startingSelfEvaluationDate">
+                        <p:column headerText="Data de Inicio">
                             <h:outputLabel value="#{project1.startingSelfEvaluationDate}">
                                 <f:convertDateTime locale="Europe/Lisbon"/>
                             </h:outputLabel>
                         </p:column>
-                        <p:column headerText="Data de Fim" sortBy="finishingSelfEvaluationDate">
+                        <p:column headerText="Data de Fim">
                             <h:outputLabel value="#{project1.finishingSelfEvaluationDate}">
                                 <f:convertDateTime locale="Europe/Lisbon"/>
                             </h:outputLabel>
                         </p:column>
-                        <p:column headerText="Nome da Edição" sortBy="edition">
+                        <p:column headerText="Nome da Edição">
                             #{project1.edition.editionName}
                         </p:column>
                         <p:column headerText="Ver notas">
@@ -100,8 +99,9 @@
                     </p:dataTable>
                 </h:form>
                 <br/>
+                <br/>
                 <h:form id="closedProjectsForm" binding="#{projectController.closedProjecsForm}">
-                    <div align="center"><h2>Projectos Fechados</h2></div>
+                    <div align="center"><h3>Projectos Fechados</h3></div>
                     <br/>
                     <p:dataTable value="#{projectController.closeProjects}" var="project1" rowKey="#{project1.id}"
                                  selectionMode="single" selection="#{projectController.selectedClosedProject}"
@@ -111,17 +111,17 @@
                         <p:column headerText="Nome" sortBy="name">
                             #{project1.name}
                         </p:column>
-                        <p:column headerText="Data de Inicio" sortBy="startingSelfEvaluationDate">
+                        <p:column headerText="Data de Inicio">
                             <h:outputLabel value="#{project1.startingSelfEvaluationDate}">
                                 <f:convertDateTime locale="Europe/Lisbon"/>
                             </h:outputLabel>
                         </p:column>
-                        <p:column headerText="Data de Fim" sortBy="finishingSelfEvaluationDate">
+                        <p:column headerText="Data de Fim">
                             <h:outputLabel value="#{project1.finishingSelfEvaluationDate}">
                                 <f:convertDateTime locale="Europe/Lisbon"/>
                             </h:outputLabel>
                         </p:column>
-                        <p:column headerText="Nome da Edição" sortBy="edition">
+                        <p:column headerText="Nome da Edição">
                             #{project1.edition.editionName}
                         </p:column>
 

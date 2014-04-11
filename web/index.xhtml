@@ -205,7 +205,7 @@
                                 </tbody>
                             </table>
                             <h:form id="popupEd">
-                                <p:growl showDetail="true" id="registrationMessages"/>
+
                                 <p:dialog header="Edições" widgetVar="e" modal="true" height="300">
                                     <p:dataTable rowKey="#{edition.editionId}" selectionMode="single"
                                                  selection="#{userController.edition}" value="#{editionController.availableEditions}"
@@ -221,7 +221,7 @@
                                             #{edition.yearEdition}
                                         </p:column>
                                         <f:facet name="footer">
-                                            <p:commandButton id="selectEdition" value="Confirmar" action="#{userController.newStudent()}" />
+                                            <h:commandButton id="selectEdition" value="Confirmar" action="#{userController.newStudent()}" />
                                         </f:facet>
 
                                     </p:dataTable>

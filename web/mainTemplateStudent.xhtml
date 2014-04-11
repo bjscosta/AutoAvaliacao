@@ -20,17 +20,22 @@
                 <h:form>
                     <table width="100%">
                         <tr>
-                            <td align="left">
-                                <a href="openProjectStudent.xhtml">Projetos</a>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="reportsStudent.xhtml">Relatórios</a>
+                            <td width="45%" align="left">
+                                <h5><a style="color: white" href="openProjectStudent.xhtml">Projetos</a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a style="color: white" href="reportsStudent.xhtml">Relatórios</a></h5>
 
                             </td>
-                            <td align="right">
+                            <td >
                                 <h:outputLabel value="Edição #{userController.student.edition.editionName}"/>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="profileStudent.xhtml">#{loggedUserEJB.loggedUser.name}</a>
-                                &nbsp;&nbsp;<p:commandButton ajax="false" value="Sair" action="#{userController.makeLogout()}"/>
+                            </td>
+
+                            <td width="10%" align="right">
+                                <h5><a style="color: white" href="profileStudent.xhtml">#{loggedUserEJB.loggedUser.name}</a></h5>
+                            </td>
+                            <td width="10%" align="right">
+
+                                <p:commandButton ajax="false" value="Sair" action="#{userController.makeLogout()}"/>
                             </td>
                         </tr>
                     </table>

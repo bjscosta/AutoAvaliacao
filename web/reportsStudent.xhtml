@@ -14,20 +14,20 @@
     <h:body>
         <ui:composition template="./mainTemplateStudent.xhtml">
             <ui:define name ="content">
-
-
+                <p:growl id="growl" showDetail="true"/>
+                <div align="center"><h2>Relatórios</h2></div>
 
 
                 <h:form>
 
 
 
-                    <p:growl id="growl" showDetail="true"/>
+
                     <h:panelGrid columns="1" width="100%">
 
 
                         <h:panelGroup id="pts">
-                            <div align="center"><h2>Escolha um Projecto</h2></div>
+                            <div align="center"><h3>Escolha um Projecto</h3></div>
                             <p:dataTable  id="projectReportTable" var="project"
                                           value="#{reportsController.listProjEvaStudent()}" rowKey="#{project.id}"
                                           selection="#{reportsController.selectedProjects}">
@@ -35,7 +35,7 @@
                                 <p:column selectionMode="multiple">
 
                                 </p:column>
-                                <p:column sortFunction="true"  headerText="Nome" sortBy="#{project.name}">
+                                <p:column headerText="Nome" >
                                     <div align="center">#{project.name}</div>
                                 </p:column>
 
@@ -52,6 +52,8 @@
 
                     <h:panelGrid columns="1" width="100%">
                         <h:panelGroup rendered="false" binding="#{reportsController.oneProjectStudent}">
+                            <br/>
+                            <br/>
                             <div align="center"><h2>Relatório do Projeto</h2></div>
 
                             <table width="100%" align="center" border="0" cellpadding="30">
@@ -103,6 +105,8 @@
                         </h:panelGroup>
 
                         <h:panelGroup rendered="false" binding="#{reportsController.variousProjectsStudent}">
+                            <br/>
+                            <br/>
                             <div align="center"><h2>Relatório Comparativo</h2></div>
 
                             <table border="0" width="100%" cellpadding="30">

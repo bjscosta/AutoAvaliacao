@@ -16,12 +16,14 @@
     <h:body>
         <ui:composition template="./mainTemplateStudent.xhtml">
             <ui:define name ="content">
+                <p:growl id="messages" showDetail="true" />
+                <div align="center">
+                    <h3>#{loggedUserEJB.activeProject}</h3>
+                </div>
                 <h:form>
-                    <div align="rigth">
-                        <h:commandLink value="Projectos" action="openProjectStudent.xhtml?faces-redirect=true"/>
-                    </div>
-                    <h3>Escala de #{userController.student.edition.minValueScale} a
-                        #{userController.student.edition.maxValueScale}</h3>
+
+                    <h4>Escala de #{userController.student.edition.minValueScale} a
+                        #{userController.student.edition.maxValueScale}</h4>
                     <p:dataTable rowKey="#{evaluation.id}" value="#{evaluationController.list}"
                                  var="evaluation">
 
@@ -43,7 +45,7 @@
                     <br />
                     <br />
                     <div align="center">
-                        <p:growl id="messages" showDetail="true" />
+
                         <p:commandButton id="selectEdition" value="Confirmar"
                                          update="messages" process="@this" action="#{evaluationController.confirmbutton()}"
                                          ajax="false">

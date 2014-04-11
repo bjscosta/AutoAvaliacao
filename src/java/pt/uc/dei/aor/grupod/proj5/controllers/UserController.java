@@ -276,7 +276,7 @@ public class UserController {
                 passDontMatch = ex.getMessage();
                 return null;
             } catch (Exception e) {
-                MessagesForUser.addMessage("Neste momento não é possivel registar-se tente mais tarde");
+                MessagesForUser.addMessageError("Neste momento não é possivel registar-se tente mais tarde");
                 return null;
             }
         } else {
@@ -307,7 +307,7 @@ public class UserController {
                         return "openProjectStudent";
                     } else {
                         loginEdition.setRendered(true);
-                        MessagesForUser.addMessage("A sua Edição foi eliminada precisa de escolher"
+                        MessagesForUser.addMessageError("A sua Edição foi eliminada precisa de escolher"
                                 + "selecione uma e volte a fazer login");
                         return null;
                     }
@@ -322,7 +322,7 @@ public class UserController {
                         return "openProjectStudent";
                     } else {
                         loginEdition.setRendered(true);
-                        MessagesForUser.addMessage("A sua Edição foi eliminada precisa de escolher"
+                        MessagesForUser.addMessageInfo("A sua Edição foi eliminada precisa de escolher"
                                 + "selecione uma e volte a fazer login");
                         return null;
                     }

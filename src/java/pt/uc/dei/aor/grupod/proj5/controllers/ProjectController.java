@@ -84,7 +84,6 @@ public class ProjectController {
 
     @PostConstruct
     public void init() {
-
         projectCreated = new Project();
         User u = loggedUserEJB.getLoggedUser();
 
@@ -560,7 +559,7 @@ public class ProjectController {
         if (!p.getEdition().getCriteriaList().isEmpty()) {
             projectFacade.addStudentsProject(loggedUserEJB.getActiveProject(), studentsToAdd);
         } else {
-            MessagesForUser.addMessage("A edição deste projecto ainda não tem critérios,"
+            MessagesForUser.addMessageError("A edição deste projecto ainda não tem critérios,"
                     + " adicione primeiro critérios à edição.");
         }
     }
